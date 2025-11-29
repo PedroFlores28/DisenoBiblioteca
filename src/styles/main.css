@@ -1,0 +1,54 @@
+:root {
+  --primary-blue: #003366;
+  --secondary-blue: #0066cc;
+  --light-blue: #e6f2ff;
+  --accent-red: #cc0000;
+  --text-dark: #333333;
+  --text-light: #666666;
+  --background-light: #f5f5f5;
+  --white: #ffffff;
+  --border-gray: #e0e0e0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  color: var(--text-dark);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.btn-secondary {
+  background-color: var(--light-blue);
+  color: var(--primary-blue);
+}
+
+.btn-secondary:hover {
+  background-color: var(--secondary-blue);
+  color: var(--white);
+}
+
+
