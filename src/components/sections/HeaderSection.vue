@@ -95,19 +95,13 @@ export default {
     }
   },
   mounted() {
-    this.updateActiveLink()
     this.handleScroll()
-    window.addEventListener('hashchange', this.updateActiveLink)
     window.addEventListener('scroll', this.handleScroll)
   },
   beforeUnmount() {
-    window.removeEventListener('hashchange', this.updateActiveLink)
     window.removeEventListener('scroll', this.handleScroll)
   },
   methods: {
-    updateActiveLink() {
-      // Método para compatibilidad con hashchange event
-    },
     handleScroll() {
       const scrollPosition = window.scrollY || window.pageYOffset
       // Si está cerca del inicio (menos de 200px desde arriba), marcar Servicios como activo
@@ -130,10 +124,6 @@ export default {
         this.isInBibliotecas = rect.top <= headerHeight + 100 && rect.bottom >= headerHeight
       }
       
-      // Si no está en el top ni en ninguna sección específica, actualizar según el hash
-      if (!this.isAtTop && !this.isInBibliografia && !this.isInBibliotecas) {
-        this.updateActiveLink()
-      }
     },
     scrollToSection(hash, e) {
       e.preventDefault()

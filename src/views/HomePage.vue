@@ -1,5 +1,6 @@
 <template>
   <div class="home-page">
+    <WelcomeModal />
     <HeaderSection />
     <HeroSection />
     <BibliografiaSection />
@@ -12,6 +13,7 @@
 </template>
 
 <script>
+import WelcomeModal from '../components/WelcomeModal.vue'
 import HeaderSection from '../components/sections/HeaderSection.vue'
 import HeroSection from '../components/sections/HeroSection.vue'
 import BibliografiaSection from '../components/sections/BibliografiaSection.vue'
@@ -24,6 +26,7 @@ import FooterSection from '../components/sections/FooterSection.vue'
 export default {
   name: 'HomePage',
   components: {
+    WelcomeModal,
     HeaderSection,
     HeroSection,
     BibliografiaSection,
@@ -47,6 +50,3 @@ export default {
   width: 100%;
 }
 </style>
-
-
-

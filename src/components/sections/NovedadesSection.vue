@@ -3,8 +3,8 @@
     <div class="container">
       <h2 class="section-title">Novedades literarias</h2>
       <div class="books-carousel">
-        <div class="carousel-wrapper">
-          <div class="carousel-container" :style="{ transform: windowWidth <= 768 ? `translateX(-${currentIndex * 100}%)` : `translateX(calc(-${currentIndex} * ((100% - 48px) / 3.5 + 24px)))` }">
+        <div class="carousel-wrapper" :class="{ 'is-last-slide': currentIndex >= totalPages - 1 }">
+          <div class="carousel-container" :style="{ transform: `translateX(-${carouselTransform}%)` }">
             <div 
               v-for="book in books" 
               :key="book.id"
@@ -69,7 +69,64 @@ export default {
   },
   computed: {
     totalPages() {
-      return Math.ceil(this.books.length / this.itemsPerSlide)
+      if (this.windowWidth <= 768) {
+        // Mobile: avanza de 1 en 1
+        return Math.max(1, this.books.length)
+      } else {
+        // Desktop: avanza de 3 en 3, pero muestra 3.5 por vista
+        const itemsPerView = 3.5
+        const itemsPerSlide = 3
+        const totalItems = this.books.length
+        
+        if (totalItems <= itemsPerView) {
+          return 1
+        }
+        
+        // Calcular cuántos slides necesitamos si avanzamos de 3 en 3
+        const remainingAfterFirst = totalItems - itemsPerView
+        return Math.ceil(remainingAfterFirst / itemsPerSlide) + 1
+      }
+    },
+    carouselTransform() {
+      if (this.books.length === 0) return 0
+      
+      const isMobile = this.windowWidth <= 768
+      const itemsPerView = isMobile ? 1 : 3.5
+      const itemsPerSlide = isMobile ? 1 : 3
+      const totalItems = this.books.length
+      
+      // Si estamos en el último slide, calcular el desplazamiento para mostrar el último elemento completo
+      const isLastSlide = this.currentIndex >= this.totalPages - 1
+      
+      if (isLastSlide && totalItems > itemsPerView) {
+        // Calcular el ancho total de todos los elementos
+        const gapSize = isMobile ? 0 : 24
+        const totalGaps = gapSize * (totalItems - 1)
+        // Calcular el ancho de cada card como porcentaje
+        const cardWidthPercent = isMobile ? 100 : (100 / itemsPerView)
+        // Aproximación del ancho total en porcentaje considerando gaps
+        const gapPercent = gapSize > 0 ? (totalGaps / this.windowWidth) * 100 : 0
+        const totalWidthPercent = (totalItems * cardWidthPercent) + gapPercent
+        
+        // El desplazamiento máximo es: ancho total - 100% (ancho visible)
+        const maxTransform = Math.max(0, totalWidthPercent - 100)
+        return maxTransform
+      }
+      
+      // Para slides normales
+      if (isMobile) {
+        return this.currentIndex * 100
+      } else {
+        // En desktop: cada slide avanza de 3 elementos completos
+        // Cada card ocupa aproximadamente: (100% - 48px) / 3.5
+        // Para avanzar 3 elementos, necesitamos el ancho de 3 cards + 2 gaps (entre las 3 cards)
+        const cardWidthPercent = 100 / itemsPerView
+        const gapSize = 24
+        const gapPercent = (gapSize / this.windowWidth) * 100
+        // Avanzar de 3 elementos por slide: 3 cards + 2 gaps
+        const slideMove = (cardWidthPercent * itemsPerSlide) + (gapPercent * (itemsPerSlide - 1))
+        return this.currentIndex * slideMove
+      }
     }
   },
   async mounted() {
@@ -216,6 +273,10 @@ export default {
   z-index: 10;
 }
 
+.carousel-wrapper.is-last-slide::after {
+  display: none;
+}
+
 .carousel-container {
   display: flex;
   transition: transform 0.5s ease;
@@ -228,6 +289,7 @@ export default {
   flex-shrink: 0;
   background: var(--white);
   border-radius: 8px;
+  border: 2px solid var(--border-gray);
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
   transition: transform 0.3s;
@@ -347,6 +409,7 @@ export default {
 
 @media (max-width: 768px) {
   .section-title {
+    font-size: 30px;
     text-align: left;
   }
   
@@ -360,6 +423,10 @@ export default {
   }
   
   .carousel-wrapper::after {
+    display: none;
+  }
+  
+  .carousel-dots {
     display: none;
   }
 }

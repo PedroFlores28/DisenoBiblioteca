@@ -3,12 +3,12 @@
     <div class="container">
       <div class="section-header">
         <div class="title-bar"></div>
-        <h2 class="section-title">Bibliografía por escuela</h2>
+        <h2 class="section-title">Bibliografía por<br>escuela</h2>
       </div>
       <p class="section-description">
         Selecciona tu escuela y luego busca tu carrera para conocer la Bibliografía Básica de cada una.
       </p>
-      <div class="schools-grid" v-if="schools.length > 0">
+      <div class="schools-grid" ref="schoolsGrid" v-if="schools.length > 0">
         <div 
           v-for="school in displayedSchools" 
           :key="school.id"
@@ -19,7 +19,8 @@
           <a href="#" class="card-link">Ver más →</a>
         </div>
       </div>
-      <div class="pagination" v-if="totalPages > 1">
+      <!-- Paginación para desktop -->
+      <div class="pagination" v-if="totalPages > 1 && windowWidth > 768">
         <button 
           class="pagination-arrow"
           :disabled="currentPage === 1"
@@ -41,6 +42,27 @@
           class="pagination-arrow"
           :disabled="currentPage === totalPages"
           @click="nextPage"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </button>
+      </div>
+      <!-- Navegación con flechas para móvil -->
+      <div class="mobile-navigation" v-if="windowWidth <= 768 && schools.length > 1">
+        <button 
+          class="pagination-arrow"
+          :disabled="isAtStart"
+          @click="scrollLeft"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+        </button>
+        <button 
+          class="pagination-arrow"
+          :disabled="isAtEnd"
+          @click="scrollRight"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M9 18l6-6-6-6"/>
@@ -90,27 +112,45 @@ export default {
       currentPage: 1,
       itemsPerPage: 4,
       windowWidth: window.innerWidth,
-      isLoading: false
+      isLoading: false,
+      isAtStart: true,
+      isAtEnd: false
     }
   },
   computed: {
     displayedSchools() {
-      const itemsPerPage = this.windowWidth <= 768 ? 1 : 4
+      // En móvil, mostrar todos los schools para scroll horizontal
+      // En desktop, usar paginación
+      if (this.windowWidth <= 768) {
+        return this.schools
+      }
+      const itemsPerPage = 4
       const start = (this.currentPage - 1) * itemsPerPage
       const end = start + itemsPerPage
       return this.schools.slice(start, end)
     },
     totalPages() {
-      const itemsPerPage = this.windowWidth <= 768 ? 1 : 4
+      // En móvil no usamos paginación, así que retornamos 1 para que no se muestre
+      if (this.windowWidth <= 768) {
+        return 1
+      }
+      const itemsPerPage = 4
       return Math.ceil(this.schools.length / itemsPerPage)
     }
   },
   async mounted() {
     await this.loadSchools()
     window.addEventListener('resize', this.handleResize)
+    if (this.$refs.schoolsGrid && this.windowWidth <= 768) {
+      this.$refs.schoolsGrid.addEventListener('scroll', this.handleScroll)
+      this.updateScrollButtons()
+    }
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.handleResize)
+    if (this.$refs.schoolsGrid) {
+      this.$refs.schoolsGrid.removeEventListener('scroll', this.handleScroll)
+    }
   },
   methods: {
     async loadSchools() {
@@ -128,6 +168,9 @@ export default {
         
         if (response && response.data && response.data.length > 0) {
           this.schools = response.data
+          this.$nextTick(() => {
+            this.updateScrollButtons()
+          })
         }
       } catch (error) {
         // Si falla, mantener los datos de ejemplo que ya están cargados
@@ -149,11 +192,58 @@ export default {
     },
     handleResize() {
       this.windowWidth = window.innerWidth
-      // Resetear a la primera página cuando cambia el tamaño
-      const itemsPerPage = window.innerWidth <= 768 ? 1 : 4
-      const maxPages = Math.ceil(this.schools.length / itemsPerPage)
-      if (this.currentPage > maxPages) {
+      // Resetear a la primera página cuando cambia el tamaño de desktop a móvil o viceversa
+      if (window.innerWidth > 768) {
+        // En desktop, recalcular páginas con 4 items por página
+        const maxPages = Math.ceil(this.schools.length / 4)
+        if (this.currentPage > maxPages) {
+          this.currentPage = 1
+        }
+      } else {
+        // En móvil, resetear a página 1 y actualizar botones de scroll
         this.currentPage = 1
+        this.$nextTick(() => {
+          if (this.$refs.schoolsGrid) {
+            this.$refs.schoolsGrid.addEventListener('scroll', this.handleScroll)
+            this.updateScrollButtons()
+          }
+        })
+      }
+    },
+    scrollLeft() {
+      if (this.$refs.schoolsGrid) {
+        const cardWidth = this.$refs.schoolsGrid.querySelector('.school-card').offsetWidth
+        const gap = 16
+        const scrollAmount = cardWidth + gap
+        this.$refs.schoolsGrid.scrollBy({
+          left: -scrollAmount,
+          behavior: 'smooth'
+        })
+      }
+    },
+    scrollRight() {
+      if (this.$refs.schoolsGrid) {
+        const cardWidth = this.$refs.schoolsGrid.querySelector('.school-card').offsetWidth
+        const gap = 16
+        const scrollAmount = cardWidth + gap
+        this.$refs.schoolsGrid.scrollBy({
+          left: scrollAmount,
+          behavior: 'smooth'
+        })
+      }
+    },
+    handleScroll() {
+      this.updateScrollButtons()
+    },
+    updateScrollButtons() {
+      if (this.$refs.schoolsGrid && this.windowWidth <= 768) {
+        const grid = this.$refs.schoolsGrid
+        const scrollLeft = grid.scrollLeft
+        const scrollWidth = grid.scrollWidth
+        const clientWidth = grid.clientWidth
+        
+        this.isAtStart = scrollLeft <= 0
+        this.isAtEnd = scrollLeft + clientWidth >= scrollWidth - 1
       }
     }
   }
@@ -174,8 +264,8 @@ export default {
 }
 
 .title-bar {
-  width: 4px;
-  height: 60px;
+  width: 6px;
+  height: 80px;
   background-color: var(--accent-red);
 }
 
@@ -330,15 +420,41 @@ export default {
 }
 
 @media (max-width: 768px) {
+  .section-title {
+    font-size: 30px;
+    line-height: 1.2;
+  }
+  
   .schools-grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 16px;
+    padding-bottom: 8px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    /* Mostrar un pedazo del siguiente card */
+    padding-right: 20px;
+  }
+  
+  .schools-grid::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .schools-grid {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
   
   .school-card {
+    min-width: 85%;
+    width: 85%;
     height: 160px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    flex-shrink: 0;
+    scroll-snap-align: start;
   }
   
   .card-title {
@@ -356,8 +472,16 @@ export default {
     align-self: flex-end;
   }
   
-  .pagination-dots {
+  .pagination {
     display: none;
+  }
+  
+  .mobile-navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
   }
 }
 </style>

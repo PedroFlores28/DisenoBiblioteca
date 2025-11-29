@@ -33,8 +33,8 @@
         </select>
       </div>
       <div class="libraries-carousel">
-        <div class="carousel-wrapper">
-          <div class="carousel-container" :style="{ transform: `translateX(-${currentIndex * (windowWidth <= 768 ? 92 : 100 / 3.2)}%)` }">
+        <div class="carousel-wrapper" :class="{ 'is-last-slide': currentIndex >= totalCarouselPages - 1 }">
+          <div class="carousel-container" :style="{ transform: `translateX(-${carouselTransform}%)` }">
             <div 
               v-for="library in filteredLibraries" 
               :key="library.id"
@@ -61,14 +61,14 @@
                   </span>
                   {{ library.email }}
                 </p>
-                <p class="info-item" :class="{ 'empty-phone': !library.phone }">
-                  <span class="icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <p class="info-item">
+                  <span class="icon" :class="{ 'icon-hidden': !library.phone }">
+                    <svg v-if="library.phone" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5.14604 2.9749C2.32066 5.89027 2.25767 10.6502 5.06506 13.8085C5.15504 13.9075 5.26301 14.0425 5.38899 14.1955C5.97386 14.9153 6.60372 15.6262 7.26058 16.301L7.71948 16.7689C8.37634 17.3988 9.08718 18.0376 9.81602 18.6225C9.96899 18.7485 10.104 18.8564 10.2029 18.9464C13.3702 21.7628 18.1302 21.6908 21.0366 18.8025L18.5531 16.31C18.2742 16.0311 17.7343 16.0221 17.4374 16.31L15.8987 17.7767C15.4038 18.2716 14.7559 18.5055 14.0901 18.3976C13.5682 18.3166 13.0643 18.0376 12.5874 17.5697C11.5346 16.7239 10.5179 15.8061 9.56408 14.8343C9.53708 14.8073 9.51909 14.7893 9.50109 14.7623C8.5293 13.8085 7.6115 12.7918 6.76569 11.739C5.61394 10.5513 6.01885 9.39951 6.41476 8.63468C6.43276 8.60768 6.45076 8.58069 6.46875 8.5537L7.71048 6.71809C7.71048 6.71809 7.78247 6.62811 7.81846 6.58312C8.13339 6.26819 8.13339 5.94426 7.81846 5.62933L5.15504 2.96591H5.14604V2.9749ZM15.6018 22.8246C13.2623 22.8246 10.9048 21.9878 9.0062 20.3051C8.92522 20.2332 8.80824 20.1342 8.67327 20.0262C7.90844 19.3963 7.1616 18.7305 6.45076 18.0466L5.97386 17.5607C5.27201 16.8409 4.61516 16.0941 3.99429 15.3292C3.88632 15.1942 3.78734 15.0863 3.71535 14.9963C0.278102 11.1271 0.37708 5.2874 3.93131 1.69718C4.26423 1.36425 4.70514 1.17529 5.17303 1.17529C5.64093 1.17529 6.08184 1.35526 6.40577 1.68819L9.06019 4.34261C10.05 5.33239 10.068 6.76308 9.12317 7.77086L7.95343 9.49848C7.65649 10.0654 7.74647 10.2003 8.03441 10.4973C8.06141 10.5243 8.0794 10.5423 8.0974 10.5692C8.90722 11.586 9.78903 12.5578 10.7248 13.4666C10.7518 13.4936 10.7788 13.5206 10.7968 13.5476C10.7968 13.5476 10.7968 13.5566 10.8148 13.5656C11.7236 14.4924 12.7044 15.3832 13.7212 16.193C13.7482 16.211 13.7752 16.238 13.7932 16.256C14.0811 16.544 14.2701 16.5979 14.342 16.6159C14.387 16.6159 14.459 16.6339 14.612 16.481L16.1506 15.0143C17.0954 14.0695 18.8231 14.0515 19.8038 15.0323L22.2963 17.5877C22.6202 17.9117 22.8002 18.3526 22.8002 18.8204C22.8002 19.2883 22.6112 19.7293 22.2873 20.0532C20.4517 21.8798 18.0312 22.7886 15.5748 22.7886L15.6018 22.8246Z" fill="#024588"/>
                     </svg>
                   </span>
                   <span v-if="library.phone">{{ library.phone }}</span>
-                  <span v-else>&nbsp;</span>
+                  <span v-else class="phone-placeholder">&nbsp;</span>
                 </p>
                 <div class="hours">
                   <strong>Horario de atención:</strong>
@@ -136,7 +136,72 @@ export default {
       return this.libraries.filter(lib => lib.region === this.selectedRegion)
     },
     totalCarouselPages() {
-      return Math.ceil(this.filteredLibraries.length / this.itemsPerSlide)
+      if (this.windowWidth <= 768) {
+        // Mobile: muestra 1.2 elementos por vista, pero avanza de 1 en 1
+        // El último slide debe mostrar el último elemento completo
+        const totalItems = this.filteredLibraries.length
+        
+        if (totalItems <= 1) {
+          return 1
+        }
+        
+        // Si hay más de 1 elemento, calculamos cuántos slides necesitamos
+        // Cada slide muestra 1 elemento completo + parte del siguiente (0.2)
+        // El último slide muestra solo el último elemento completo
+        return totalItems
+      } else {
+        // Desktop: avanza de 3 en 3, pero muestra 3.2 por vista
+        const itemsPerView = 3.2
+        const itemsPerSlide = 3
+        const totalItems = this.filteredLibraries.length
+        
+        if (totalItems <= itemsPerView) {
+          return 1
+        }
+        
+        // Calcular cuántos slides necesitamos si avanzamos de 3 en 3
+        const remainingAfterFirst = totalItems - itemsPerView
+        return Math.ceil(remainingAfterFirst / itemsPerSlide) + 1
+      }
+    },
+    carouselTransform() {
+      if (this.filteredLibraries.length === 0) return 0
+      
+      const isMobile = this.windowWidth <= 768
+      const itemsPerView = isMobile ? 1.2 : 3.2
+      const itemsPerSlide = isMobile ? 1 : 3
+      const totalItems = this.filteredLibraries.length
+      
+      // Para slides normales y último slide
+      if (isMobile) {
+        // En mobile: cada slide avanza el ancho de 1 card (92%)
+        const slideMove = 92
+        const isLastSlide = this.currentIndex >= this.totalCarouselPages - 1
+        
+        // Si estamos en el último slide, ajustar para que el último elemento quede completo
+        if (isLastSlide && totalItems > 1) {
+          // En el último slide, calcular el desplazamiento para mostrar el último elemento completo
+          // sin desplazarlo demasiado a la izquierda
+          const itemsBeforeLast = totalItems - 1
+          
+          // Desplazarnos por los elementos anteriores, pero ajustado para que
+          // el último elemento quede completamente visible sin cortarse
+          return (itemsBeforeLast - 0.1) * slideMove
+        }
+        
+        // Para slides normales, usar el desplazamiento estándar
+        return this.currentIndex * slideMove
+      } else {
+        // En desktop: cada slide avanza de 3 elementos completos
+        // Cada card ocupa aproximadamente: (100% - 48px) / 3.2
+        // Para avanzar 3 elementos, necesitamos el ancho de 3 cards + 2 gaps (entre las 3 cards)
+        const cardWidthPercent = 100 / itemsPerView
+        const gapSize = 24
+        const gapPercent = (gapSize / this.windowWidth) * 100
+        // Avanzar de 3 elementos por slide: 3 cards + 2 gaps
+        const slideMove = (cardWidthPercent * itemsPerSlide) + (gapPercent * (itemsPerSlide - 1))
+        return this.currentIndex * slideMove
+      }
     }
   },
   async mounted() {
@@ -354,6 +419,30 @@ export default {
               saturday: 'Sábados de 09:00 a 18:00 horas'
             }
           },
+          {
+            id: 28,
+            name: 'Biblioteca Ovalle',
+            address: 'Av. Ariztía 300, Ovalle',
+            email: 'dae.ovalle@aiep.cl',
+            phone: '53 2255000',
+            region: 'norte',
+            hours: {
+              weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
+              saturday: 'Sábados de 09:00 a 18:00 horas'
+            }
+          },
+          {
+            id: 29,
+            name: 'Biblioteca Vallenar',
+            address: 'Av. Matta 550, Vallenar',
+            email: 'dae.vallenar@aiep.cl',
+            phone: '51 2665000',
+            region: 'norte',
+            hours: {
+              weekdays: 'Lunes a Viernes 08:30 a 21:00 horas',
+              saturday: 'Sábados de 09:00 a 18:00 horas'
+            }
+          },
           // Más bibliotecas Zona Centro
           {
             id: 17,
@@ -403,6 +492,30 @@ export default {
               saturday: 'Sábados de 09:00 a 18:00 horas'
             }
           },
+          {
+            id: 30,
+            name: 'Biblioteca San Antonio',
+            address: 'Av. Barros Luco 1477, San Antonio',
+            email: 'dae.sanantonio@aiep.cl',
+            phone: '35 2355000',
+            region: 'centro',
+            hours: {
+              weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
+              saturday: 'Sábados de 09:00 a 18:00 horas'
+            }
+          },
+          {
+            id: 31,
+            name: 'Biblioteca Linares',
+            address: 'Av. Independencia 575, Linares',
+            email: 'dae.linares@aiep.cl',
+            phone: '73 2155000',
+            region: 'centro',
+            hours: {
+              weekdays: 'Lunes a Viernes 08:30 a 21:00 horas',
+              saturday: 'Sábados de 09:00 a 18:00 horas'
+            }
+          },
           // Más bibliotecas Región Metropolitana
           {
             id: 21,
@@ -446,6 +559,30 @@ export default {
             address: 'Av. Freire 1200, San Bernardo',
             email: 'dae.sanbernardo@aiep.cl',
             phone: '2 32714507',
+            region: 'metropolitana',
+            hours: {
+              weekdays: 'Lunes a Viernes 08:30 a 21:00 horas',
+              saturday: 'Sábados de 09:00 a 18:00 horas'
+            }
+          },
+          {
+            id: 32,
+            name: 'Biblioteca Las Condes',
+            address: 'Av. Apoquindo 4700, Las Condes',
+            email: 'dae.lascondes@aiep.cl',
+            phone: '2 32914507',
+            region: 'metropolitana',
+            hours: {
+              weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
+              saturday: 'Sábados de 09:00 a 18:00 horas'
+            }
+          },
+          {
+            id: 33,
+            name: 'Biblioteca Providencia',
+            address: 'Av. Providencia 2653, Providencia',
+            email: 'dae.providencia@aiep.cl',
+            phone: '2 32614507',
             region: 'metropolitana',
             hours: {
               weekdays: 'Lunes a Viernes 08:30 a 21:00 horas',
@@ -620,7 +757,12 @@ export default {
   overflow: hidden;
   width: 100%;
   padding-right: 0;
+  padding-left: 0;
   position: relative;
+}
+
+.carousel-wrapper.is-last-slide {
+  padding-right: 0;
 }
 
 .carousel-wrapper::after {
@@ -628,9 +770,13 @@ export default {
   position: absolute;
   top: 0;
   right: 0;
-  width: 50px;
+  width: 55px;
   height: 100%;
   background: #ffffff7d
+}
+
+.carousel-wrapper.is-last-slide::after {
+  display: none;
 }
 
 .carousel-container {
@@ -645,6 +791,7 @@ export default {
   flex-shrink: 0;
   background: var(--white);
   border-radius: 8px;
+  border: 2px solid var(--border-gray);
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
   transition: transform 0.3s;
@@ -688,15 +835,19 @@ export default {
   font-size: 14px;
 }
 
-.info-item.empty-phone {
-  color: transparent;
-}
-
 .icon {
   font-size: 16px;
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
+}
+
+.icon-hidden {
+  visibility: hidden;
+}
+
+.phone-placeholder {
+  visibility: hidden;
 }
 
 .icon svg {
@@ -805,7 +956,7 @@ export default {
 
 @media (max-width: 768px) {
   .section-title {
-    font-size: 32px;
+    font-size: 30px;
     white-space: nowrap;
   }
   
@@ -816,6 +967,7 @@ export default {
   }
   
   .section-subtitle {
+    font-size: 16px;
     text-align: left;
   }
   
@@ -829,6 +981,10 @@ export default {
   }
   
   .carousel-wrapper::after {
+    display: none;
+  }
+  
+  .carousel-dots {
     display: none;
   }
   

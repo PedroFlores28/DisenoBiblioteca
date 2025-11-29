@@ -6,8 +6,8 @@
         Accede a libros, revistas, normas y otras fuentes externas disponibles de uso público.
       </p>
       <div class="sites-carousel">
-        <div class="carousel-wrapper">
-          <div class="carousel-container" :style="{ transform: windowWidth <= 768 ? `translateX(calc(-${currentIndex} * (100% / 1.2)))` : `translateX(calc(-${currentIndex} * ((100% - 48px) / 3.5 + 24px)))` }">
+        <div class="carousel-wrapper" :class="{ 'is-last-slide': currentIndex >= totalPages - 1 }">
+          <div class="carousel-container" :style="{ transform: `translateX(-${carouselTransform}%)` }">
             <div 
               v-for="site in sites" 
               :key="site.id"
@@ -92,8 +92,83 @@ export default {
     totalPages() {
       if (this.windowWidth <= 768) {
         return this.sites.length
+      } else {
+        // Desktop: avanza de 3 en 3, pero muestra 3.5 por vista
+        const itemsPerView = 3.5
+        const itemsPerSlide = 3
+        const totalItems = this.sites.length
+        
+        if (totalItems <= itemsPerView) {
+          return 1
+        }
+        
+        // Calcular cuántos slides necesitamos si avanzamos de 3 en 3
+        const remainingAfterFirst = totalItems - itemsPerView
+        return Math.ceil(remainingAfterFirst / itemsPerSlide) + 1
       }
-      return Math.ceil(this.sites.length / this.itemsPerSlide)
+    },
+    carouselTransform() {
+      if (this.sites.length === 0) return 0
+      
+      const isMobile = this.windowWidth <= 768
+      const itemsPerView = isMobile ? 1.087 : 3.5 // 1/0.92 ≈ 1.087 para mostrar solo un pequeño pedazo
+      const itemsPerSlide = isMobile ? 1 : 3
+      const totalItems = this.sites.length
+      
+      // Si estamos en el último slide, calcular el desplazamiento para mostrar el último elemento completo
+      const isLastSlide = this.currentIndex >= this.totalPages - 1
+      
+      if (isLastSlide && totalItems > itemsPerView) {
+        // Calcular el ancho total de todos los elementos
+        const gapSize = isMobile ? 12 : 24
+        if (isMobile) {
+          // En móvil, calcular para que el último card se muestre completo
+          const cardWidthPercent = 92
+          const gapPercent = (gapSize / this.windowWidth) * 100
+          // Calcular cuánto necesitamos desplazar para mostrar el último card completo
+          // El último card está en la posición (totalItems - 1)
+          // Necesitamos desplazar hasta que el último card quede alineado a la derecha del viewport
+          const cardsBeforeLast = totalItems - 1
+          const transformForLastCard = (cardWidthPercent * cardsBeforeLast) + (gapPercent * cardsBeforeLast)
+          // Ajustar para que el último card se muestre completo (no demasiado a la izquierda)
+          // Restamos un poco para que no quede pegado al borde derecho
+          return Math.max(0, transformForLastCard - 2)
+        } else {
+          // En desktop, calcular para que el último card se muestre completo
+          const cardWidthPercent = 100 / itemsPerView
+          const gapPercent = (gapSize / this.windowWidth) * 100
+          // Ajustar para que el último card se muestre completo, considerando que mostramos 3.5 cards
+          // Si hay menos de 3.5 cards, no necesitamos desplazar
+          if (totalItems <= itemsPerView) {
+            return 0
+          }
+          // Calcular el ancho total del contenido
+          const totalContentWidthPercent = (cardWidthPercent * totalItems) + (gapPercent * (totalItems - 1))
+          // El transform máximo es el ancho total menos 100% (el viewport)
+          const maxTransform = Math.max(0, totalContentWidthPercent - 100)
+          return maxTransform
+        }
+      }
+      
+      // Para slides normales
+      if (isMobile) {
+        // En mobile: cada slide avanza el ancho de 1 card (92%) más el gap (12px)
+        const cardWidthPercent = 92
+        const gapSize = 12
+        const gapPercent = (gapSize / this.windowWidth) * 100
+        const slideMove = cardWidthPercent + gapPercent
+        return this.currentIndex * slideMove
+      } else {
+        // En desktop: cada slide avanza de 3 elementos completos
+        // Cada card ocupa aproximadamente: (100% - 48px) / 3.5
+        // Para avanzar 3 elementos, necesitamos el ancho de 3 cards + 2 gaps (entre las 3 cards)
+        const cardWidthPercent = 100 / itemsPerView
+        const gapSize = 24
+        const gapPercent = (gapSize / this.windowWidth) * 100
+        // Avanzar de 3 elementos por slide: 3 cards + 2 gaps
+        const slideMove = (cardWidthPercent * itemsPerSlide) + (gapPercent * (itemsPerSlide - 1))
+        return this.currentIndex * slideMove
+      }
     }
   },
   async mounted() {
@@ -220,6 +295,7 @@ export default {
   background: var(--white);
   border-radius: 8px;
   padding: 24px;
+  border: 2px solid var(--border-gray);
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   transition: transform 0.3s;
   display: flex;
@@ -323,16 +399,21 @@ export default {
 
 @media (max-width: 768px) {
   .section-title {
+    font-size: 30px;
     text-align: left;
+    line-height: 1.2;
   }
   
   .section-subtitle {
+    font-size: 16px;
     text-align: left;
   }
   
   .site-card {
-    width: calc(100% / 1.2);
-    min-width: calc(100% / 1.2);
+    width: 92%;
+    min-width: 92%;
+    border: 2px solid var(--border-gray);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   }
   
   .carousel-container {
@@ -342,6 +423,15 @@ export default {
   .carousel-wrapper {
     width: 100%;
     padding-right: 0;
+    overflow-x: hidden;
+  }
+  
+  .carousel-container {
+    padding-right: 0;
+  }
+  
+  .carousel-dots {
+    display: none;
   }
 }
 </style>

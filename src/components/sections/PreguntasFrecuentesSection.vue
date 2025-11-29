@@ -42,7 +42,7 @@
       </div>
       <div class="faq-footer">
         <a href="#" class="faq-link">
-          Ir al Centro de Respuestas →
+          <span class="link-text">Ir al Centro de Respuestas</span> <span class="arrow">→</span>
         </a>
       </div>
     </div>
@@ -209,20 +209,29 @@ export default {
 
 .faq-link {
   color: var(--primary-blue);
-  text-decoration: underline;
+  text-decoration: none;
   font-weight: 500;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   font-size: 18px;
 }
 
-.faq-link:hover {
+.faq-link .link-text {
   text-decoration: underline;
+}
+
+.faq-link:hover .link-text {
+  text-decoration: underline;
+}
+
+.faq-link .arrow {
+  text-decoration: none;
 }
 
 @media (max-width: 768px) {
   .section-title {
+    font-size: 30px;
     text-align: center;
   }
   
