@@ -219,9 +219,10 @@ export default {
 }
 
 .hero-subtitle {
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: 600;
   margin-bottom: 16px;
-  opacity: 0.9;
+  opacity: 1;
 }
 
 .hero-title {
