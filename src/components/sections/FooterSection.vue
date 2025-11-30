@@ -191,13 +191,13 @@ let redCampusImage = null
 try {
   accreditationImage = require('../../assets/images/imagen1.png')
 } catch (e) {
-  console.log('Imagen de acreditación no encontrada', e)
+  // Imagen de acreditación no encontrada
 }
 
 try {
   redCampusImage = require('../../assets/images/imagen2.png')
 } catch (e) {
-  console.log('Imagen RED CAMPUS no encontrada', e)
+  // Imagen RED CAMPUS no encontrada
 }
 
 export default {

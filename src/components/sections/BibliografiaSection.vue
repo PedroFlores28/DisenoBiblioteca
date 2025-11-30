@@ -8,15 +8,17 @@
       <p class="section-description">
         Selecciona tu escuela y luego busca tu carrera para conocer la Bibliografía Básica de cada una.
       </p>
-      <div class="schools-grid" ref="schoolsGrid" v-if="schools.length > 0">
-        <div 
-          v-for="school in displayedSchools" 
-          :key="school.id"
-          class="school-card"
-        >
-          <div :class="['card-accent', `accent-${school.color}`]"></div>
-          <h3 class="card-title">{{ school.name }}</h3>
-          <a href="#" class="card-link">Ver más →</a>
+      <div class="schools-grid-wrapper" v-if="schools.length > 0">
+        <div class="schools-grid" ref="schoolsGrid">
+          <div 
+            v-for="school in schools" 
+            :key="school.id"
+            class="school-card"
+          >
+            <div :class="['card-accent', `accent-${school.color}`]"></div>
+            <h3 class="card-title">{{ school.name }}</h3>
+            <a href="#" class="card-link">Ver más →</a>
+          </div>
         </div>
       </div>
       <!-- Paginación para desktop -->
@@ -110,41 +112,30 @@ export default {
     return {
       schools: exampleSchools, // Cargar datos de ejemplo inmediatamente
       currentPage: 1,
-      itemsPerPage: 4,
       windowWidth: window.innerWidth,
-      isLoading: false,
       isAtStart: true,
       isAtEnd: false
     }
   },
   computed: {
-    displayedSchools() {
-      // En móvil, mostrar todos los schools para scroll horizontal
-      // En desktop, usar paginación
-      if (this.windowWidth <= 768) {
-        return this.schools
-      }
-      const itemsPerPage = 4
-      const start = (this.currentPage - 1) * itemsPerPage
-      const end = start + itemsPerPage
-      return this.schools.slice(start, end)
-    },
     totalPages() {
-      // En móvil no usamos paginación, así que retornamos 1 para que no se muestre
       if (this.windowWidth <= 768) {
         return 1
       }
-      const itemsPerPage = 4
+      const itemsPerPage = this.windowWidth > 1200 ? 4 : 2
       return Math.ceil(this.schools.length / itemsPerPage)
     }
   },
   async mounted() {
     await this.loadSchools()
     window.addEventListener('resize', this.handleResize)
-    if (this.$refs.schoolsGrid && this.windowWidth <= 768) {
-      this.$refs.schoolsGrid.addEventListener('scroll', this.handleScroll)
-      this.updateScrollButtons()
-    }
+    this.$nextTick(() => {
+      if (this.$refs.schoolsGrid) {
+        this.$refs.schoolsGrid.addEventListener('scroll', this.handleScroll)
+        this.updateScrollButtons()
+        this.updateCurrentPage()
+      }
+    })
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.handleResize)
@@ -174,41 +165,84 @@ export default {
         }
       } catch (error) {
         // Si falla, mantener los datos de ejemplo que ya están cargados
-        console.log('Strapi no disponible, usando datos de ejemplo')
       }
     },
     previousPage() {
-      if (this.currentPage > 1) {
-        this.currentPage--
+      if (this.windowWidth <= 768) {
+        this.scrollLeft()
+      } else {
+        // Desktop: scroll suave al grupo anterior de 4 cards
+        if (this.currentPage > 1) {
+          this.scrollToPage(this.currentPage - 1)
+        }
       }
     },
     nextPage() {
-      if (this.currentPage < this.totalPages) {
-        this.currentPage++
+      if (this.windowWidth <= 768) {
+        this.scrollRight()
+      } else {
+        // Desktop: scroll suave al siguiente grupo de 4 cards
+        if (this.currentPage < this.totalPages) {
+          this.scrollToPage(this.currentPage + 1)
+        }
       }
     },
     goToPage(page) {
+      if (this.windowWidth <= 768) {
+        // En mobile, no hay paginación por dots
+        return
+      }
+      this.scrollToPage(page)
+    },
+    scrollToPage(page) {
+      if (!this.$refs.schoolsGrid) return
+      
+      const grid = this.$refs.schoolsGrid
+      const card = grid.querySelector('.school-card')
+      if (!card) return
+      
+      const cardWidth = card.offsetWidth
+      const gap = 24 // gap entre cards
+      const cardsPerPage = this.windowWidth > 1200 ? 4 : 2
+      const scrollAmount = (cardWidth + gap) * cardsPerPage * (page - 1)
+      
+      grid.scrollTo({
+        left: scrollAmount,
+        behavior: 'smooth'
+      })
+      
       this.currentPage = page
+    },
+    updateCurrentPage() {
+      if (!this.$refs.schoolsGrid || this.windowWidth <= 768) return
+      
+      const grid = this.$refs.schoolsGrid
+      const card = grid.querySelector('.school-card')
+      if (!card) return
+      
+      const cardWidth = card.offsetWidth
+      const gap = 24
+      const scrollLeft = grid.scrollLeft
+      const cardsPerPage = this.windowWidth > 1200 ? 4 : 2
+      const scrollPerPage = (cardWidth + gap) * cardsPerPage
+      
+      const page = Math.round(scrollLeft / scrollPerPage) + 1
+      const maxPage = this.totalPages
+      
+      if (page >= 1 && page <= maxPage) {
+        this.currentPage = page
+      }
     },
     handleResize() {
       this.windowWidth = window.innerWidth
-      // Resetear a la primera página cuando cambia el tamaño de desktop a móvil o viceversa
-      if (window.innerWidth > 768) {
-        // En desktop, recalcular páginas con 4 items por página
-        const maxPages = Math.ceil(this.schools.length / 4)
-      if (this.currentPage > maxPages) {
-          this.currentPage = 1
-        }
-      } else {
-        // En móvil, resetear a página 1 y actualizar botones de scroll
-        this.currentPage = 1
-        this.$nextTick(() => {
-          if (this.$refs.schoolsGrid) {
-            this.$refs.schoolsGrid.addEventListener('scroll', this.handleScroll)
-            this.updateScrollButtons()
+      this.$nextTick(() => {
+        if (this.$refs.schoolsGrid) {
+          this.updateScrollButtons()
+          if (this.windowWidth > 768) {
+            this.updateCurrentPage()
           }
-        })
-      }
+        }
+      })
     },
     scrollLeft() {
       if (this.$refs.schoolsGrid) {
@@ -234,16 +268,25 @@ export default {
     },
     handleScroll() {
       this.updateScrollButtons()
+      if (this.windowWidth > 768) {
+        this.updateCurrentPage()
+      }
     },
     updateScrollButtons() {
-      if (this.$refs.schoolsGrid && this.windowWidth <= 768) {
-        const grid = this.$refs.schoolsGrid
-        const scrollLeft = grid.scrollLeft
-        const scrollWidth = grid.scrollWidth
-        const clientWidth = grid.clientWidth
-        
+      if (!this.$refs.schoolsGrid) return
+      
+      const grid = this.$refs.schoolsGrid
+      const scrollLeft = grid.scrollLeft
+      const scrollWidth = grid.scrollWidth
+      const clientWidth = grid.clientWidth
+      
+      if (this.windowWidth <= 768) {
         this.isAtStart = scrollLeft <= 0
         this.isAtEnd = scrollLeft + clientWidth >= scrollWidth - 1
+      } else {
+        // En desktop, actualizar estado de botones basado en currentPage
+        this.isAtStart = this.currentPage === 1
+        this.isAtEnd = this.currentPage >= this.totalPages
       }
     }
   }
@@ -281,11 +324,26 @@ export default {
   font-size: 16px;
 }
 
-.schools-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+.schools-grid-wrapper {
   margin-bottom: 40px;
+  overflow: hidden;
+}
+
+.schools-grid {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scroll-snap-type: none;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 8px;
+}
+
+.schools-grid::-webkit-scrollbar {
+  display: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .school-card {
@@ -297,6 +355,8 @@ export default {
   transition: transform 0.3s, box-shadow 0.3s;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
+  border: 2px solid var(--border-gray);
 }
 
 .school-card:hover {
@@ -407,15 +467,36 @@ export default {
   height: 12px;
 }
 
-.loading {
-  text-align: center;
-  padding: 40px;
-  color: var(--text-light);
+@media (max-width: 1200px) and (min-width: 769px) {
+  .school-card {
+    width: calc((100% - 24px) / 2); /* 2 cards con 1 gap de 24px */
+    min-width: calc((100% - 24px) / 2);
+    max-width: calc((100% - 24px) / 2);
+  }
 }
 
-@media (max-width: 1200px) {
+@media (min-width: 769px) {
+  .schools-grid-wrapper {
+    position: relative;
+  }
+  
   .schools-grid {
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    overflow-x: auto;
+  }
+  
+  .school-card {
+    width: calc((100% - 72px) / 4); /* 4 cards con 3 gaps de 24px */
+    min-width: calc((100% - 72px) / 4);
+    max-width: calc((100% - 72px) / 4);
+  }
+}
+
+@media (min-width: 1201px) {
+  .school-card {
+    width: calc((100% - 72px) / 4);
+    min-width: calc((100% - 72px) / 4);
+    max-width: calc((100% - 72px) / 4);
   }
 }
 
@@ -435,15 +516,6 @@ export default {
     -webkit-overflow-scrolling: touch;
     /* Mostrar un pedazo del siguiente card */
     padding-right: 20px;
-  }
-  
-  .schools-grid::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .schools-grid {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
   }
   
   .school-card {

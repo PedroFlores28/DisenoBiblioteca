@@ -131,7 +131,6 @@ export default {
         { id: 'metropolitana', name: 'Región Metropolitana' },
         { id: 'sur', name: 'Zona Sur' }
       ],
-      itemsPerSlide: 3.2,
       windowWidth: window.innerWidth,
       isAtStart: true,
       isAtEnd: false
@@ -847,7 +846,9 @@ export default {
   right: 0;
   width: 55px;
   height: 100%;
-  background: #ffffff7d
+  background: #ffffff7d;
+  pointer-events: none;
+  z-index: 10;
 }
 
 .carousel-wrapper.is-last-slide::after {
@@ -1057,9 +1058,6 @@ export default {
   
   .carousel-wrapper::-webkit-scrollbar {
     display: none;
-  }
-  
-  .carousel-wrapper {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }

@@ -107,13 +107,13 @@ let backgroundImageMobile = null
 try {
   backgroundImageDesktop = require('@/assets/images/hero-background.jpg')
 } catch (e) {
-  console.log('Imagen de fondo desktop no encontrada')
+  // Imagen de fondo desktop no encontrada
 }
 
 try {
   backgroundImageMobile = require('@/assets/images/b1b818e26d255f001e62b637fce22a3221cf95c6.jpg')
 } catch (e) {
-  console.log('Imagen de fondo mobile no encontrada')
+  // Imagen de fondo mobile no encontrada
 }
 
 export default {

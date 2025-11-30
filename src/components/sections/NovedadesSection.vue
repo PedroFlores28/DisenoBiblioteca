@@ -67,7 +67,6 @@ export default {
     return {
       books: [],
       currentIndex: 0,
-      itemsPerSlide: 3,
       windowWidth: window.innerWidth,
       isAtStart: true,
       isAtEnd: false
@@ -499,9 +498,6 @@ export default {
   
   .carousel-wrapper::-webkit-scrollbar {
     display: none;
-  }
-  
-  .carousel-wrapper {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }

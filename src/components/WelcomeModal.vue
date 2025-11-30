@@ -53,7 +53,7 @@ let modalImage = null
 try {
   modalImage = require('@/assets/images/imagen3.jpg')
 } catch (e) {
-  console.log('Imagen del modal no encontrada')
+  // Imagen del modal no encontrada
 }
 
 export default {
@@ -71,15 +71,9 @@ export default {
     
     // Mostrar el modal siempre en móvil al cargar/refrescar la página
     if (this.isMobile) {
-      // Pequeño delay para asegurar que el modal aparezca después de que todo cargue
       setTimeout(() => {
         this.showModal = true
-        // Bloquear scroll del body cuando el modal está abierto
         document.body.style.overflow = 'hidden'
-        // Ajustar posición del modal para que coincida con hero-widget
-        this.$nextTick(() => {
-          this.adjustModalPosition()
-        })
       }, 500)
     }
   },
@@ -112,27 +106,10 @@ export default {
       document.body.style.overflow = ''
     },
     showGuide() {
-      // Aquí puedes implementar la lógica para mostrar la guía
       this.closeModal()
-      // Por ahora, simplemente cierra el modal
-      // Puedes agregar lógica adicional aquí
     },
     skipToSite() {
       this.closeModal()
-    },
-    adjustModalPosition() {
-      // Obtener la posición del hero-widget
-      const heroWidget = document.querySelector('.hero-widget')
-      if (heroWidget) {
-        const rect = heroWidget.getBoundingClientRect()
-        const modalOverlay = document.querySelector('.welcome-modal-overlay')
-        if (modalOverlay) {
-          // Calcular la posición exacta del hero-widget desde el top de la ventana
-          const topPosition = rect.top
-          modalOverlay.style.paddingTop = `${topPosition}px`
-          modalOverlay.style.alignItems = 'flex-start'
-        }
-      }
     }
   }
 }

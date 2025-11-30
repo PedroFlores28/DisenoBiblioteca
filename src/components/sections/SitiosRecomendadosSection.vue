@@ -6,7 +6,7 @@
         Accede a libros, revistas, normas y otras fuentes externas disponibles de uso público.
       </p>
       <div class="sites-carousel">
-        <div class="carousel-wrapper" ref="carouselWrapper" :class="{ 'is-last-slide': currentIndex >= totalPages - 1 }">
+        <div class="carousel-wrapper" ref="carouselWrapper">
           <div class="carousel-container" :style="windowWidth > 768 ? { transform: `translateX(-${carouselTransform}%)` } : {}">
             <div 
               v-for="site in sites" 
@@ -88,7 +88,6 @@ export default {
     return {
       sites: [],
       currentIndex: 0,
-      itemsPerSlide: 3,
       windowWidth: window.innerWidth,
       isAtStart: true,
       isAtEnd: false
@@ -132,12 +131,9 @@ export default {
           const cardWidthPercent = 92
           const gapPercent = (gapSize / this.windowWidth) * 100
           // Calcular cuánto necesitamos desplazar para mostrar el último card completo
-          // El último card está en la posición (totalItems - 1)
-          // Necesitamos desplazar hasta que el último card quede alineado a la derecha del viewport
           const cardsBeforeLast = totalItems - 1
           const transformForLastCard = (cardWidthPercent * cardsBeforeLast) + (gapPercent * cardsBeforeLast)
           // Ajustar para que el último card se muestre completo (no demasiado a la izquierda)
-          // Restamos un poco para que no quede pegado al borde derecho
           return Math.max(0, transformForLastCard - 2)
         } else {
           // En desktop, calcular para que el último card se muestre completo
@@ -495,9 +491,6 @@ export default {
   
   .carousel-wrapper::-webkit-scrollbar {
     display: none;
-  }
-  
-  .carousel-wrapper {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }

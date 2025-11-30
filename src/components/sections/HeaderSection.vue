@@ -119,7 +119,31 @@
               </svg>
             </div>
             <div class="menu-section-content" v-if="expandedSections.bibliotecas">
-              <!-- Contenido de bibliotecas si es necesario -->
+              <div 
+                v-for="region in regions" 
+                :key="region.id"
+                class="menu-subsection"
+              >
+                <div 
+                  class="menu-subsection-header" 
+                  @click="toggleSubsection(region.id)"
+                >
+                  <span>{{ region.name }}</span>
+                  <svg class="chevron-icon" :class="{ rotated: expandedSubsections[region.id] }" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="menu-subsection-content" v-if="expandedSubsections[region.id]">
+                  <div 
+                    v-for="library in getLibrariesByRegion(region.id)" 
+                    :key="library.id"
+                    class="menu-item"
+                    @click="navigateToLibrary(library)"
+                  >
+                    {{ library.name }}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -129,6 +153,8 @@
 </template>
 
 <script>
+import strapiService from '../../services/strapi'
+
 export default {
   name: 'HeaderSection',
   data() {
@@ -142,6 +168,19 @@ export default {
         bibliografia: true,
         bibliotecas: false
       },
+      expandedSubsections: {
+        norte: false,
+        centro: false,
+        metropolitana: false,
+        sur: false
+      },
+      libraries: [],
+      regions: [
+        { id: 'norte', name: 'Zona Norte' },
+        { id: 'centro', name: 'Zona Centro' },
+        { id: 'metropolitana', name: 'Región Metropolitana' },
+        { id: 'sur', name: 'Zona Sur' }
+      ],
       schools: [
         { id: 1, name: 'Administración y Gestión Empresarial', searchName: 'Administración y Gestión Empresarial' },
         { id: 2, name: 'Artes e Industrias Creativa', searchName: 'Artes e Industrias Creativas' },
@@ -153,9 +192,10 @@ export default {
       ]
     }
   },
-  mounted() {
+  async mounted() {
     this.handleScroll()
     window.addEventListener('scroll', this.handleScroll)
+    await this.loadLibraries()
   },
   beforeUnmount() {
     window.removeEventListener('scroll', this.handleScroll)
@@ -164,33 +204,76 @@ export default {
   methods: {
     handleScroll() {
       const scrollPosition = window.scrollY || window.pageYOffset
+      const headerHeight = 80
+      const threshold = 200 // Umbral para considerar que una sección está activa
+      
       // Si está cerca del inicio (menos de 200px desde arriba), marcar Servicios como activo
-      this.isAtTop = scrollPosition < 200
+      if (scrollPosition < 200) {
+        this.isAtTop = true
+        this.isInBibliografia = false
+        this.isInBibliotecas = false
+        return
+      }
       
-      // Detectar si está en la sección de Bibliografía
+      this.isAtTop = false
+      
+      // Obtener posiciones de ambas secciones
       const bibliografiaSection = document.getElementById('bibliografia')
-      if (bibliografiaSection) {
-        const rect = bibliografiaSection.getBoundingClientRect()
-        const headerHeight = 80 // Altura aproximada del header
-        // Si la sección está visible en la pantalla (con margen para el header)
-        this.isInBibliografia = rect.top <= headerHeight + 100 && rect.bottom >= headerHeight
-      }
-      
-      // Detectar si está en la sección de Bibliotecas
       const bibliotecasSection = document.getElementById('bibliotecas')
+      
+      let bibliografiaTop = null
+      let bibliotecasTop = null
+      
+      if (bibliografiaSection) {
+        bibliografiaTop = bibliografiaSection.getBoundingClientRect().top
+      }
       if (bibliotecasSection) {
-        const rect = bibliotecasSection.getBoundingClientRect()
-        const headerHeight = 80
-        this.isInBibliotecas = rect.top <= headerHeight + 100 && rect.bottom >= headerHeight
+        bibliotecasTop = bibliotecasSection.getBoundingClientRect().top
       }
       
+      // Determinar qué sección está activa basándose en cuál está más cerca del top del viewport
+      // La sección activa es la que tiene su inicio más cerca del header
+      if (bibliotecasTop !== null && bibliotecasTop <= headerHeight + threshold) {
+        // Si Bibliotecas está cerca del header (dentro del umbral), activarla
+        this.isInBibliotecas = true
+        this.isInBibliografia = false
+      } else if (bibliografiaTop !== null && bibliografiaTop <= headerHeight + threshold) {
+        // Si Bibliografía está cerca del header (dentro del umbral), activarla
+        this.isInBibliografia = true
+        this.isInBibliotecas = false
+      } else {
+        // Si ninguna está cerca del header, verificar cuál está más visible
+        if (bibliotecasTop !== null && bibliotecasTop < window.innerHeight && bibliotecasTop > -window.innerHeight) {
+          this.isInBibliotecas = true
+          this.isInBibliografia = false
+        } else if (bibliografiaTop !== null && bibliografiaTop < window.innerHeight && bibliografiaTop > -window.innerHeight) {
+          this.isInBibliografia = true
+          this.isInBibliotecas = false
+        } else {
+          // Si ninguna está visible, mantener estados actuales
+        }
+      }
     },
     scrollToSection(hash, e) {
+      if (e && e.preventDefault) {
       e.preventDefault()
+      }
       const section = document.querySelector(hash)
       if (section) {
         const headerHeight = 80
         const sectionPosition = section.getBoundingClientRect().top + window.pageYOffset - headerHeight
+        
+        // Actualizar el estado inmediatamente basado en el hash
+        if (hash === '#bibliografia') {
+          this.isInBibliografia = true
+          this.isInBibliotecas = false
+          this.isAtTop = false
+        } else if (hash === '#bibliotecas') {
+          this.isInBibliotecas = true
+          this.isInBibliografia = false
+          this.isAtTop = false
+        }
+        
         window.scrollTo({
           top: sectionPosition,
           behavior: 'smooth'
@@ -223,6 +306,153 @@ export default {
     },
     toggleSection(section) {
       this.expandedSections[section] = !this.expandedSections[section]
+    },
+    toggleSubsection(subsectionId) {
+      this.expandedSubsections[subsectionId] = !this.expandedSubsections[subsectionId]
+    },
+    getLibrariesByRegion(regionId) {
+      return this.libraries.filter(lib => lib.region === regionId)
+    },
+    async loadLibraries() {
+      try {
+        const response = await strapiService.getCollection('bibliotecas', {
+          populate: '*'
+        })
+        this.libraries = response.data || []
+      } catch (error) {
+        console.error('Error loading libraries:', error)
+        // Datos de ejemplo si falla la carga - mismos datos que BibliotecasSection
+        this.libraries = [
+          // Región Metropolitana
+          {
+            id: 1,
+            name: 'Biblioteca Grajales',
+            region: 'metropolitana'
+          },
+          {
+            id: 2,
+            name: 'Biblioteca Ejército',
+            region: 'metropolitana'
+          },
+          {
+            id: 3,
+            name: 'Biblioteca San Joaquín',
+            region: 'metropolitana'
+          },
+          // Zona Norte
+          {
+            id: 4,
+            name: 'Biblioteca Antofagasta',
+            region: 'norte'
+          },
+          {
+            id: 5,
+            name: 'Biblioteca La Serena',
+            region: 'norte'
+          },
+          {
+            id: 6,
+            name: 'Biblioteca Iquique',
+            region: 'norte'
+          },
+          {
+            id: 13,
+            name: 'Biblioteca Arica',
+            region: 'norte'
+          },
+          {
+            id: 14,
+            name: 'Biblioteca Copiapó',
+            region: 'norte'
+          },
+          {
+            id: 15,
+            name: 'Biblioteca Calama',
+            region: 'norte'
+          },
+          {
+            id: 16,
+            name: 'Biblioteca Coquimbo',
+            region: 'norte'
+          },
+          // Zona Centro
+          {
+            id: 7,
+            name: 'Biblioteca Valparaíso',
+            region: 'centro'
+          },
+          {
+            id: 8,
+            name: 'Biblioteca Viña del Mar',
+            region: 'centro'
+          },
+          {
+            id: 9,
+            name: 'Biblioteca Rancagua',
+            region: 'centro'
+          },
+          // Zona Sur
+          {
+            id: 10,
+            name: 'Biblioteca Concepción',
+            region: 'sur'
+          },
+          {
+            id: 11,
+            name: 'Biblioteca Temuco',
+            region: 'sur'
+          },
+          {
+            id: 12,
+            name: 'Biblioteca Valdivia',
+            region: 'sur'
+          }
+        ]
+      }
+    },
+    navigateToLibrary(library) {
+      this.closeMobileMenu()
+      // Navegar a la sección de bibliotecas
+      this.scrollToSection('#bibliotecas', { preventDefault: () => {} })
+      
+      // Esperar a que se complete el scroll y luego buscar la tarjeta de la biblioteca
+      setTimeout(() => {
+        const bibliotecasSection = document.getElementById('bibliotecas')
+        if (bibliotecasSection) {
+          // Primero, seleccionar la región correspondiente si hay tabs
+          const regionTabs = bibliotecasSection.querySelectorAll('.region-tab')
+          regionTabs.forEach(tab => {
+            const tabText = tab.textContent.trim()
+            const regionName = this.regions.find(r => r.id === library.region)?.name
+            if (tabText === regionName) {
+              tab.click()
+            }
+          })
+          
+          // Esperar un poco más para que se actualice el contenido con la región seleccionada
+          setTimeout(() => {
+            const libraryCards = bibliotecasSection.querySelectorAll('.library-card')
+            
+            // Buscar la tarjeta de la biblioteca
+            libraryCards.forEach(card => {
+              const nameElement = card.querySelector('.library-name')
+              if (nameElement) {
+                const cardName = nameElement.textContent.trim()
+                if (cardName === library.name) {
+                  // Hacer scroll hasta la tarjeta
+                  card.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                  // Resaltar la tarjeta brevemente
+                  card.style.transition = 'box-shadow 0.3s'
+                  card.style.boxShadow = '0 0 20px rgba(36, 51, 78, 0.5)'
+                  setTimeout(() => {
+                    card.style.boxShadow = ''
+                  }, 2000)
+                }
+              }
+            })
+          }, 300)
+        }
+      }, 600)
     },
     navigateToSchool(school) {
       this.closeMobileMenu()
@@ -296,20 +526,6 @@ export default {
   height: auto;
 }
 
-.logo-divider {
-  display: none;
-  width: 2px;
-  height: 32px;
-  background: #fff;
-}
-
-.logo-divider-desktop {
-  display: block;
-  width: 2px;
-  height: 32px;
-  background: #fff;
-}
-
 .logo-text-desktop {
   display: block;
   width: auto;
@@ -376,10 +592,6 @@ export default {
   
   .menu-icon-svg {
     display: block;
-  }
-  
-  .logo-divider-desktop {
-    display: none;
   }
   
   .logo-text-desktop {
@@ -528,6 +740,45 @@ export default {
 }
 
 .menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-subsection {
+  border-top: 1px solid #E8E8E8;
+}
+
+.menu-subsection:first-child {
+  border-top: none;
+}
+
+.menu-subsection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px 12px 40px;
+  background-color: #F5F5F5;
+  color: #24334E;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.menu-subsection-header:hover {
+  background-color: #EEEEEE;
+}
+
+.menu-subsection-content {
+  background-color: #F5F5F5;
+  overflow: hidden;
+}
+
+.menu-subsection-content .menu-item {
+  padding: 12px 20px 12px 60px;
+  border-bottom: 1px solid #E8E8E8;
+}
+
+.menu-subsection-content .menu-item:last-child {
   border-bottom: none;
 }
 
