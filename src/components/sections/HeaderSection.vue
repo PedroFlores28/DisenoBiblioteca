@@ -69,13 +69,59 @@
             <span class="dropdown-icon">▼</span>
           </a>
         </nav>
-        <div class="user-icon">
+        <div class="user-icon" @click="toggleMobileMenu">
           <svg class="user-icon-svg" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M15.895 14.9629C15.3871 13.735 14.41 12.97 13.0214 12.745C12.2307 12.6164 11.8386 12.565 10.045 12.565H9.99357C8.16143 12.565 7.72429 12.6229 6.97214 12.745C5.57714 12.9636 4.60643 13.7286 4.09857 14.9629C2.96714 13.6193 2.27929 11.89 2.27929 10C2.27929 5.74429 5.73786 2.28571 9.99357 2.28571C14.2493 2.28571 17.7079 5.74429 17.7079 10C17.7079 11.89 17.02 13.6193 15.8886 14.9629H15.895ZM5.12071 15.9721C5.39714 14.8279 6.05286 14.1979 7.17786 14.0179C7.82714 13.915 8.18714 13.8571 9.99357 13.8571H10.045C11.8064 13.8571 12.1279 13.9086 12.8157 14.0179C13.9407 14.1979 14.5964 14.8279 14.8729 15.9721C13.5421 17.0586 11.845 17.7143 9.99357 17.7143C8.14214 17.7143 6.445 17.0586 5.11429 15.9721H5.12071ZM10 1C5.03714 1 1 5.03714 1 10C1 14.9629 5.03714 19 10 19C14.9629 19 19 14.9629 19 10C19 5.03714 14.9629 1 10 1ZM10.0257 10C9.07429 10 8.30286 9.22858 8.30286 8.27715C8.30286 7.32572 9.07429 6.55429 10.0257 6.55429C10.9771 6.55429 11.7421 7.32572 11.7421 8.27715C11.7421 9.22858 10.9707 10 10.0257 10ZM10.0257 5.275C8.36714 5.275 7.01714 6.625 7.01714 8.28357C7.01714 9.94214 8.36714 11.2921 10.0257 11.2921C11.6843 11.2921 13.0279 9.94214 13.0279 8.28357C13.0279 6.625 11.6779 5.275 10.0257 5.275Z" fill="white"/>
           </svg>
           <svg class="menu-icon-svg" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M19 16.2495C19 15.8368 18.6625 15.4991 18.25 15.4991H1.75C1.3375 15.4991 1 15.8368 1 16.2495C1 16.6623 1.3375 17 1.75 17H18.25C18.6625 17 19 16.6623 19 16.2495ZM19 10.9962C19 10.5835 18.6625 10.2458 18.25 10.2458H1.75C1.3375 10.2458 1 10.5835 1 10.9962C1 11.409 1.3375 11.7467 1.75 11.7467H18.25C18.6625 11.7467 19 11.409 19 10.9962ZM18.25 6.50094H1.75C1.3375 6.50094 1 6.16323 1 5.75047C1 5.33771 1.3375 5 1.75 5H18.25C18.6625 5 19 5.33771 19 5.75047C19 6.16323 18.6625 6.50094 18.25 6.50094Z" fill="white"/>
         </svg>
+        </div>
+      </div>
+    </div>
+    <!-- Menú lateral móvil -->
+    <div class="mobile-menu-overlay" :class="{ active: isMobileMenuOpen }" @click="closeMobileMenu">
+      <div class="mobile-menu" :class="{ active: isMobileMenuOpen }" @click.stop>
+        <div class="mobile-menu-header">
+          <p class="welcome-text">¡Hola! ¿Qué te gustaría hacer?</p>
+          <button class="login-button">Iniciar sesión</button>
+        </div>
+        <div class="mobile-menu-content">
+          <div class="menu-section">
+            <div class="menu-section-header" @click="toggleSection('servicios')">
+              <span>Servicios</span>
+              <svg class="chevron-icon" :class="{ rotated: expandedSections.servicios }" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="menu-section-content" v-if="expandedSections.servicios">
+              <!-- Contenido de servicios si es necesario -->
+            </div>
+          </div>
+          <div class="menu-section">
+            <div class="menu-section-header active" @click="toggleSection('bibliografia')">
+              <span>Bibliografía por escuelas</span>
+              <svg class="chevron-icon" :class="{ rotated: expandedSections.bibliografia }" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="menu-section-content" v-if="expandedSections.bibliografia">
+              <div class="menu-item" v-for="school in schools" :key="school.id" @click="navigateToSchool(school)">
+                {{ school.name }}
+              </div>
+            </div>
+          </div>
+          <div class="menu-section">
+            <div class="menu-section-header" @click="toggleSection('bibliotecas')">
+              <span>Encuentra tu biblioteca</span>
+              <svg class="chevron-icon" :class="{ rotated: expandedSections.bibliotecas }" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="menu-section-content" v-if="expandedSections.bibliotecas">
+              <!-- Contenido de bibliotecas si es necesario -->
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -89,7 +135,22 @@ export default {
     return {
       isAtTop: true,
       isInBibliografia: false,
-      isInBibliotecas: false
+      isInBibliotecas: false,
+      isMobileMenuOpen: false,
+      expandedSections: {
+        servicios: false,
+        bibliografia: true,
+        bibliotecas: false
+      },
+      schools: [
+        { id: 1, name: 'Administración y Gestión Empresarial', searchName: 'Administración y Gestión Empresarial' },
+        { id: 2, name: 'Artes e Industrias Creativa', searchName: 'Artes e Industrias Creativas' },
+        { id: 3, name: 'Desarrollo Social y Educación', searchName: 'Desarrollo Social y Educación' },
+        { id: 4, name: 'Estética Integral', searchName: 'Estética Integral' },
+        { id: 5, name: 'Gastronomía, Hotelería y Turismo', searchName: 'Gastronomía y Hotelería' },
+        { id: 6, name: 'Ingeniería, Energía y Tecnología', searchName: 'Ingeniería y Tecnología' },
+        { id: 7, name: 'Salud y Deporte', searchName: 'Salud y Ciencias Médicas' }
+      ]
     }
   },
   mounted() {
@@ -98,6 +159,7 @@ export default {
   },
   beforeUnmount() {
     window.removeEventListener('scroll', this.handleScroll)
+    document.body.style.overflow = ''
   },
   methods: {
     handleScroll() {
@@ -146,6 +208,52 @@ export default {
         behavior: 'smooth'
       })
       this.isAtTop = true
+    },
+    toggleMobileMenu() {
+      this.isMobileMenuOpen = !this.isMobileMenuOpen
+      if (this.isMobileMenuOpen) {
+        document.body.style.overflow = 'hidden'
+      } else {
+        document.body.style.overflow = ''
+      }
+    },
+    closeMobileMenu() {
+      this.isMobileMenuOpen = false
+      document.body.style.overflow = ''
+    },
+    toggleSection(section) {
+      this.expandedSections[section] = !this.expandedSections[section]
+    },
+    navigateToSchool(school) {
+      this.closeMobileMenu()
+      // Navegar a la sección de bibliografía
+      this.scrollToSection('#bibliografia', { preventDefault: () => {} })
+      
+      // Esperar a que se complete el scroll y luego buscar la tarjeta de la escuela
+      setTimeout(() => {
+        const bibliografiaSection = document.getElementById('bibliografia')
+        if (bibliografiaSection) {
+          // Buscar todas las tarjetas de escuelas
+          const schoolCards = bibliografiaSection.querySelectorAll('.school-card')
+          schoolCards.forEach(card => {
+            const titleElement = card.querySelector('.card-title')
+            if (titleElement) {
+              const cardName = titleElement.textContent.trim()
+              // Buscar por nombre exacto o por nombre de búsqueda
+              if (cardName === school.searchName || cardName === school.name) {
+                // Hacer scroll hasta la tarjeta
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                // Resaltar la tarjeta brevemente
+                card.style.transition = 'box-shadow 0.3s'
+                card.style.boxShadow = '0 0 20px rgba(36, 51, 78, 0.5)'
+                setTimeout(() => {
+                  card.style.boxShadow = ''
+                }, 2000)
+              }
+            }
+          })
+        }
+      }, 600)
     }
   }
 }
@@ -278,6 +386,154 @@ export default {
     display: block;
     height: 35px;
     max-width: 200px;
+  }
+}
+
+/* Menú lateral móvil */
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.mobile-menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 75%;
+  max-width: 320px;
+  height: 100%;
+  background-color: white;
+  z-index: 2001;
+  display: flex;
+  flex-direction: column;
+  transition: right 0.3s ease;
+  border-radius: 0 0 0 20px;
+  overflow-y: auto;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-menu.active {
+  right: 0;
+}
+
+.mobile-menu-header {
+  padding: 24px 20px;
+  background-color: white;
+  border-bottom: 1px solid #E0E0E0;
+}
+
+.welcome-text {
+  color: #24334E;
+  font-size: 14px;
+  margin-bottom: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.login-button {
+  width: 100%;
+  max-width: 253px;
+  height: 33px;
+  padding: 0 24px;
+  background-color: #CE1B1B;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.login-button:hover {
+  background-color: #B01717;
+}
+
+.mobile-menu-content {
+  flex: 1;
+  padding: 0;
+}
+
+.menu-section {
+  border-bottom: 1px solid #E0E0E0;
+}
+
+.menu-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background-color: white;
+  color: #24334E;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.menu-section-header:hover {
+  background-color: #F5F5F5;
+}
+
+.menu-section-header.active {
+  background-color: #F5F5F5;
+  color: #24334E;
+}
+
+.chevron-icon {
+  width: 12px;
+  height: 12px;
+  color: #24334E;
+  transition: transform 0.3s ease;
+}
+
+.chevron-icon.rotated {
+  transform: rotate(180deg);
+}
+
+.menu-section-content {
+  background-color: #F5F5F5;
+  overflow: hidden;
+}
+
+.menu-item {
+  padding: 14px 20px 14px 40px;
+  background-color: #F5F5F5;
+  color: #24334E;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-bottom: 1px solid #E8E8E8;
+}
+
+.menu-item:hover {
+  background-color: #EEEEEE;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .welcome-text {
+    margin-bottom: 8px;
   }
 }
 </style>

@@ -3,8 +3,8 @@
     <div class="container">
       <h2 class="section-title">Novedades literarias</h2>
       <div class="books-carousel">
-        <div class="carousel-wrapper" :class="{ 'is-last-slide': currentIndex >= totalPages - 1 }">
-          <div class="carousel-container" :style="{ transform: `translateX(-${carouselTransform}%)` }">
+        <div class="carousel-wrapper" ref="carouselWrapper" :class="{ 'is-last-slide': currentIndex >= totalPages - 1 }">
+          <div class="carousel-container" :style="windowWidth > 768 ? { transform: `translateX(-${carouselTransform}%)` } : {}">
             <div 
               v-for="book in books" 
               :key="book.id"
@@ -29,10 +29,12 @@
       <div class="carousel-controls">
         <button 
           class="carousel-btn"
-          :disabled="currentIndex === 0"
+          :disabled="windowWidth <= 768 ? isAtStart : currentIndex === 0"
           @click="previousSlide"
         >
-          ←
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
         </button>
         <div class="carousel-dots">
           <span 
@@ -44,10 +46,12 @@
         </div>
         <button 
           class="carousel-btn"
-          :disabled="currentIndex >= totalPages - 1"
+          :disabled="windowWidth <= 768 ? isAtEnd : currentIndex >= totalPages - 1"
           @click="nextSlide"
         >
-          →
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
         </button>
       </div>
     </div>
@@ -64,7 +68,9 @@ export default {
       books: [],
       currentIndex: 0,
       itemsPerSlide: 3,
-      windowWidth: window.innerWidth
+      windowWidth: window.innerWidth,
+      isAtStart: true,
+      isAtEnd: false
     }
   },
   computed: {
@@ -132,9 +138,18 @@ export default {
   async mounted() {
     await this.loadBooks()
     window.addEventListener('resize', this.handleResize)
+    this.$nextTick(() => {
+      if (this.$refs.carouselWrapper && this.windowWidth <= 768) {
+        this.$refs.carouselWrapper.addEventListener('scroll', this.handleScroll)
+        this.updateScrollButtons()
+      }
+    })
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.handleResize)
+    if (this.$refs.carouselWrapper) {
+      this.$refs.carouselWrapper.removeEventListener('scroll', this.handleScroll)
+    }
   },
   methods: {
     async loadBooks() {
@@ -216,20 +231,80 @@ export default {
       }
     },
     previousSlide() {
-      if (this.currentIndex > 0) {
-        this.currentIndex--
+      if (this.windowWidth <= 768) {
+        // En mobile, usar scroll nativo
+        this.scrollLeft()
+      } else {
+        // En desktop, usar el sistema de índices
+        if (this.currentIndex > 0) {
+          this.currentIndex--
+        }
       }
     },
     nextSlide() {
-      if (this.currentIndex < this.totalPages - 1) {
-        this.currentIndex++
+      if (this.windowWidth <= 768) {
+        // En mobile, usar scroll nativo
+        this.scrollRight()
+      } else {
+        // En desktop, usar el sistema de índices
+        if (this.currentIndex < this.totalPages - 1) {
+          this.currentIndex++
+        }
       }
     },
     goToSlide(index) {
       this.currentIndex = index
     },
+    scrollLeft() {
+      if (this.$refs.carouselWrapper) {
+        const card = this.$refs.carouselWrapper.querySelector('.book-card')
+        if (card) {
+          const cardWidth = card.offsetWidth
+          const gap = 16
+          const scrollAmount = cardWidth + gap
+          this.$refs.carouselWrapper.scrollBy({
+            left: -scrollAmount,
+            behavior: 'smooth'
+          })
+        }
+      }
+    },
+    scrollRight() {
+      if (this.$refs.carouselWrapper) {
+        const card = this.$refs.carouselWrapper.querySelector('.book-card')
+        if (card) {
+          const cardWidth = card.offsetWidth
+          const gap = 16
+          const scrollAmount = cardWidth + gap
+          this.$refs.carouselWrapper.scrollBy({
+            left: scrollAmount,
+            behavior: 'smooth'
+          })
+        }
+      }
+    },
+    handleScroll() {
+      this.updateScrollButtons()
+    },
+    updateScrollButtons() {
+      if (this.$refs.carouselWrapper && this.windowWidth <= 768) {
+        const container = this.$refs.carouselWrapper
+        const scrollLeft = container.scrollLeft
+        const scrollWidth = container.scrollWidth
+        const clientWidth = container.clientWidth
+        
+        this.isAtStart = scrollLeft <= 0
+        this.isAtEnd = scrollLeft + clientWidth >= scrollWidth - 1
+      }
+    },
     handleResize() {
       this.windowWidth = window.innerWidth
+      this.$nextTick(() => {
+        if (this.$refs.carouselWrapper && this.windowWidth <= 768) {
+          this.$refs.carouselWrapper.addEventListener('scroll', this.handleScroll)
+          this.updateScrollButtons()
+        }
+      })
     }
   }
 }
@@ -366,7 +441,8 @@ export default {
   align-items: center;
   justify-content: center;
   transition: all 0.3s;
-  font-size: 18px;
+  color: var(--text-light);
+  padding: 0;
 }
 
 .carousel-btn:hover:not(:disabled),
@@ -377,7 +453,7 @@ export default {
 }
 
 .carousel-btn:disabled {
-  opacity: 0.5;
+  opacity: 0.3;
   cursor: not-allowed;
 }
 
@@ -413,13 +489,32 @@ export default {
     text-align: left;
   }
   
-  .book-card {
-    width: 100%;
-    min-width: 100%;
+  .carousel-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    padding-right: 20px;
+  }
+  
+  .carousel-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .carousel-wrapper {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
   
   .carousel-container {
-    gap: 0;
+    gap: 16px;
+    transform: none !important;
+  }
+  
+  .book-card {
+    width: 85%;
+    min-width: 85%;
+    scroll-snap-align: start;
   }
   
   .carousel-wrapper::after {
@@ -428,6 +523,14 @@ export default {
   
   .carousel-dots {
     display: none;
+  }
+  
+  .carousel-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
   }
 }
 </style>

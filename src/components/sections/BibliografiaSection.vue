@@ -196,7 +196,7 @@ export default {
       if (window.innerWidth > 768) {
         // En desktop, recalcular páginas con 4 items por página
         const maxPages = Math.ceil(this.schools.length / 4)
-        if (this.currentPage > maxPages) {
+      if (this.currentPage > maxPages) {
           this.currentPage = 1
         }
       } else {
