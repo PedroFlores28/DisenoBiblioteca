@@ -7,30 +7,59 @@
           Selecciona tu región y ubica tu biblioteca AIEP más cercana
         </p>
       </div>
-      <div class="region-tabs">
-        <button 
-          v-for="region in regions"
-          :key="region.id"
-          :class="['region-tab', { active: selectedRegion === region.id }]"
-          @click="selectRegion(region.id)"
-        >
-          {{ region.name }}
-        </button>
-      </div>
-      <div class="region-select-container">
-        <select 
-          v-model="selectedRegion" 
-          class="region-select"
-          @change="selectRegion(selectedRegion)"
-        >
-          <option 
-            v-for="region in regions"
-            :key="region.id"
-            :value="region.id"
+      <div class="filters-wrapper">
+        <div class="filters-container">
+          <div class="region-tabs">
+            <button 
+              v-for="region in regions"
+              :key="region.id"
+              :class="['region-tab', { active: selectedRegion === region.id }]"
+              @click="selectRegion(region.id)"
+            >
+              {{ region.name }}
+            </button>
+          </div>
+          <div class="search-container">
+            <input 
+              type="text"
+              v-model="searchQuery"
+              class="library-search"
+              placeholder="Busca una biblioteca (ej. Concepción)"
+              @input="handleSearch"
+              @focus="showSuggestions = true"
+              @blur="handleBlur"
+            />
+            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="11" cy="11" r="7" stroke="#666666" stroke-width="2" fill="none"/>
+              <path d="M20 20L16 16" stroke="#666666" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <div v-if="showSuggestions && searchSuggestions.length > 0" class="search-suggestions">
+              <div 
+                v-for="library in searchSuggestions"
+                :key="library.id"
+                class="suggestion-item"
+                @mousedown="selectLibrary(library)"
+              >
+                {{ library.name }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="region-select-container">
+          <select 
+            v-model="selectedRegion" 
+            class="region-select"
+            @change="selectRegion(selectedRegion)"
           >
-            {{ region.name }}
-          </option>
-        </select>
+            <option 
+              v-for="region in regions"
+              :key="region.id"
+              :value="region.id"
+            >
+              {{ region.name }}
+            </option>
+          </select>
+        </div>
       </div>
       <div class="libraries-carousel">
         <div class="carousel-wrapper" ref="carouselWrapper" :class="{ 'is-last-slide': currentIndex >= totalCarouselPages - 1 }">
@@ -38,7 +67,7 @@
             <div 
               v-for="library in filteredLibraries" 
               :key="library.id"
-              class="library-card"
+              :class="['library-card', { highlighted: selectedLibraryId === library.id }]"
             >
               <div class="library-image">
                 <div class="image-placeholder"></div>
@@ -125,6 +154,7 @@ export default {
       selectedRegion: 'metropolitana',
       currentIndex: 0,
       libraries: [],
+      searchQuery: '',
       regions: [
         { id: 'norte', name: 'Zona Norte' },
         { id: 'centro', name: 'Zona Centro' },
@@ -133,12 +163,100 @@ export default {
       ],
       windowWidth: window.innerWidth,
       isAtStart: true,
-      isAtEnd: false
+      isAtEnd: false,
+      showSuggestions: false,
+      selectedLibraryId: null
     }
   },
   computed: {
+    searchSuggestions() {
+      if (!this.searchQuery.trim()) {
+        return []
+      }
+      
+      const query = this.searchQuery.toLowerCase().trim()
+      const startsWithMatches = []
+      const containsMatches = []
+      
+      // Buscar en todas las bibliotecas
+      this.libraries.forEach(lib => {
+        const libName = lib.name.toLowerCase()
+        // Extraer solo la parte del nombre después de "Biblioteca " si existe
+        const nameWithoutPrefix = libName.replace(/^biblioteca\s+/, '')
+        
+        // Extraer ciudad de la dirección si no existe el campo city
+        let cityName = ''
+        if (lib.city) {
+          cityName = lib.city.toLowerCase()
+        } else if (lib.address) {
+          // Intentar extraer la ciudad de la dirección (última parte después de la coma)
+          const addressParts = lib.address.split(',')
+          if (addressParts.length > 1) {
+            cityName = addressParts[addressParts.length - 1].trim().toLowerCase()
+          }
+        }
+        
+        // Verificar si el nombre (sin prefijo "Biblioteca ") comienza con la búsqueda (prioridad máxima)
+        const nameStartsWith = nameWithoutPrefix.startsWith(query)
+        // Verificar si la ciudad comienza con la búsqueda
+        const cityStartsWith = cityName && cityName.startsWith(query)
+        
+        // Solo incluir si el nombre (sin prefijo) o la ciudad empiezan con la búsqueda
+        if (nameStartsWith || cityStartsWith) {
+          startsWithMatches.push(lib)
+        }
+      })
+      
+      // Combinar: primero las que empiezan, luego las que contienen
+      const allSuggestions = [...startsWithMatches, ...containsMatches]
+      
+      // Limitar a 5 sugerencias
+      return allSuggestions.slice(0, 5)
+    },
     filteredLibraries() {
-      return this.libraries.filter(lib => lib.region === this.selectedRegion)
+      let filtered = this.libraries
+      
+      // Si hay búsqueda, buscar en todas las regiones
+      if (this.searchQuery.trim()) {
+        const query = this.searchQuery.toLowerCase().trim()
+        
+        // Mapeo de términos de búsqueda a IDs de región
+        const regionMap = {
+          'norte': 'norte',
+          'zona norte': 'norte',
+          'centro': 'centro',
+          'zona centro': 'centro',
+          'metropolitana': 'metropolitana',
+          'región metropolitana': 'metropolitana',
+          'region metropolitana': 'metropolitana',
+          'sur': 'sur',
+          'zona sur': 'sur'
+        }
+        
+        // Verificar si la búsqueda coincide con una región
+        const matchedRegion = regionMap[query]
+        
+        if (matchedRegion) {
+          // Si la búsqueda es una región, filtrar por esa región
+          filtered = filtered.filter(lib => lib.region === matchedRegion)
+        } else {
+          // Si no es una región, buscar en nombre, dirección, ciudad o región
+          filtered = filtered.filter(lib => {
+            const regionName = this.getRegionName(lib.region)
+            return (
+              lib.name.toLowerCase().includes(query) ||
+              lib.address.toLowerCase().includes(query) ||
+              (lib.city && lib.city.toLowerCase().includes(query)) ||
+              regionName.toLowerCase().includes(query)
+            )
+          })
+        }
+      } else {
+        // Si no hay búsqueda, filtrar solo por región seleccionada
+        filtered = filtered.filter(lib => lib.region === this.selectedRegion)
+      }
+      
+      return filtered
     },
     totalCarouselPages() {
       if (this.windowWidth <= 768) {
@@ -644,8 +762,114 @@ export default {
       }
     },
     selectRegion(regionId) {
+      // Si se hace clic en una zona, limpiar la búsqueda para mostrar todas las bibliotecas de esa zona
+      this.searchQuery = ''
       this.selectedRegion = regionId
       this.currentIndex = 0
+      this.selectedLibraryId = null
+      
+      this.$nextTick(() => {
+        this.updateScrollButtons()
+      })
+    },
+    handleSearch() {
+      // Mapeo de términos de búsqueda a IDs de región
+      const regionMap = {
+        'norte': 'norte',
+        'zona norte': 'norte',
+        'centro': 'centro',
+        'zona centro': 'centro',
+        'metropolitana': 'metropolitana',
+        'región metropolitana': 'metropolitana',
+        'region metropolitana': 'metropolitana',
+        'sur': 'sur',
+        'zona sur': 'sur'
+      }
+      
+      const query = this.searchQuery.toLowerCase().trim()
+      const matchedRegion = regionMap[query]
+      
+      // Si la búsqueda coincide con una región, cambiar la región seleccionada
+      if (matchedRegion) {
+        this.selectedRegion = matchedRegion
+      }
+      
+      this.currentIndex = 0
+      this.showSuggestions = true
+      this.$nextTick(() => {
+        this.updateScrollButtons()
+      })
+    },
+    handleBlur() {
+      // Esperar un poco antes de ocultar para permitir el click en las sugerencias
+      setTimeout(() => {
+        this.showSuggestions = false
+      }, 200)
+    },
+    selectLibrary(library) {
+      this.searchQuery = library.name
+      this.selectedRegion = library.region
+      this.selectedLibraryId = library.id
+      this.showSuggestions = false
+      this.currentIndex = 0
+      
+      this.$nextTick(() => {
+        // Hacer scroll a la sección de bibliotecas
+        const bibliotecasSection = document.getElementById('bibliotecas')
+        if (bibliotecasSection) {
+          bibliotecasSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+        
+        // Esperar un poco y luego resaltar la card
+        setTimeout(() => {
+          this.highlightLibraryCard(library.id)
+        }, 500)
+        
+        this.updateScrollButtons()
+      })
+    },
+    highlightLibraryCard(libraryId) {
+      this.$nextTick(() => {
+        // Remover resaltado anterior
+        const previousHighlighted = document.querySelector('.library-card.highlighted')
+        if (previousHighlighted) {
+          previousHighlighted.classList.remove('highlighted')
+        }
+        
+        // Resaltar la nueva card
+        const cards = document.querySelectorAll('.library-card')
+        cards.forEach(card => {
+          const nameElement = card.querySelector('.library-name')
+          if (nameElement) {
+            const cardLibrary = this.filteredLibraries.find(lib => lib.name === nameElement.textContent.trim())
+            if (cardLibrary && cardLibrary.id === libraryId) {
+              card.classList.add('highlighted')
+              
+              // Hacer scroll a la card
+              if (this.windowWidth > 768) {
+                // En desktop, hacer scroll al contenedor del carrusel
+                const carouselContainer = card.closest('.carousel-container')
+                if (carouselContainer) {
+                  card.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' })
+                }
+              } else {
+                // En mobile, hacer scroll nativo
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' })
+              }
+              
+              // Remover el resaltado después de 3 segundos
+              setTimeout(() => {
+                card.classList.remove('highlighted')
+                this.selectedLibraryId = null
+              }, 3000)
+            }
+          }
+        })
+      })
+    },
+    getRegionName(regionId) {
+      const region = this.regions.find(r => r.id === regionId)
+      return region ? region.name : ''
     },
     previousSlide() {
       if (this.windowWidth <= 768) {
@@ -653,8 +877,8 @@ export default {
         this.scrollLeft()
       } else {
         // En desktop, usar el sistema de índices
-        if (this.currentIndex > 0) {
-          this.currentIndex--
+      if (this.currentIndex > 0) {
+        this.currentIndex--
         }
       }
     },
@@ -664,8 +888,8 @@ export default {
         this.scrollRight()
       } else {
         // En desktop, usar el sistema de índices
-        if (this.currentIndex < this.totalCarouselPages - 1) {
-          this.currentIndex++
+      if (this.currentIndex < this.totalCarouselPages - 1) {
+        this.currentIndex++
         }
       }
     },
@@ -757,12 +981,24 @@ export default {
   text-align: center;
 }
 
+.filters-wrapper {
+  margin-bottom: 40px;
+}
+
+.filters-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
 .region-tabs {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 8px;
-  margin-bottom: 40px;
   flex-wrap: wrap;
+  flex: 1;
 }
 
 .region-tab {
@@ -774,6 +1010,10 @@ export default {
   cursor: pointer;
   transition: all 0.3s;
   font-size: 16px;
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .region-tab.active {
@@ -784,6 +1024,87 @@ export default {
 .region-tab:hover:not(.active) {
   background: var(--light-blue);
   color: var(--primary-blue);
+}
+
+.search-container {
+  position: relative;
+  flex-shrink: 0;
+  min-width: 350px;
+  width: 350px;
+}
+
+.library-search {
+  width: 100%;
+  padding: 12px 40px 12px 16px;
+  border: 1px solid var(--border-gray);
+  border-radius: 4px;
+  font-size: 16px;
+  color: var(--text-dark);
+  background: var(--white);
+  transition: all 0.3s;
+}
+
+.library-search:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+}
+
+.library-search::placeholder {
+  color: var(--text-light);
+}
+
+.search-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.search-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--white);
+  border: 1px solid var(--border-gray);
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+  margin-top: -1px;
+}
+
+.suggestion-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  color: var(--text-dark);
+  font-size: 14px;
+}
+
+.suggestion-item:hover {
+  background-color: var(--light-blue);
+  color: var(--primary-blue);
+}
+
+.library-card.highlighted {
+  border: 3px solid var(--primary-blue);
+  box-shadow: 0 0 0 4px rgba(0, 51, 102, 0.2);
+  animation: highlightPulse 1s ease-in-out;
+}
+
+@keyframes highlightPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 4px rgba(0, 51, 102, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(0, 51, 102, 0.1);
+  }
 }
 
 .region-select-container {
@@ -1035,6 +1356,44 @@ export default {
   .section-title {
     font-size: 30px;
     white-space: nowrap;
+  }
+  
+  .filters-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .filters-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    order: 2; /* El buscador va abajo */
+  }
+  
+  .region-select-container {
+    order: 1; /* El selector de región va arriba */
+  }
+  
+  .region-tabs {
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .region-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .search-container {
+    min-width: 100%;
+    width: 100%;
+  }
+  
+  .library-search {
+    width: 100%;
   }
   
   .section-header {

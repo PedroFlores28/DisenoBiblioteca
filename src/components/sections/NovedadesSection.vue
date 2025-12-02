@@ -54,6 +54,30 @@
           </svg>
         </button>
       </div>
+      
+      <!-- Sección de Servicios -->
+      <div class="servicios-content">
+        <div class="servicios-text">
+          <div class="title-bar"></div>
+          <h2 class="servicios-title">
+            <span class="title-line-1">Los servicios de</span>
+            <span class="title-line-2">Bibliotecas AIEP</span>
+          </h2>
+          <p class="servicios-subtitle">
+            Conoce todo lo que la biblioteca ofrece para apoyarte en tus estudios
+          </p>
+        </div>
+        <div class="services-grid">
+          <button 
+            v-for="service in services"
+            :key="service.id"
+            class="service-button"
+            @click="handleServiceClick(service)"
+          >
+            {{ service.name }}
+          </button>
+        </div>
+      </div>
     </div>
   </section>
 </template>
@@ -69,7 +93,25 @@ export default {
       currentIndex: 0,
       windowWidth: window.innerWidth,
       isAtStart: true,
-      isAtEnd: false
+      isAtEnd: false,
+      services: [
+        {
+          id: 1,
+          name: 'Bibliografia básica digital'
+        },
+        {
+          id: 2,
+          name: 'Bibliotecario en línea'
+        },
+        {
+          id: 3,
+          name: 'Taller de biblioteca para docentes'
+        },
+        {
+          id: 4,
+          name: 'Taller de biblioteca para estudiantes'
+        }
+      ]
     }
   },
   computed: {
@@ -235,8 +277,8 @@ export default {
         this.scrollLeft()
       } else {
         // En desktop, usar el sistema de índices
-        if (this.currentIndex > 0) {
-          this.currentIndex--
+      if (this.currentIndex > 0) {
+        this.currentIndex--
         }
       }
     },
@@ -246,8 +288,8 @@ export default {
         this.scrollRight()
       } else {
         // En desktop, usar el sistema de índices
-        if (this.currentIndex < this.totalPages - 1) {
-          this.currentIndex++
+      if (this.currentIndex < this.totalPages - 1) {
+        this.currentIndex++
         }
       }
     },
@@ -304,6 +346,10 @@ export default {
           this.updateScrollButtons()
         }
       })
+    },
+    handleServiceClick(service) {
+      // Aquí puedes agregar la lógica de navegación o acción
+      console.log('Service clicked:', service.name)
     }
   }
 }
@@ -527,6 +573,157 @@ export default {
     align-items: center;
     gap: 16px;
     margin-top: 24px;
+  }
+}
+
+/* Estilos para la sección de servicios */
+.servicios-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 48px;
+  justify-content: space-between;
+  margin-top: 80px;
+  padding: 40px;
+  background: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.servicios-text {
+  flex: 1;
+  max-width: 500px;
+}
+
+.title-bar {
+  width: 500px;
+  height: 8px;
+  background: var(--primary-blue);
+  margin-bottom: 24px;
+}
+
+.servicios-title {
+  font-size: 31px;
+  font-weight: 700;
+  color: var(--primary-blue);
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+/* Desktop: título en una sola línea */
+.title-line-1,
+.title-line-2 {
+  display: inline;
+}
+
+.title-line-1::after {
+  content: ' ';
+}
+
+.servicios-subtitle {
+  font-size: 15px;
+  color: var(--primary-blue);
+  line-height: 1.6;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  flex: 1;
+  max-width: 600px;
+}
+
+.service-button {
+  width: 100%;
+  max-width: 100%;
+  height: 36px;
+  padding: 0;
+  background: #AA0000;
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.service-button:hover {
+  background: #AA0000;
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(170, 0, 0, 0.3);
+}
+
+.service-button:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 968px) {
+  .servicios-content {
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .servicios-text {
+    max-width: 100%;
+  }
+
+  .services-grid {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .servicios-content {
+    margin-top: 60px;
+    padding: 24px;
+    background: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .title-bar {
+    width: 50%;
+    max-width: 50%;
+  }
+
+  .servicios-title {
+    font-size: 28px;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+  
+  .title-line-1 {
+    display: block;
+  }
+  
+  .title-line-2 {
+    display: block;
+  }
+
+  .servicios-subtitle {
+    font-size: 16px;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .service-button {
+    width: 100%;
+    padding: 16px 24px;
+    font-size: 16px;
+    min-height: 50px;
   }
 }
 </style>

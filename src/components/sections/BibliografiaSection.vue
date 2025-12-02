@@ -10,19 +10,41 @@
       </p>
       <div class="schools-grid-wrapper" v-if="schools.length > 0">
         <div class="schools-grid" ref="schoolsGrid">
+          <!-- Desktop: cards individuales -->
           <div 
             v-for="school in schools" 
             :key="school.id"
-            class="school-card"
+            class="school-card desktop-card"
           >
             <div :class="['card-accent', `accent-${school.color}`]"></div>
             <h3 class="card-title">{{ school.name }}</h3>
             <a href="#" class="card-link">Ver más →</a>
           </div>
+          <!-- Mobile: cards agrupadas en pares -->
+          <template v-for="(school, index) in schools" :key="`mobile-${school.id}`">
+            <div 
+              v-if="index % 2 === 0"
+              class="card-pair mobile-pair"
+            >
+              <div class="school-card">
+                <div :class="['card-accent', `accent-${school.color}`]"></div>
+                <h3 class="card-title">{{ school.name }}</h3>
+                <a href="#" class="card-link">Ver más →</a>
+              </div>
+              <div 
+                v-if="schools[index + 1]"
+                class="school-card"
+              >
+                <div :class="['card-accent', `accent-${schools[index + 1].color}`]"></div>
+                <h3 class="card-title">{{ schools[index + 1].name }}</h3>
+                <a href="#" class="card-link">Ver más →</a>
+              </div>
+            </div>
+          </template>
         </div>
       </div>
       <!-- Paginación para desktop -->
-      <div class="pagination" v-if="totalPages > 1 && windowWidth > 768">
+      <div class="pagination" v-if="totalPages > 0 && windowWidth > 768">
         <button 
           class="pagination-arrow"
           :disabled="currentPage === 1"
@@ -71,6 +93,10 @@
           </svg>
         </button>
       </div>
+      <!-- Botón "Ver todas las escuelas" solo en mobile -->
+      <div class="view-all-button-wrapper" v-if="windowWidth <= 768">
+        <button class="view-all-button">Ver todas las escuelas</button>
+      </div>
     </div>
   </section>
 </template>
@@ -81,33 +107,16 @@ import strapiService from '../../services/strapi'
 export default {
   name: 'BibliografiaSection',
   data() {
-    // Datos de ejemplo precargados
-    const exampleSchools = [
-      { id: 1, name: 'Administración y Gestión Empresarial', color: 'green' },
-      { id: 2, name: 'Artes e Industrias Creativas', color: 'purple' },
-      { id: 3, name: 'Desarrollo Social y Educación', color: 'purple' },
-      { id: 4, name: 'Estética Integral', color: 'purple' },
-      { id: 5, name: 'Ingeniería y Tecnología', color: 'blue' },
-      { id: 6, name: 'Salud y Ciencias Médicas', color: 'red-accent' },
-      { id: 7, name: 'Derecho y Ciencias Jurídicas', color: 'orange-accent' },
-      { id: 8, name: 'Comunicación y Periodismo', color: 'purple' },
-      { id: 9, name: 'Psicología y Ciencias del Comportamiento', color: 'purple' },
-      { id: 10, name: 'Gastronomía y Hotelería', color: 'orange-accent' },
-      { id: 11, name: 'Diseño Gráfico y Multimedia', color: 'blue' },
-      { id: 12, name: 'Enfermería y Técnicas de Salud', color: 'red-accent' },
-      { id: 13, name: 'Contabilidad y Auditoría', color: 'green' },
-      { id: 14, name: 'Marketing y Publicidad', color: 'purple' },
-      { id: 15, name: 'Trabajo Social', color: 'blue' },
-      { id: 16, name: 'Pedagogía en Educación Básica', color: 'purple' },
-      { id: 17, name: 'Técnico en Informática', color: 'blue' },
-      { id: 18, name: 'Fisioterapia y Kinesiología', color: 'red-accent' },
-      { id: 19, name: 'Turismo y Gestión de Eventos', color: 'orange-accent' },
-      { id: 20, name: 'Fotografía Profesional', color: 'purple' },
-      { id: 21, name: 'Nutrición y Dietética', color: 'green' },
-      { id: 22, name: 'Técnico en Construcción', color: 'blue' },
-      { id: 23, name: 'Administración Pública', color: 'green' },
-      { id: 24, name: 'Técnico en Prevención de Riesgos', color: 'orange-accent' }
-    ]
+      // Datos de ejemplo precargados - Solo las 7 cards principales
+      const exampleSchools = [
+        { id: 1, name: 'Administración y Gestión Empresarial', color: 'green' },
+        { id: 2, name: 'Artes e Industrias Creativas', color: 'purple' },
+        { id: 3, name: 'Desarrollo Social y Educación', color: 'purple' },
+        { id: 4, name: 'Estética Integral', color: 'purple-light' },
+        { id: 5, name: 'Gastronomía, Hotelería y Turismo', color: 'orange-accent' },
+        { id: 6, name: 'Ingeniería, Energía y Tecnología', color: 'green-dark' },
+        { id: 7, name: 'Salud & Deporte', color: 'cyan' },
+      ]
 
     return {
       schools: exampleSchools, // Cargar datos de ejemplo inmediatamente
@@ -121,6 +130,10 @@ export default {
     totalPages() {
       if (this.windowWidth <= 768) {
         return 1
+      }
+      // En desktop, si hay 7 o menos cards, no mostrar paginación
+      if (this.schools.length <= 7) {
+        return 0
       }
       const itemsPerPage = this.windowWidth > 1200 ? 4 : 2
       return Math.ceil(this.schools.length / itemsPerPage)
@@ -245,25 +258,31 @@ export default {
       })
     },
     scrollLeft() {
-      if (this.$refs.schoolsGrid) {
-        const cardWidth = this.$refs.schoolsGrid.querySelector('.school-card').offsetWidth
-        const gap = 16
-        const scrollAmount = cardWidth + gap
-        this.$refs.schoolsGrid.scrollBy({
-          left: -scrollAmount,
-          behavior: 'smooth'
-        })
+      if (this.$refs.schoolsGrid && this.windowWidth <= 768) {
+        const cardPair = this.$refs.schoolsGrid.querySelector('.card-pair')
+        if (cardPair) {
+          const cardPairWidth = cardPair.offsetWidth
+          const gap = 16
+          const scrollAmount = cardPairWidth + gap
+          this.$refs.schoolsGrid.scrollBy({
+            left: -scrollAmount,
+            behavior: 'smooth'
+          })
+        }
       }
     },
     scrollRight() {
-      if (this.$refs.schoolsGrid) {
-        const cardWidth = this.$refs.schoolsGrid.querySelector('.school-card').offsetWidth
-        const gap = 16
-        const scrollAmount = cardWidth + gap
-        this.$refs.schoolsGrid.scrollBy({
-          left: scrollAmount,
-          behavior: 'smooth'
-        })
+      if (this.$refs.schoolsGrid && this.windowWidth <= 768) {
+        const cardPair = this.$refs.schoolsGrid.querySelector('.card-pair')
+        if (cardPair) {
+          const cardPairWidth = cardPair.offsetWidth
+          const gap = 16
+          const scrollAmount = cardPairWidth + gap
+          this.$refs.schoolsGrid.scrollBy({
+            left: scrollAmount,
+            behavior: 'smooth'
+          })
+        }
       }
     },
     handleScroll() {
@@ -381,8 +400,16 @@ export default {
   background-color: #9c27b0;
 }
 
+.accent-purple-light {
+  background-color: #ba68c8;
+}
+
 .accent-blue {
   background-color: #2196f3;
+}
+
+.accent-cyan {
+  background-color: #00bcd4;
 }
 
 .accent-red-accent {
@@ -391,6 +418,10 @@ export default {
 
 .accent-orange-accent {
   background-color: #ff9800;
+}
+
+.accent-green-dark {
+  background-color: #388e3c;
 }
 
 .card-title {
@@ -467,36 +498,45 @@ export default {
   height: 12px;
 }
 
-@media (max-width: 1200px) and (min-width: 769px) {
-  .school-card {
-    width: calc((100% - 24px) / 2); /* 2 cards con 1 gap de 24px */
-    min-width: calc((100% - 24px) / 2);
-    max-width: calc((100% - 24px) / 2);
-  }
-}
-
 @media (min-width: 769px) {
   .schools-grid-wrapper {
     position: relative;
   }
   
   .schools-grid {
-    display: flex;
-    overflow-x: auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    overflow: visible;
+    height: auto;
+    padding-bottom: 0;
   }
   
-  .school-card {
-    width: calc((100% - 72px) / 4); /* 4 cards con 3 gaps de 24px */
-    min-width: calc((100% - 72px) / 4);
-    max-width: calc((100% - 72px) / 4);
+  .school-card.desktop-card {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    display: block;
   }
-}
-
-@media (min-width: 1201px) {
-  .school-card {
-    width: calc((100% - 72px) / 4);
-    min-width: calc((100% - 72px) / 4);
-    max-width: calc((100% - 72px) / 4);
+  
+  /* Ocultar card-pair en desktop */
+  .card-pair.mobile-pair {
+    display: none;
+  }
+  
+  /* Centrar las últimas 3 cards si hay 7 */
+  .schools-grid-wrapper:has(.desktop-card:nth-child(7)):not(:has(.desktop-card:nth-child(8))) .schools-grid {
+    grid-template-columns: repeat(4, 1fr);
+    justify-content: center;
+  }
+  .schools-grid-wrapper:has(.desktop-card:nth-child(7)):not(:has(.desktop-card:nth-child(8))) .desktop-card:nth-child(5) {
+    grid-column: 1 / span 1;
+  }
+  .schools-grid-wrapper:has(.desktop-card:nth-child(7)):not(:has(.desktop-card:nth-child(8))) .desktop-card:nth-child(6) {
+    grid-column: 2 / span 1;
+  }
+  .schools-grid-wrapper:has(.desktop-card:nth-child(7)):not(:has(.desktop-card:nth-child(8))) .desktop-card:nth-child(7) {
+    grid-column: 3 / span 1;
   }
 }
 
@@ -514,19 +554,32 @@ export default {
     padding-bottom: 8px;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
-    /* Mostrar un pedazo del siguiente card */
     padding-right: 20px;
   }
   
-  .school-card {
-    min-width: 85%;
-    width: 85%;
+  /* Ocultar cards individuales de desktop en mobile */
+  .school-card.desktop-card {
+    display: none;
+  }
+  
+  /* Mostrar card-pair en mobile */
+  .card-pair.mobile-pair {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: calc(100% - 8px);
+    width: calc(100% - 8px);
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
+  
+  .card-pair .school-card {
+    width: 100%;
     height: 160px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     flex-shrink: 0;
-    scroll-snap-align: start;
   }
   
   .card-title {
@@ -555,6 +608,45 @@ export default {
     gap: 16px;
     margin-top: 24px;
   }
+  
+  .view-all-button-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+    padding: 0 24px;
+  }
+  
+  .view-all-button {
+    width: 100%;
+    max-width: 100%;
+    padding: 14px 24px;
+    background: var(--white);
+    border: 1px solid var(--primary-blue);
+    border-radius: 8px;
+    color: var(--primary-blue);
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+  
+  .view-all-button:hover {
+    background: var(--primary-blue);
+    color: var(--white);
+  }
+  
+  .view-all-button:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Ocultar botón en desktop */
+@media (min-width: 769px) {
+  .view-all-button-wrapper {
+    display: none;
+  }
 }
 </style>
+
 

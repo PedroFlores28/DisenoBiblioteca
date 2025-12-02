@@ -1,4 +1,14 @@
 <template>
+  <div class="top-bar-wrapper">
+    <div class="top-bar-grey"></div>
+    <div class="top-bar-white">
+      <div class="top-bar-links">
+        <a href="#" class="top-link">Estudiantes</a>
+        <a href="#" class="top-link">Docentes</a>
+        <a href="#" class="top-link">Colaboradores</a>
+      </div>
+    </div>
+  </div>
   <header class="header">
     <div class="header-container">
       <div class="logo">
@@ -490,6 +500,49 @@ export default {
 </script>
 
 <style scoped>
+.top-bar-wrapper {
+  width: 100%;
+}
+
+.top-bar-grey {
+  width: 100%;
+  height: 4px;
+  background: #4A4A4A;
+}
+
+.top-bar-white {
+  width: 100%;
+  background: var(--white);
+  padding: 12px 24px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .top-bar-wrapper {
+    display: none;
+  }
+}
+
+.top-bar-links {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.top-link {
+  color: #182844;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  transition: color 0.3s;
+}
+
+.top-link:hover {
+  color: var(--primary-blue);
+}
+
 .header {
   background-color: #182844;
   color: var(--white);
@@ -507,6 +560,20 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+@media (min-width: 769px) {
+  .header {
+    height: 107px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .header-container {
+    max-width: 1329px;
+    width: 100%;
+  }
 }
 
 .header-right {
