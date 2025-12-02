@@ -61,12 +61,10 @@ export default {
   },
   computed: {
     leftColumnFaqs() {
-      const left = this.faqs.filter((_, index) => index % 2 === 0)
-      return left.map(faq => ({ ...faq, isOpen: faq.isOpen || false }))
+      return this.faqs.filter((_, index) => index % 2 === 0)
     },
     rightColumnFaqs() {
-      const right = this.faqs.filter((_, index) => index % 2 === 1)
-      return right.map(faq => ({ ...faq, isOpen: faq.isOpen || false }))
+      return this.faqs.filter((_, index) => index % 2 === 1)
     }
   },
   async mounted() {
@@ -164,6 +162,7 @@ export default {
 
 .faq-item {
   border-bottom: 1px solid var(--accent-red);
+  margin: 0;
 }
 
 .faq-question {
@@ -221,10 +220,6 @@ export default {
   text-decoration: underline;
 }
 
-.faq-link:hover .link-text {
-  text-decoration: underline;
-}
-
 .faq-link .arrow {
   text-decoration: none;
 }
@@ -233,11 +228,39 @@ export default {
   .section-title {
     font-size: 30px;
     text-align: center;
+    margin-bottom: 24px;
   }
   
   .faq-grid {
     grid-template-columns: 1fr;
+    margin-bottom: 24px;
+    gap: 0;
+  }
+  
+  .faq-column {
+    gap: 0;
+  }
+  
+  .faq-item {
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid var(--accent-red);
+  }
+  
+  .faq-grid .faq-column:last-child .faq-item:last-child {
+    border-bottom: none;
+  }
+  
+  .faq-question {
+    padding: 16px 20px;
+    margin: 0;
+  }
+  
+  .faq-answer {
+    margin: 0;
+    padding: 0 20px 20px 20px;
   }
 }
 </style>
+
 

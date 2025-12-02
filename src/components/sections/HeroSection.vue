@@ -30,19 +30,21 @@
           </button>
         </div>
         <div class="hero-widget">
-          <div class="widget-tabs">
-            <button 
-              :class="['tab', { active: activeTab === 'fisicos' }]"
-              @click="activeTab = 'fisicos'"
-            >
-              Libros por sede
-            </button>
-            <button 
-              :class="['tab', { active: activeTab === 'digitales' }]"
-              @click="activeTab = 'digitales'"
-            >
-              Libros digitales
-            </button>
+          <div class="widget-tabs-wrapper">
+            <div class="widget-tabs">
+              <button 
+                :class="['tab', { active: activeTab === 'fisicos' }]"
+                @click="activeTab = 'fisicos'"
+              >
+                Libros por sede
+              </button>
+              <button 
+                :class="['tab', { active: activeTab === 'digitales' }]"
+                @click="activeTab = 'digitales'"
+              >
+                Libros digitales
+              </button>
+            </div>
           </div>
           <div class="widget-divider"></div>
           <h3 class="widget-title">
@@ -60,7 +62,7 @@
                 v-model="searchQuery"
                 type="text" 
                 class="search-input" 
-                :placeholder="activeTab === 'fisicos' ? 'La teoría del color por Joseff Albers' : 'La teoría del color por Joseff Albers'"
+                placeholder="La teoría del color por Joseff Albers"
                 @keyup.enter="handleSearch"
               />
             </div>
@@ -77,7 +79,7 @@
                 v-model="searchQuery"
                 type="text" 
                 class="search-input search-input-mobile" 
-                :placeholder="activeTab === 'fisicos' ? 'La teoría del color por Joseff Albers' : 'La teoría del color por Joseff Albers'"
+                placeholder="La teoría del color por Joseff Albers"
                 @keyup.enter="handleSearch"
               />
               <button class="search-btn search-btn-mobile" @click="handleSearch">
@@ -269,6 +271,10 @@ export default {
     overflow: hidden;
   }
   
+  .widget-tabs-wrapper {
+    width: auto;
+  }
+  
   .widget-tabs {
     background: #F8F8F8;
     border-radius: 8px 8px 0 0;
@@ -290,6 +296,7 @@ export default {
   .widget-description {
     padding: 0 24px 20px 24px;
     margin: 0;
+    font-size: 16px;
   }
   
   .search-container {
@@ -320,12 +327,6 @@ export default {
   margin-bottom: 8px;
 }
 
-@media (min-width: 769px) {
-  .widget-title {
-    font-size: 28px;
-  }
-}
-
 .widget-description {
   color: var(--text-light);
   font-size: 16px;
@@ -346,7 +347,6 @@ export default {
   overflow: hidden;
   flex: 1;
 }
-
 
 .search-filter {
   padding: 12px 16px;
@@ -416,7 +416,7 @@ export default {
 }
 
 .search-btn:hover {
-  background: #990000;
+  background: #880000;
 }
 
 .floating-btn {
@@ -448,7 +448,7 @@ export default {
 }
 
 .floating-btn:hover {
-  background: #990000;
+  background: #880000;
 }
 
 @media (max-width: 968px) {
@@ -502,16 +502,24 @@ export default {
     line-height: 1.3;
   }
   
+  .widget-tabs-wrapper {
+    width: 100%;
+    overflow: hidden;
+  }
+  
   .widget-tabs {
     margin-bottom: 20px;
     display: flex;
     gap: 0;
     width: 100%;
+    flex-wrap: nowrap;
+    min-width: 0;
   }
   
   .tab {
     flex: 1;
-    padding: 12px 16px;
+    flex-basis: 50%;
+    padding: 12px 8px;
     font-size: 14px;
     white-space: nowrap;
     line-height: 1.3;
@@ -520,6 +528,8 @@ export default {
     align-items: center;
     justify-content: center;
     min-height: 50px;
+    width: 50%;
+    box-sizing: border-box;
   }
   
   .tab.active {
