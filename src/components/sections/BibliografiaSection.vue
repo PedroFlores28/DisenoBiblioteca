@@ -115,7 +115,7 @@ export default {
         { id: 4, name: 'Estética Integral', color: 'purple-light' },
         { id: 5, name: 'Gastronomía, Hotelería y Turismo', color: 'orange-accent' },
         { id: 6, name: 'Ingeniería, Energía y Tecnología', color: 'green-dark' },
-        { id: 7, name: 'Salud & Deporte', color: 'cyan' },
+        { id: 7, name: 'Salud y Deporte', color: 'cyan' },
       ]
 
     return {
