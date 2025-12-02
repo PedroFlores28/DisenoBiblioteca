@@ -284,6 +284,7 @@ export default {
   .widget-title {
     padding: 24px 24px 8px 24px;
     margin: 0;
+    font-size: 28px;
   }
   
   .widget-description {
@@ -319,9 +320,15 @@ export default {
   margin-bottom: 8px;
 }
 
+@media (min-width: 769px) {
+  .widget-title {
+    font-size: 28px;
+  }
+}
+
 .widget-description {
   color: var(--text-light);
-  font-size: 14px;
+  font-size: 16px;
   margin-bottom: 20px;
 }
 
