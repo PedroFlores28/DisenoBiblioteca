@@ -54,30 +54,103 @@
       </div>
       <div class="header-right">
         <nav class="nav">
+          <div class="nav-link-wrapper">
           <a 
             href="#" 
             :class="['nav-link', { active: isAtTop && !isInBibliografia && !isInBibliotecas }]"
-            @click="scrollToTop"
+              @click.prevent="toggleServiciosDropdown"
+              @mouseenter="showServiciosDropdown = true"
+              @mouseleave="hideServiciosDropdown"
           >
             Servicios
             <span class="dropdown-icon">▼</span>
           </a>
+            <div 
+              class="dropdown-menu"
+              :class="{ active: showServiciosDropdown }"
+              @mouseenter="showServiciosDropdown = true"
+              @mouseleave="hideServiciosDropdown"
+            >
+              <a href="#" class="dropdown-item">Bibliografía básica digital</a>
+              <a href="#" class="dropdown-item">Bibliotecario en línea</a>
+              <a href="#" class="dropdown-item">Taller de biblioteca para docentes</a>
+              <a href="#" class="dropdown-item">Taller de biblioteca para estudiantes</a>
+            </div>
+          </div>
+          <div class="nav-link-wrapper">
           <a 
             href="#bibliografia" 
             :class="['nav-link', { active: isInBibliografia }]"
-            @click="scrollToSection('#bibliografia', $event)"
+              @click.prevent="toggleBibliografiaDropdown"
+              @mouseenter="showBibliografiaDropdown = true"
+              @mouseleave="hideBibliografiaDropdown"
           >
             Bibliografía por escuelas
             <span class="dropdown-icon">▼</span>
           </a>
+            <div 
+              class="dropdown-menu dropdown-escuelas"
+              :class="{ active: showBibliografiaDropdown }"
+              @mouseenter="showBibliografiaDropdown = true"
+              @mouseleave="hideBibliografiaDropdown"
+            >
+              <a href="#" class="dropdown-item">Administración y Gestión Empresarial</a>
+              <a href="#" class="dropdown-item">Artes e Industrias Creativas</a>
+              <a href="#" class="dropdown-item">Desarrollo Social y Educación</a>
+              <a href="#" class="dropdown-item">Estética Integral</a>
+              <a href="#" class="dropdown-item">Gastronomía, Hotelería y Turismo</a>
+              <a href="#" class="dropdown-item">Ingeniería, Energía y Tecnología</a>
+              <a href="#" class="dropdown-item">Salud y Deporte</a>
+            </div>
+          </div>
+          <div class="nav-link-wrapper">
           <a 
             href="#bibliotecas" 
             :class="['nav-link', { active: isInBibliotecas }]"
-            @click="scrollToSection('#bibliotecas', $event)"
+              @click.prevent="toggleBibliotecasDropdown"
+              @mouseenter="showBibliotecasDropdown = true"
+              @mouseleave="hideBibliotecasDropdown"
           >
             Encuentra tu biblioteca
             <span class="dropdown-icon">▼</span>
           </a>
+            <div 
+              class="dropdown-menu dropdown-bibliotecas"
+              :class="{ active: showBibliotecasDropdown }"
+              @mouseenter="showBibliotecasDropdown = true"
+              @mouseleave="hideBibliotecasDropdown"
+            >
+              <div 
+                v-for="region in regions" 
+                :key="region.id"
+                class="dropdown-accordion"
+              >
+                <div 
+                  class="dropdown-accordion-header"
+                  @click.stop="toggleBibliotecaAccordion(region.id)"
+                >
+                  <span>{{ region.name }}</span>
+                  <svg class="dropdown-chevron" :class="{ rotated: expandedBibliotecaAccordions[region.id] }" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div 
+                  class="dropdown-accordion-content"
+                  v-if="expandedBibliotecaAccordions[region.id]"
+                >
+                  <a 
+                    v-for="library in getLibrariesByRegion(region.id)" 
+                    :key="library.id"
+                    href="#" 
+                    class="dropdown-item dropdown-subitem"
+                    @click.prevent="navigateToLibraryFromDropdown(library)"
+                  >
+                    {{ library.name }}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </nav>
         <div class="user-icon" @click="toggleMobileMenu">
           <svg class="user-icon-svg" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -173,6 +246,15 @@ export default {
       isInBibliografia: false,
       isInBibliotecas: false,
       isMobileMenuOpen: false,
+      showServiciosDropdown: false,
+      showBibliografiaDropdown: false,
+      showBibliotecasDropdown: false,
+      expandedBibliotecaAccordions: {
+        norte: false,
+        centro: false,
+        metropolitana: false,
+        sur: false
+      },
       expandedSections: {
         servicios: false,
         bibliografia: true,
@@ -301,6 +383,37 @@ export default {
         behavior: 'smooth'
       })
       this.isAtTop = true
+    },
+    toggleServiciosDropdown() {
+      this.showServiciosDropdown = !this.showServiciosDropdown
+    },
+    hideServiciosDropdown() {
+      setTimeout(() => {
+        this.showServiciosDropdown = false
+      }, 200)
+    },
+    toggleBibliografiaDropdown() {
+      this.showBibliografiaDropdown = !this.showBibliografiaDropdown
+    },
+    hideBibliografiaDropdown() {
+      setTimeout(() => {
+        this.showBibliografiaDropdown = false
+      }, 200)
+    },
+    toggleBibliotecasDropdown() {
+      this.showBibliotecasDropdown = !this.showBibliotecasDropdown
+    },
+    hideBibliotecasDropdown() {
+      setTimeout(() => {
+        this.showBibliotecasDropdown = false
+      }, 200)
+    },
+    toggleBibliotecaAccordion(regionId) {
+      this.expandedBibliotecaAccordions[regionId] = !this.expandedBibliotecaAccordions[regionId]
+    },
+    navigateToLibraryFromDropdown(library) {
+      this.hideBibliotecasDropdown()
+      this.navigateToLibrary(library)
     },
     toggleMobileMenu() {
       this.isMobileMenuOpen = !this.isMobileMenuOpen
@@ -627,6 +740,111 @@ export default {
 
 .dropdown-icon {
   font-size: 10px;
+}
+
+.nav-link-wrapper {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 243px;
+  height: auto;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  padding: 16px 0;
+  margin-top: 8px;
+}
+
+.dropdown-menu.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-item {
+  display: block;
+  padding: 12px 24px;
+  color: #1a2b49;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #E0E0E0;
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.dropdown-item:hover {
+  background-color: #F5F5F5;
+}
+
+.dropdown-accordion {
+  border-bottom: 1px solid #E0E0E0;
+}
+
+.dropdown-accordion:last-child {
+  border-bottom: none;
+}
+
+.dropdown-accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  color: #1a2b49;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  background-color: white;
+}
+
+.dropdown-accordion-header:hover {
+  background-color: #F8F8F8;
+}
+
+.dropdown-accordion-header.active {
+  background-color: #F8F8F8;
+}
+
+.dropdown-chevron {
+  width: 12px;
+  height: 12px;
+  color: #1a2b49;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.dropdown-chevron.rotated {
+  transform: rotate(180deg);
+}
+
+.dropdown-accordion-content {
+  background-color: white;
+  overflow: hidden;
+}
+
+.dropdown-subitem {
+  padding: 12px 24px 12px 36px;
+  font-weight: 400;
+  border-bottom: none;
+}
+
+.dropdown-subitem:hover {
+  background-color: #F5F5F5;
 }
 
 .user-icon {
