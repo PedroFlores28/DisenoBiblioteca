@@ -353,7 +353,7 @@ export default {
   padding-right: 32px;
   border: none;
   border-radius: 0;
-  background: #F7F9FF;
+  background: #F4F7FFB5;
   color: #102A8A;
   font-weight: 600;
   font-size: 16px;
@@ -363,7 +363,7 @@ export default {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23102A8A' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
-  background-color: #F7F9FF;
+  background-color: #F4F7FFB5;
 }
 
 .search-filter:focus {

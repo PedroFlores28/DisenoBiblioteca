@@ -14,7 +14,9 @@
               @click="toggleFaq(faq.id)"
             >
               <span>{{ faq.question }}</span>
-              <span class="faq-icon">{{ faq.isOpen ? '▲' : '▼' }}</span>
+              <svg class="faq-icon" :class="{ rotated: faq.isOpen }" width="20" height="10" viewBox="0 0 26 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12.5874 12.5748C11.8049 12.5748 11.0225 12.2845 10.3536 11.6913L0.38372 2.13792C-0.108465 1.65835 -0.133705 0.875904 0.34586 0.383719C0.825425 -0.108465 1.60787 -0.133704 2.10006 0.345861L12.0321 9.86142C12.3981 10.1895 12.7893 10.1895 13.2058 9.82357L23.0999 0.345861C23.5921 -0.133704 24.3872 -0.108465 24.8541 0.383719C25.3337 0.875904 25.3085 1.67097 24.8163 2.13792L14.8842 11.6535C14.1901 12.2719 13.3824 12.5748 12.5874 12.5748Z" fill="#AA0000"/>
+              </svg>
             </button>
             <div v-if="faq.isOpen" class="faq-answer">
               <p>{{ faq.answer }}</p>
@@ -32,7 +34,9 @@
               @click="toggleFaq(faq.id)"
             >
               <span>{{ faq.question }}</span>
-              <span class="faq-icon">{{ faq.isOpen ? '▲' : '▼' }}</span>
+              <svg class="faq-icon" :class="{ rotated: faq.isOpen }" width="20" height="10" viewBox="0 0 26 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12.5874 12.5748C11.8049 12.5748 11.0225 12.2845 10.3536 11.6913L0.38372 2.13792C-0.108465 1.65835 -0.133705 0.875904 0.34586 0.383719C0.825425 -0.108465 1.60787 -0.133704 2.10006 0.345861L12.0321 9.86142C12.3981 10.1895 12.7893 10.1895 13.2058 9.82357L23.0999 0.345861C23.5921 -0.133704 24.3872 -0.108465 24.8541 0.383719C25.3337 0.875904 25.3085 1.67097 24.8163 2.13792L14.8842 11.6535C14.1901 12.2719 13.3824 12.5748 12.5874 12.5748Z" fill="#AA0000"/>
+              </svg>
             </button>
             <div v-if="faq.isOpen" class="faq-answer">
               <p>{{ faq.answer }}</p>
@@ -190,8 +194,14 @@ export default {
 }
 
 .faq-icon {
-  font-size: 12px;
-  color: var(--primary-blue);
+  width: 20px;
+  height: 10px;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.faq-icon.rotated {
+  transform: rotate(180deg);
 }
 
 .faq-answer {

@@ -375,7 +375,7 @@ export default {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  border: 2px solid var(--border-gray);
+  border: 2px solid #D7E5F4;
 }
 
 .school-card:hover {
