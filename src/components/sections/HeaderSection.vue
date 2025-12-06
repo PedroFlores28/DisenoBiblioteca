@@ -1,7 +1,7 @@
 <template>
   <div class="top-bar-wrapper">
     <div class="top-bar-grey"></div>
-    <div class="top-bar-white">
+    <div class="top-bar-white" :class="{ 'hide-on-digitales': isLibrosDigitales }">
       <div class="top-bar-links">
         <a href="#" class="top-link">Estudiantes</a>
         <a href="#" class="top-link">Docentes</a>
@@ -252,6 +252,7 @@ export default {
       isInBibliografia: false,
       isInBibliotecas: false,
       isMobileMenuOpen: false,
+      isLibrosDigitales: false,
       showServiciosDropdown: false,
       showBibliografiaDropdown: false,
       showBibliotecasDropdown: false,
@@ -297,6 +298,10 @@ export default {
     this.handleScroll()
     window.addEventListener('scroll', this.handleScroll)
     await this.loadLibraries()
+    this.$nextTick(() => {
+      this.checkLibrosDigitales()
+      this.observeHeroSection()
+    })
   },
   beforeUnmount() {
     window.removeEventListener('scroll', this.handleScroll)
@@ -613,6 +618,57 @@ export default {
         }
       }, 600)
     },
+    checkLibrosDigitales() {
+      // Esperar un poco para asegurar que el DOM esté actualizado
+      setTimeout(() => {
+        const digitalesButton = document.querySelector('.hero .tab.active')
+        if (digitalesButton) {
+          const buttonText = digitalesButton.textContent.trim()
+          this.isLibrosDigitales = buttonText === 'Libros digitales'
+        } else {
+          this.isLibrosDigitales = false
+        }
+      }, 50)
+    },
+    observeHeroSection() {
+      // Verificar periódicamente si el HeroSection está disponible
+      const checkInterval = setInterval(() => {
+        const heroSection = document.querySelector('.hero .widget-tabs')
+        if (heroSection) {
+          clearInterval(checkInterval)
+          
+          // Observar cambios en los tabs del HeroSection
+          const observer = new MutationObserver(() => {
+            this.checkLibrosDigitales()
+          })
+          
+          observer.observe(heroSection, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['class']
+          })
+          
+          // También escuchar clicks en los tabs
+          const tabs = document.querySelectorAll('.hero .tab')
+          tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+              setTimeout(() => {
+                this.checkLibrosDigitales()
+              }, 100)
+            })
+          })
+          
+          // Verificación inicial
+          this.checkLibrosDigitales()
+        }
+      }, 100)
+      
+      // Limpiar el intervalo después de 5 segundos si no se encuentra
+      setTimeout(() => {
+        clearInterval(checkInterval)
+      }, 5000)
+    },
     navigateToSchool(school) {
       this.closeMobileMenu()
       // Navegar a la sección de bibliografía
@@ -668,6 +724,10 @@ export default {
   align-items: center;
 }
 
+.top-bar-white.hide-on-digitales {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .top-bar-wrapper {
     display: none;
@@ -721,6 +781,7 @@ export default {
   
   .header-container {
     max-width: 1329px;
+    width: 100%;
     width: 100%;
   }
 }

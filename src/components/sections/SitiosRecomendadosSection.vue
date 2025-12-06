@@ -10,22 +10,50 @@
           <div class="carousel-container" :style="windowWidth > 768 && totalPages > 0 ? { transform: `translateX(-${carouselTransform}%)` } : {}">
             <!-- Desktop: cards individuales -->
             <template v-if="windowWidth > 768">
-              <div 
-                v-for="site in sites" 
-                :key="site.id"
-                class="site-card"
-              >
+            <div 
+              v-for="site in sites" 
+              :key="site.id"
+              class="site-card"
+            >
               <SiteIcon :icon-type="site.iconType" />
               <div class="site-content">
-                <h3 class="site-title">{{ site.name }}</h3>
+                <h3 class="site-title site-title-portal" v-if="site.name === 'Portal de Revistas Académicas Chilenas'">
+                  Portal de Revistas<br>Académicas<br>Chilenas
+                </h3>
+                <h3 class="site-title" v-else>{{ site.name }}</h3>
                 <a :href="site.url" target="_blank" class="btn btn-secondary">
-                  Ir al sitio →
+                  Ir al sitio
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18.4509 9.13788L12.7891 3.22831C12.5038 2.93546 12.0382 2.92045 11.7454 3.20579C11.4525 3.49113 11.4375 3.95669 11.7228 4.24954L16.9866 9.7461H1.7509C1.3379 9.7461 1 10.084 1 10.497C1 10.91 1.3379 11.2479 1.7509 11.2479H16.9866L11.7228 16.7445C11.4375 17.0373 11.4525 17.5104 11.7454 17.7882C11.888 17.9234 12.0757 17.991 12.256 17.991C12.4512 17.991 12.6464 17.9159 12.7891 17.7657L18.4734 11.8336C19.1792 11.0301 19.1792 9.95636 18.4509 9.13788Z" fill="#024588"/>
+                  </svg>
                 </a>
               </div>
+            </div>
+            </template>
+            <!-- Mobile: cards individuales cuando Libros por sede está activo -->
+            <template v-if="windowWidth <= 768 && isLibrosPorSede">
+              <div 
+                v-for="site in sites" 
+                :key="`mobile-single-${site.id}`"
+                class="site-card mobile-single-card"
+              >
+                <SiteIcon :icon-type="site.iconType" />
+                <div class="site-content">
+                  <h3 class="site-title site-title-portal" v-if="site.name === 'Portal de Revistas Académicas Chilenas'">
+                    Portal de Revistas<br>Académicas<br>Chilenas
+                  </h3>
+                  <h3 class="site-title" v-else>{{ site.name }}</h3>
+                  <a :href="site.url" target="_blank" class="btn btn-secondary">
+                    Ir al sitio
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M18.4509 9.13788L12.7891 3.22831C12.5038 2.93546 12.0382 2.92045 11.7454 3.20579C11.4525 3.49113 11.4375 3.95669 11.7228 4.24954L16.9866 9.7461H1.7509C1.3379 9.7461 1 10.084 1 10.497C1 10.91 1.3379 11.2479 1.7509 11.2479H16.9866L11.7228 16.7445C11.4375 17.0373 11.4525 17.5104 11.7454 17.7882C11.888 17.9234 12.0757 17.991 12.256 17.991C12.4512 17.991 12.6464 17.9159 12.7891 17.7657L18.4734 11.8336C19.1792 11.0301 19.1792 9.95636 18.4509 9.13788Z" fill="#024588"/>
+                    </svg>
+                  </a>
+                </div>
               </div>
             </template>
-            <!-- Mobile: cards agrupadas de 2 en 2 -->
-            <template v-if="windowWidth <= 768">
+            <!-- Mobile: cards agrupadas de 2 en 2 cuando Libros digitales está activo o ninguna opción está activa -->
+            <template v-else-if="windowWidth <= 768">
               <div 
                 v-for="(pair, pairIndex) in pairedSites" 
                 :key="`pair-${pairIndex}`"
@@ -38,9 +66,15 @@
                 >
                   <SiteIcon :icon-type="site.iconType" />
                   <div class="site-content">
-                    <h3 class="site-title">{{ site.name }}</h3>
+                    <h3 class="site-title site-title-portal" v-if="site.name === 'Portal de Revistas Académicas Chilenas'">
+                      Portal de Revistas<br>Académicas<br>Chilenas
+                    </h3>
+                    <h3 class="site-title" v-else>{{ site.name }}</h3>
                     <a :href="site.url" target="_blank" class="btn btn-secondary">
-                      Ir al sitio →
+                      Ir al sitio
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18.4509 9.13788L12.7891 3.22831C12.5038 2.93546 12.0382 2.92045 11.7454 3.20579C11.4525 3.49113 11.4375 3.95669 11.7228 4.24954L16.9866 9.7461H1.7509C1.3379 9.7461 1 10.084 1 10.497C1 10.91 1.3379 11.2479 1.7509 11.2479H16.9866L11.7228 16.7445C11.4375 17.0373 11.4525 17.5104 11.7454 17.7882C11.888 17.9234 12.0757 17.991 12.256 17.991C12.4512 17.991 12.6464 17.9159 12.7891 17.7657L18.4734 11.8336C19.1792 11.0301 19.1792 9.95636 18.4509 9.13788Z" fill="#024588"/>
+                      </svg>
                     </a>
                   </div>
                 </div>
@@ -49,7 +83,7 @@
           </div>
         </div>
       </div>
-      <div class="carousel-controls" v-if="sites.length > 0">
+      <div class="carousel-controls" :class="{ 'hide-on-libros-por-sede': isLibrosPorSede }" v-if="sites.length > 0">
         <button 
           class="carousel-btn"
           :disabled="windowWidth <= 768 ? isAtStart : currentIndex === 0"
@@ -96,7 +130,9 @@ export default {
       currentIndex: 0,
       windowWidth: window.innerWidth,
       isAtStart: true,
-      isAtEnd: false
+      isAtEnd: false,
+      isLibrosPorSede: false,
+      isLibrosDigitales: false
     }
   },
   computed: {
@@ -193,6 +229,7 @@ export default {
   },
   async mounted() {
     await this.loadSites()
+    this.checkLibrosPorSede()
     this.handleResize()
     window.addEventListener('resize', this.handleResize)
     this.$nextTick(() => {
@@ -201,6 +238,8 @@ export default {
         this.updateScrollButtons()
       }
     })
+    // Observar cambios en el HeroSection
+    this.observeHeroSection()
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.handleResize)
@@ -298,29 +337,59 @@ export default {
     },
       scrollLeft() {
         if (this.$refs.carouselWrapper) {
-          const pair = this.$refs.carouselWrapper.querySelector('.mobile-card-pair')
-          if (pair) {
-            const pairWidth = pair.offsetWidth
-            const gap = 16
-            const scrollAmount = pairWidth + gap
-            this.$refs.carouselWrapper.scrollBy({
-              left: -scrollAmount,
-              behavior: 'smooth'
-            })
+          if (this.isLibrosPorSede) {
+            // Cuando Libros por sede está activo, scroll por card individual
+            const card = this.$refs.carouselWrapper.querySelector('.mobile-single-card')
+            if (card) {
+              const cardWidth = card.offsetWidth
+              const gap = 8
+              const scrollAmount = cardWidth + gap
+              this.$refs.carouselWrapper.scrollBy({
+                left: -scrollAmount,
+                behavior: 'smooth'
+              })
+            }
+          } else {
+            // Cuando Libros digitales está activo o ninguna opción está activa, scroll por card-pair
+            const pair = this.$refs.carouselWrapper.querySelector('.mobile-card-pair')
+            if (pair) {
+              const pairWidth = pair.offsetWidth
+              const gap = 16
+              const scrollAmount = pairWidth + gap
+              this.$refs.carouselWrapper.scrollBy({
+                left: -scrollAmount,
+                behavior: 'smooth'
+              })
+            }
           }
         }
       },
       scrollRight() {
         if (this.$refs.carouselWrapper) {
-          const pair = this.$refs.carouselWrapper.querySelector('.mobile-card-pair')
-          if (pair) {
-            const pairWidth = pair.offsetWidth
-            const gap = 16
-            const scrollAmount = pairWidth + gap
-            this.$refs.carouselWrapper.scrollBy({
-              left: scrollAmount,
-              behavior: 'smooth'
-            })
+          if (this.isLibrosPorSede) {
+            // Cuando Libros por sede está activo, scroll por card individual
+            const card = this.$refs.carouselWrapper.querySelector('.mobile-single-card')
+            if (card) {
+              const cardWidth = card.offsetWidth
+              const gap = 8
+              const scrollAmount = cardWidth + gap
+              this.$refs.carouselWrapper.scrollBy({
+                left: scrollAmount,
+                behavior: 'smooth'
+              })
+            }
+          } else {
+            // Cuando Libros digitales está activo o ninguna opción está activa, scroll por card-pair
+            const pair = this.$refs.carouselWrapper.querySelector('.mobile-card-pair')
+            if (pair) {
+              const pairWidth = pair.offsetWidth
+              const gap = 16
+              const scrollAmount = pairWidth + gap
+              this.$refs.carouselWrapper.scrollBy({
+                left: scrollAmount,
+                behavior: 'smooth'
+              })
+            }
           }
         }
       },
@@ -360,6 +429,43 @@ export default {
           }
         }
       })
+    },
+    checkLibrosPorSede() {
+      const activeButton = document.querySelector('.hero .tab.active')
+      if (activeButton) {
+        const buttonText = activeButton.textContent.trim()
+        this.isLibrosPorSede = buttonText === 'Libros por sede'
+        this.isLibrosDigitales = buttonText === 'Libros digitales'
+      } else {
+        this.isLibrosPorSede = false
+        this.isLibrosDigitales = false
+      }
+    },
+    observeHeroSection() {
+      // Observar cambios en los tabs del HeroSection
+      const observer = new MutationObserver(() => {
+        this.checkLibrosPorSede()
+      })
+      
+      const heroSection = document.querySelector('.hero .widget-tabs')
+      if (heroSection) {
+        observer.observe(heroSection, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          attributeFilter: ['class']
+        })
+      }
+      
+      // También escuchar clicks en los tabs
+      const tabs = document.querySelectorAll('.hero .tab')
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          setTimeout(() => {
+            this.checkLibrosPorSede()
+          }, 100)
+        })
+      })
     }
   }
 }
@@ -374,13 +480,13 @@ export default {
 .section-title {
   text-align: center;
   font-size: 36px;
-  color: var(--primary-blue);
+  color: #024588;
   margin-bottom: 16px;
 }
 
 .section-subtitle {
   text-align: center;
-  color: var(--text-light);
+  color: #39475F;
   font-size: 18px;
   margin-bottom: 40px;
 }
@@ -397,6 +503,10 @@ export default {
 }
 
 @media (min-width: 769px) {
+  .sitios-section .container {
+    max-width: 1216px;
+  }
+  
   .carousel-wrapper {
     overflow: visible;
   }
@@ -453,10 +563,41 @@ export default {
 
 .site-title {
   font-size: 18px;
-  color: var(--primary-blue);
+  color: #024588;
   font-weight: 600;
   margin: 0;
   line-height: 1.4;
+}
+
+.site-title-portal {
+  font-size: 16px;
+}
+
+.site-card .btn {
+  background-color: #D0DCE8;
+  color: #024588;
+  font-weight: 700;
+  padding: 8px 16px;
+  font-size: 13px;
+  width: auto;
+  align-self: flex-start;
+}
+
+.site-card .btn svg {
+  transition: transform 0.3s ease;
+}
+
+.site-card .btn:hover {
+  background-color: #182844;
+  color: var(--white);
+}
+
+.site-card .btn:hover svg {
+  transform: translateX(4px);
+}
+
+.site-card .btn:hover svg path {
+  fill: var(--white);
 }
 
 .carousel-controls {
@@ -464,6 +605,18 @@ export default {
   justify-content: center;
   align-items: center;
   gap: 16px;
+}
+
+@media (min-width: 769px) {
+  .carousel-controls.hide-on-libros-por-sede {
+    display: none;
+  }
+}
+
+@media (min-width: 769px) {
+  .carousel-controls.hide-on-libros-por-sede {
+    display: none;
+  }
 }
 
 .carousel-btn {
@@ -540,8 +693,33 @@ export default {
   }
   
   .carousel-container {
-    gap: 16px;
+    gap: 8px;
     transform: none !important;
+  }
+  
+  /* Cards individuales en mobile cuando Libros por sede está activo */
+  .site-card.mobile-single-card {
+    min-width: calc(100% - 8px);
+    width: calc(100% - 8px);
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    border: 2px solid #FFFFFF;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 24px;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 20px;
+    background: var(--white);
+    border-radius: 8px;
+    min-height: 140px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  
+  /* Ocultar card-pair cuando Libros por sede está activo */
+  .carousel-container:has(.mobile-single-card) .mobile-card-pair {
+    display: none;
   }
   
   .mobile-card-pair {
@@ -557,7 +735,7 @@ export default {
   .site-card.mobile-card {
     width: 100%;
     min-width: 100%;
-    border: 2px solid var(--border-gray);
+    border: 2px solid #FFFFFF;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     padding: 24px;
     display: flex;
@@ -581,6 +759,21 @@ export default {
     height: 100%;
   }
   
+  .site-card.mobile-single-card .site-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 12px;
+    min-width: 0;
+    justify-content: space-between;
+    min-height: 100%;
+  }
+  
+  .site-card.mobile-single-card .site-title {
+    flex: 1;
+    min-height: 0;
+  }
+  
   .site-card.mobile-card .site-title {
     font-size: 18px;
     color: #024588;
@@ -591,12 +784,18 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
+  }
+  
+  .site-card.mobile-card .site-title-portal,
+  .site-card.mobile-single-card .site-title-portal {
+    font-size: 16px;
     -webkit-line-clamp: 2;
     line-clamp: 2;
     -webkit-box-orient: vertical;
   }
   
-  .site-card.mobile-card .btn {
+  .site-card.mobile-card .btn,
+  .site-card.mobile-single-card .btn {
     margin-top: auto;
     flex-shrink: 0;
   }

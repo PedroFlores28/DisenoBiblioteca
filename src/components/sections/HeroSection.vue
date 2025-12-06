@@ -57,6 +57,11 @@
             <div class="search-box">
               <select class="search-filter">
                 <option>Filtra resultados</option>
+                <option>Asignatura</option>
+                <option>Autor</option>
+                <option>Carrera</option>
+                <option>ISBN</option>
+                <option>Título</option>
               </select>
               <input 
                 v-model="searchQuery"
@@ -73,6 +78,11 @@
             </button>
             <select class="search-filter search-filter-mobile">
               <option>Filtra resultados</option>
+              <option>Asignatura</option>
+              <option>Autor</option>
+              <option>Carrera</option>
+              <option>ISBN</option>
+              <option>Título</option>
             </select>
             <div class="search-input-group">
               <input 
@@ -258,8 +268,16 @@ export default {
 }
 
 @media (min-width: 769px) {
+  .widget-divider {
+    height: 1px;
+    background: #E0E0E0;
+    margin: 0;
+  }
+}
+
+@media (min-width: 769px) {
   .hero-container {
-    max-width: 1300px;
+    max-width: 1329px;
   }
   
   .hero-widget {
@@ -273,22 +291,20 @@ export default {
   
   .widget-tabs-wrapper {
     width: auto;
+    background: #F8F8F8;
+    border-radius: 8px 8px 0 0;
   }
   
   .widget-tabs {
     background: #F8F8F8;
     border-radius: 8px 8px 0 0;
-    padding: 8px;
+    padding: 16px 8px 8px 8px;
     margin-bottom: 0;
     flex-shrink: 0;
   }
   
-  .widget-divider {
-    display: none;
-  }
-  
   .widget-title {
-    padding: 24px 24px 8px 24px;
+    padding: 16px 24px 8px 24px;
     margin: 0;
     font-size: 28px;
   }
@@ -301,6 +317,7 @@ export default {
   
   .search-container {
     padding: 0 24px 24px 24px;
+    margin-top: -8px;
   }
 }
 
@@ -322,7 +339,7 @@ export default {
 }
 
 .widget-title {
-  font-size: 20px;
+  font-size: 28px;
   color: #024588;
   margin-bottom: 8px;
 }
@@ -364,6 +381,14 @@ export default {
   background-repeat: no-repeat;
   background-position: right 12px center;
   background-color: #F4F7FFB5;
+}
+
+.search-filter option:first-child {
+  color: #102A8A;
+}
+
+.search-filter option:not(:first-child) {
+  color: #24334E;
 }
 
 .search-filter:focus {
@@ -508,16 +533,18 @@ export default {
   }
   
   .widget-tabs {
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     display: flex;
     gap: 0;
     width: 100%;
     flex-wrap: nowrap;
     min-width: 0;
+    padding: 4px;
   }
   
   .tab {
     flex: 1;
+    padding: 8px 4px;
     flex-basis: 50%;
     padding: 12px 8px;
     font-size: 14px;
@@ -595,13 +622,21 @@ export default {
     line-height: 1.5;
     box-sizing: border-box;
     min-height: 44px;
+    color: #102A8A;
     appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23102A8A' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 12px center;
     background-color: #F7F9FF;
     background-size: 12px;
+  }
+  
+  .search-filter-mobile option:first-child {
     color: #102A8A;
+  }
+  
+  .search-filter-mobile option:not(:first-child) {
+    color: #24334E;
   }
   
   .search-input-mobile {

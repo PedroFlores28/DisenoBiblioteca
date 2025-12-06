@@ -46,7 +46,10 @@
       </div>
       <div class="faq-footer">
         <a href="#" class="faq-link">
-          <span class="link-text">Ir al Centro de Respuestas</span> <span class="arrow">→</span>
+          <span class="link-text">Ir al Centro de Respuestas</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22.1412 10.8664L15.3471 3.77495C15.0047 3.42353 14.446 3.40551 14.0946 3.74792C13.7432 4.09033 13.7252 4.649 14.0676 5.00042L20.3841 11.5963H2.10127C1.60568 11.5963 1.2002 12.0018 1.2002 12.4974C1.2002 12.993 1.60568 13.3985 2.10127 13.3985H20.3841L14.0676 19.9944C13.7252 20.3458 13.7432 20.9135 14.0946 21.2469C14.2658 21.409 14.4911 21.4901 14.7074 21.4901C14.9416 21.4901 15.1759 21.4 15.3471 21.2198L22.1683 14.1013C23.0153 13.1371 23.0153 11.8486 22.1412 10.8664Z" fill="#024588"/>
+          </svg>
         </a>
       </div>
     </div>
@@ -147,7 +150,7 @@ export default {
 .section-title {
   text-align: left;
   font-size: 36px;
-  color: var(--primary-blue);
+  color: #024588;
   margin-bottom: 40px;
 }
 
@@ -180,9 +183,16 @@ export default {
   justify-content: space-between;
   align-items: center;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--primary-blue);
   transition: background-color 0.3s;
+}
+
+@media (min-width: 769px) {
+  .faq-question {
+    font-size: 20px;
+    color: #024588;
+  }
 }
 
 .faq-question:hover {
@@ -191,6 +201,7 @@ export default {
 
 .faq-question.is-open {
   background-color: var(--background-light);
+  color: #102A8A;
 }
 
 .faq-icon {
@@ -230,8 +241,12 @@ export default {
   text-decoration: underline;
 }
 
-.faq-link .arrow {
-  text-decoration: none;
+.faq-link svg {
+  transition: transform 0.3s ease;
+}
+
+.faq-link:hover svg {
+  transform: translateX(4px);
 }
 
 @media (max-width: 768px) {
@@ -264,6 +279,7 @@ export default {
   .faq-question {
     padding: 16px 20px;
     margin: 0;
+    font-size: 18x;
   }
   
   .faq-answer {

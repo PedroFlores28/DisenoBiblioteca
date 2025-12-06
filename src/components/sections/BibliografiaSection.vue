@@ -18,28 +18,57 @@
           >
             <div :class="['card-accent', `accent-${school.color}`]"></div>
             <h3 class="card-title">{{ school.name }}</h3>
-            <a href="#" class="card-link">Ver más →</a>
+            <a href="#" class="card-link">
+              Ver más
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19.5019 10.0015L13.5177 3.75535C13.2161 3.44583 12.724 3.42995 12.4145 3.73155C12.1049 4.03314 12.0891 4.52521 12.3907 4.83474L17.9542 10.6444H1.85079C1.41428 10.6444 1.05713 11.0015 1.05713 11.438C1.05713 11.8745 1.41428 12.2317 1.85079 12.2317H17.9542L12.3907 18.0413C12.0891 18.3508 12.1049 18.8509 12.4145 19.1445C12.5653 19.2874 12.7637 19.3588 12.9542 19.3588C13.1605 19.3588 13.3669 19.2794 13.5177 19.1207L19.5257 12.8507C20.2717 12.0015 20.2717 10.8666 19.5019 10.0015Z" fill="#0065DC"/>
+              </svg>
+            </a>
           </div>
-          <!-- Mobile: cards agrupadas en pares -->
-          <template v-for="(school, index) in schools" :key="`mobile-${school.id}`">
+          <!-- Mobile: cards individuales cuando Libros por sede o Libros digitales está activo -->
+          <template v-if="isLibrosPorSede || isLibrosDigitales">
             <div 
-              v-if="index % 2 === 0"
-              class="card-pair mobile-pair"
+              v-for="school in schools" 
+              :key="`mobile-single-${school.id}`"
+              class="school-card mobile-single-card"
             >
-              <div class="school-card">
-                <div :class="['card-accent', `accent-${school.color}`]"></div>
-                <h3 class="card-title">{{ school.name }}</h3>
-                <a href="#" class="card-link">Ver más →</a>
-              </div>
-              <div 
-                v-if="schools[index + 1]"
-                class="school-card"
-              >
-                <div :class="['card-accent', `accent-${schools[index + 1].color}`]"></div>
-                <h3 class="card-title">{{ schools[index + 1].name }}</h3>
-                <a href="#" class="card-link">Ver más →</a>
-              </div>
+              <div :class="['card-accent', `accent-${school.color}`]"></div>
+              <h3 class="card-title">{{ school.name }}</h3>
+              <a href="#" class="card-link">
+                Ver más
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M19.5019 10.0015L13.5177 3.75535C13.2161 3.44583 12.724 3.42995 12.4145 3.73155C12.1049 4.03314 12.0891 4.52521 12.3907 4.83474L17.9542 10.6444H1.85079C1.41428 10.6444 1.05713 11.0015 1.05713 11.438C1.05713 11.8745 1.41428 12.2317 1.85079 12.2317H17.9542L12.3907 18.0413C12.0891 18.3508 12.1049 18.8509 12.4145 19.1445C12.5653 19.2874 12.7637 19.3588 12.9542 19.3588C13.1605 19.3588 13.3669 19.2794 13.5177 19.1207L19.5257 12.8507C20.2717 12.0015 20.2717 10.8666 19.5019 10.0015Z" fill="#0065DC"/>
+                </svg>
+              </a>
             </div>
+          </template>
+          <!-- Mobile: cards agrupadas en pares cuando ninguna opción está activa -->
+          <template v-else>
+            <template v-for="(school, index) in schools" :key="`mobile-${school.id}`">
+              <div 
+                v-if="index % 2 === 0"
+                class="card-pair mobile-pair"
+              >
+                <div class="school-card">
+                  <div :class="['card-accent', `accent-${school.color}`]"></div>
+                  <h3 class="card-title">{{ school.name }}</h3>
+                  <a href="#" class="card-link">
+                    Ver más
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M19.5019 10.0015L13.5177 3.75535C13.2161 3.44583 12.724 3.42995 12.4145 3.73155C12.1049 4.03314 12.0891 4.52521 12.3907 4.83474L17.9542 10.6444H1.85079C1.41428 10.6444 1.05713 11.0015 1.05713 11.438C1.05713 11.8745 1.41428 12.2317 1.85079 12.2317H17.9542L12.3907 18.0413C12.0891 18.3508 12.1049 18.8509 12.4145 19.1445C12.5653 19.2874 12.7637 19.3588 12.9542 19.3588C13.1605 19.3588 13.3669 19.2794 13.5177 19.1207L19.5257 12.8507C20.2717 12.0015 20.2717 10.8666 19.5019 10.0015Z" fill="#0065DC"/>
+                    </svg>
+                  </a>
+                </div>
+                <div 
+                  v-if="schools[index + 1]"
+                  class="school-card"
+                >
+                  <div :class="['card-accent', `accent-${schools[index + 1].color}`]"></div>
+                  <h3 class="card-title">{{ schools[index + 1].name }}</h3>
+                  <a href="#" class="card-link">Ver más →</a>
+                </div>
+              </div>
+            </template>
           </template>
         </div>
       </div>
@@ -123,7 +152,9 @@ export default {
       currentPage: 1,
       windowWidth: window.innerWidth,
       isAtStart: true,
-      isAtEnd: false
+      isAtEnd: false,
+      isLibrosPorSede: false,
+      isLibrosDigitales: false
     }
   },
   computed: {
@@ -141,6 +172,7 @@ export default {
   },
   async mounted() {
     await this.loadSchools()
+    this.checkLibrosPorSede()
     window.addEventListener('resize', this.handleResize)
     this.$nextTick(() => {
       if (this.$refs.schoolsGrid) {
@@ -149,6 +181,8 @@ export default {
         this.updateCurrentPage()
       }
     })
+    // Observar cambios en el HeroSection
+    this.observeHeroSection()
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.handleResize)
@@ -259,29 +293,59 @@ export default {
     },
     scrollLeft() {
       if (this.$refs.schoolsGrid && this.windowWidth <= 768) {
-        const cardPair = this.$refs.schoolsGrid.querySelector('.card-pair')
-        if (cardPair) {
-          const cardPairWidth = cardPair.offsetWidth
-          const gap = 16
-          const scrollAmount = cardPairWidth + gap
-          this.$refs.schoolsGrid.scrollBy({
-            left: -scrollAmount,
-            behavior: 'smooth'
-          })
+        if (this.isLibrosPorSede || this.isLibrosDigitales) {
+          // Cuando Libros por sede o Libros digitales está activo, scroll por card individual
+          const card = this.$refs.schoolsGrid.querySelector('.mobile-single-card')
+          if (card) {
+            const cardWidth = card.offsetWidth
+            const gap = 16
+            const scrollAmount = cardWidth + gap
+            this.$refs.schoolsGrid.scrollBy({
+              left: -scrollAmount,
+              behavior: 'smooth'
+            })
+          }
+        } else {
+          // Cuando ninguna opción está activa, scroll por card-pair
+          const cardPair = this.$refs.schoolsGrid.querySelector('.card-pair')
+          if (cardPair) {
+            const cardPairWidth = cardPair.offsetWidth
+            const gap = 16
+            const scrollAmount = cardPairWidth + gap
+            this.$refs.schoolsGrid.scrollBy({
+              left: -scrollAmount,
+              behavior: 'smooth'
+            })
+          }
         }
       }
     },
     scrollRight() {
       if (this.$refs.schoolsGrid && this.windowWidth <= 768) {
-        const cardPair = this.$refs.schoolsGrid.querySelector('.card-pair')
-        if (cardPair) {
-          const cardPairWidth = cardPair.offsetWidth
-          const gap = 16
-          const scrollAmount = cardPairWidth + gap
-          this.$refs.schoolsGrid.scrollBy({
-            left: scrollAmount,
-            behavior: 'smooth'
-          })
+        if (this.isLibrosPorSede || this.isLibrosDigitales) {
+          // Cuando Libros por sede o Libros digitales está activo, scroll por card individual
+          const card = this.$refs.schoolsGrid.querySelector('.mobile-single-card')
+          if (card) {
+            const cardWidth = card.offsetWidth
+            const gap = 16
+            const scrollAmount = cardWidth + gap
+            this.$refs.schoolsGrid.scrollBy({
+              left: scrollAmount,
+              behavior: 'smooth'
+            })
+          }
+        } else {
+          // Cuando ninguna opción está activa, scroll por card-pair
+          const cardPair = this.$refs.schoolsGrid.querySelector('.card-pair')
+          if (cardPair) {
+            const cardPairWidth = cardPair.offsetWidth
+            const gap = 16
+            const scrollAmount = cardPairWidth + gap
+            this.$refs.schoolsGrid.scrollBy({
+              left: scrollAmount,
+              behavior: 'smooth'
+            })
+          }
         }
       }
     },
@@ -307,6 +371,43 @@ export default {
         this.isAtStart = this.currentPage === 1
         this.isAtEnd = this.currentPage >= this.totalPages
       }
+    },
+    checkLibrosPorSede() {
+      const activeButton = document.querySelector('.hero .tab.active')
+      if (activeButton) {
+        const buttonText = activeButton.textContent.trim()
+        this.isLibrosPorSede = buttonText === 'Libros por sede'
+        this.isLibrosDigitales = buttonText === 'Libros digitales'
+      } else {
+        this.isLibrosPorSede = false
+        this.isLibrosDigitales = false
+      }
+    },
+    observeHeroSection() {
+      // Observar cambios en los tabs del HeroSection
+      const observer = new MutationObserver(() => {
+        this.checkLibrosPorSede()
+      })
+      
+      const heroSection = document.querySelector('.hero .widget-tabs')
+      if (heroSection) {
+        observer.observe(heroSection, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          attributeFilter: ['class']
+        })
+      }
+      
+      // También escuchar clicks en los tabs
+      const tabs = document.querySelectorAll('.hero .tab')
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          setTimeout(() => {
+            this.checkLibrosPorSede()
+          }, 100)
+        })
+      })
     }
   }
 }
@@ -333,19 +434,20 @@ export default {
 
 .section-title {
   font-size: 36px;
-  color: var(--primary-blue);
+  color: #024588;
   margin: 0;
 }
 
 .section-description {
-  color: var(--text-light);
+  color: #4B4D53;
   margin-bottom: 40px;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .schools-grid-wrapper {
   margin-bottom: 40px;
-  overflow: hidden;
+  overflow: visible;
+  padding-top: 4px;
 }
 
 .schools-grid {
@@ -367,8 +469,8 @@ export default {
 
 .school-card {
   background: var(--white);
-  border-radius: 8px;
-  padding: 24px;
+  border-radius: 7px;
+  padding: 32px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   position: relative;
   transition: transform 0.3s, box-shadow 0.3s;
@@ -376,20 +478,19 @@ export default {
   flex-direction: column;
   flex-shrink: 0;
   border: 2px solid #D7E5F4;
+  min-height: 180px;
 }
 
 .school-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .card-accent {
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  border-radius: 8px 8px 0 0;
+  left: 33.47px;
+  width: 151.5px;
+  height: 7.05px;
 }
 
 .accent-green {
@@ -425,23 +526,42 @@ export default {
 }
 
 .card-title {
-  font-size: 18px;
-  color: var(--primary-blue);
-  margin-bottom: 16px;
-  font-weight: 600;
+  font-size: 21px;
+  color: #182844;
+  margin-bottom: 20px;
+  margin-top: 0;
+  font-weight: 700;
+  flex: 1;
+  min-height: 60px;
+  display: flex;
+  align-items: flex-start;
 }
 
 .card-link {
-  color: var(--secondary-blue);
+  color: #0065DC;
   text-decoration: none;
-  font-weight: 500;
-  display: inline-block;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
   margin-top: auto;
   align-self: flex-end;
+  width: 100%;
+  padding-right: 20px;
+}
+
+.card-link svg {
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
 }
 
 .card-link:hover {
   text-decoration: underline;
+}
+
+.card-link:hover svg {
+  transform: translateX(4px);
 }
 
 .pagination {
@@ -499,14 +619,20 @@ export default {
 }
 
 @media (min-width: 769px) {
+  .bibliografia-section .container {
+    max-width: 1216px;
+  }
+  
   .schools-grid-wrapper {
     position: relative;
+    overflow: visible;
+    padding-top: 4px;
   }
   
   .schools-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
+    gap: 17px;
     overflow: visible;
     height: auto;
     padding-bottom: 0;
@@ -519,8 +645,12 @@ export default {
     display: block;
   }
   
-  /* Ocultar card-pair en desktop */
+  /* Ocultar todas las cards de mobile en desktop */
   .card-pair.mobile-pair {
+    display: none;
+  }
+  
+  .school-card.mobile-single-card {
     display: none;
   }
   
@@ -562,7 +692,7 @@ export default {
     display: none;
   }
   
-  /* Mostrar card-pair en mobile */
+  /* Mostrar card-pair en mobile cuando NO está Libros por sede */
   .card-pair.mobile-pair {
     display: flex;
     flex-direction: column;
@@ -580,6 +710,23 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     flex-shrink: 0;
+  }
+  
+  /* Cards individuales en mobile cuando Libros por sede está activo */
+  .school-card.mobile-single-card {
+    min-width: calc(100% - 8px);
+    width: calc(100% - 8px);
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  /* Ocultar card-pair cuando Libros por sede está activo */
+  .schools-grid:has(.mobile-single-card) .card-pair.mobile-pair {
+    display: none;
   }
   
   .card-title {

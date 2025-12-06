@@ -8,18 +8,21 @@
             <div 
               v-for="book in books" 
               :key="book.id"
-              class="book-card"
+              :class="['book-card', { 'libros-por-sede': isLibrosPorSede || isLibrosDigitales }]"
             >
-            <div class="book-cover">
+            <div class="book-cover" :class="{ 'libros-por-sede': isLibrosPorSede || isLibrosDigitales }">
               <div class="cover-placeholder"></div>
             </div>
-            <div class="book-info">
+            <div class="book-info" :class="{ 'libros-por-sede': isLibrosPorSede || isLibrosDigitales }">
               <p class="book-author">{{ book.author }}</p>
               <h3 class="book-title">{{ book.title }}</h3>
               <p class="book-isbn">ISBN {{ book.isbn }}</p>
               <p class="book-description">{{ book.description }}</p>
               <button class="btn btn-secondary">
-                Reservar libro →
+                Reservar libro
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18.4509 9.13788L12.7891 3.22831C12.5038 2.93546 12.0382 2.92045 11.7454 3.20579C11.4525 3.49113 11.4375 3.95669 11.7228 4.24954L16.9866 9.7461H1.7509C1.3379 9.7461 1 10.084 1 10.497C1 10.91 1.3379 11.2479 1.7509 11.2479H16.9866L11.7228 16.7445C11.4375 17.0373 11.4525 17.5104 11.7454 17.7882C11.888 17.9234 12.0757 17.991 12.256 17.991C12.4512 17.991 12.6464 17.9159 12.7891 17.7657L18.4734 11.8336C19.1792 11.0301 19.1792 9.95636 18.4509 9.13788Z" fill="#024588"/>
+                </svg>
               </button>
             </div>
             </div>
@@ -56,7 +59,7 @@
       </div>
       
       <!-- Sección de Servicios -->
-      <div class="servicios-content">
+      <div class="servicios-content" :class="{ 'hide-on-libros-por-sede-mobile': isLibrosPorSede, 'hide-on-libros-digitales-desktop': isLibrosDigitales }">
         <div class="servicios-text">
           <div class="title-bar"></div>
           <h2 class="servicios-title">
@@ -94,6 +97,8 @@ export default {
       windowWidth: window.innerWidth,
       isAtStart: true,
       isAtEnd: false,
+      isLibrosPorSede: false,
+      isLibrosDigitales: false,
       services: [
         {
           id: 1,
@@ -120,16 +125,16 @@ export default {
         // Mobile: avanza de 1 en 1
         return Math.max(1, this.books.length)
       } else {
-        // Desktop: avanza de 3 en 3, pero muestra 3.5 por vista
-        const itemsPerView = 3.5
-        const itemsPerSlide = 3
+        // Desktop: si "Libros por sede" está activo, muestra 4 cards completas
+        const itemsPerView = this.isLibrosPorSede ? 4 : 3.5
+        const itemsPerSlide = this.isLibrosPorSede ? 4 : 3
         const totalItems = this.books.length
         
         if (totalItems <= itemsPerView) {
           return 1
         }
         
-        // Calcular cuántos slides necesitamos si avanzamos de 3 en 3
+        // Calcular cuántos slides necesitamos
         const remainingAfterFirst = totalItems - itemsPerView
         return Math.ceil(remainingAfterFirst / itemsPerSlide) + 1
       }
@@ -138,46 +143,75 @@ export default {
       if (this.books.length === 0) return 0
       
       const isMobile = this.windowWidth <= 768
-      const itemsPerView = isMobile ? 1 : 3.5
-      const itemsPerSlide = isMobile ? 1 : 3
+      const itemsPerView = isMobile ? 1 : (this.isLibrosPorSede ? 4 : 3.5)
+      const itemsPerSlide = isMobile ? 1 : (this.isLibrosPorSede ? 4 : 3)
       const totalItems = this.books.length
       
-      // Si estamos en el último slide, calcular el desplazamiento para mostrar el último elemento completo
-      const isLastSlide = this.currentIndex >= this.totalPages - 1
-      
-      if (isLastSlide && totalItems > itemsPerView) {
-        // Calcular el ancho total de todos los elementos
-        const gapSize = isMobile ? 0 : 24
-        const totalGaps = gapSize * (totalItems - 1)
-        // Calcular el ancho de cada card como porcentaje
-        const cardWidthPercent = isMobile ? 100 : (100 / itemsPerView)
-        // Aproximación del ancho total en porcentaje considerando gaps
-        const gapPercent = gapSize > 0 ? (totalGaps / this.windowWidth) * 100 : 0
-        const totalWidthPercent = (totalItems * cardWidthPercent) + gapPercent
-        
-        // El desplazamiento máximo es: ancho total - 100% (ancho visible)
-        const maxTransform = Math.max(0, totalWidthPercent - 100)
-        return maxTransform
-      }
-      
-      // Para slides normales
+      // Para slides normales y último slide
       if (isMobile) {
         return this.currentIndex * 100
       } else {
-        // En desktop: cada slide avanza de 3 elementos completos
-        // Cada card ocupa aproximadamente: (100% - 48px) / 3.5
-        // Para avanzar 3 elementos, necesitamos el ancho de 3 cards + 2 gaps (entre las 3 cards)
-        const cardWidthPercent = 100 / itemsPerView
-        const gapSize = 24
-        const gapPercent = (gapSize / this.windowWidth) * 100
-        // Avanzar de 3 elementos por slide: 3 cards + 2 gaps
-        const slideMove = (cardWidthPercent * itemsPerSlide) + (gapPercent * (itemsPerSlide - 1))
-        return this.currentIndex * slideMove
+        // En desktop: cada slide avanza según itemsPerSlide
+        if (this.isLibrosPorSede) {
+          // Para "Libros por sede": 4 cards completas por slide
+          // Necesitamos calcular el ancho real de cada card incluyendo el gap
+          // El contenedor tiene gap: 24px, y hay 4 cards, entonces hay 3 gaps entre las 4 cards
+          // Cada card ocupa: calc((100% - 72px) / 4)
+          // Para avanzar 4 cards, necesitamos: 4 * ancho_card + 3 * gap
+          const containerWidth = this.$refs.carouselWrapper ? this.$refs.carouselWrapper.clientWidth : this.windowWidth
+          if (containerWidth > 0) {
+            const totalGaps = 3 * 24 // 3 gaps entre 4 cards
+            const cardWidth = (containerWidth - totalGaps) / 4
+            const slideMove = (cardWidth + 24) * 4 // 4 cards + 3 gaps
+            
+            // Si estamos en el último slide, calcular el desplazamiento para mostrar las últimas cards completas
+            const isLastSlide = this.currentIndex >= this.totalPages - 1
+            if (isLastSlide && totalItems > itemsPerView) {
+              // Calcular el ancho total de todas las cards
+              const totalCardsWidth = (cardWidth * totalItems) + (24 * (totalItems - 1))
+              // El desplazamiento máximo es: ancho total - ancho visible
+              const maxTransform = Math.max(0, totalCardsWidth - containerWidth)
+              return (maxTransform / containerWidth) * 100
+            }
+            
+            return (this.currentIndex * slideMove / containerWidth) * 100
+          }
+          // Fallback si no hay ancho disponible
+          const cardWidthPercent = 100 / itemsPerView
+          const gapSize = 24
+          const gapPercent = (gapSize / this.windowWidth) * 100
+          const slideMove = (cardWidthPercent * itemsPerSlide) + (gapPercent * (itemsPerSlide - 1))
+          return this.currentIndex * slideMove
+        } else {
+          // Para "Libros digitales": 3 cards por slide
+          const cardWidthPercent = 100 / itemsPerView
+          const gapSize = 24
+          const gapPercent = (gapSize / this.windowWidth) * 100
+          // Avanzar según itemsPerSlide: X cards + (X-1) gaps
+          const slideMove = (cardWidthPercent * itemsPerSlide) + (gapPercent * (itemsPerSlide - 1))
+          
+          // Si estamos en el último slide, calcular el desplazamiento para mostrar el último elemento completo
+          const isLastSlide = this.currentIndex >= this.totalPages - 1
+          if (isLastSlide && totalItems > itemsPerView) {
+            // Calcular el ancho total de todos los elementos
+            const totalGaps = gapSize * (totalItems - 1)
+            // Aproximación del ancho total en porcentaje considerando gaps
+            const gapPercentTotal = (totalGaps / this.windowWidth) * 100
+            const totalWidthPercent = (totalItems * cardWidthPercent) + gapPercentTotal
+            
+            // El desplazamiento máximo es: ancho total - 100% (ancho visible)
+            const maxTransform = Math.max(0, totalWidthPercent - 100)
+            return maxTransform
+          }
+          
+          return this.currentIndex * slideMove
+        }
       }
     }
   },
   async mounted() {
     await this.loadBooks()
+    this.checkLibrosPorSede()
     window.addEventListener('resize', this.handleResize)
     this.$nextTick(() => {
       if (this.$refs.carouselWrapper && this.windowWidth <= 768) {
@@ -185,6 +219,8 @@ export default {
         this.updateScrollButtons()
       }
     })
+    // Observar cambios en el HeroSection
+    this.observeHeroSection()
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.handleResize)
@@ -301,7 +337,7 @@ export default {
         const card = this.$refs.carouselWrapper.querySelector('.book-card')
         if (card) {
           const cardWidth = card.offsetWidth
-          const gap = 16
+          const gap = 8
           const scrollAmount = cardWidth + gap
           this.$refs.carouselWrapper.scrollBy({
             left: -scrollAmount,
@@ -315,7 +351,7 @@ export default {
         const card = this.$refs.carouselWrapper.querySelector('.book-card')
         if (card) {
           const cardWidth = card.offsetWidth
-          const gap = 16
+          const gap = 8
           const scrollAmount = cardWidth + gap
           this.$refs.carouselWrapper.scrollBy({
             left: scrollAmount,
@@ -347,6 +383,43 @@ export default {
         }
       })
     },
+    checkLibrosPorSede() {
+      const activeButton = document.querySelector('.hero .tab.active')
+      if (activeButton) {
+        const buttonText = activeButton.textContent.trim()
+        this.isLibrosPorSede = buttonText === 'Libros por sede'
+        this.isLibrosDigitales = buttonText === 'Libros digitales'
+      } else {
+        this.isLibrosPorSede = false
+        this.isLibrosDigitales = false
+      }
+    },
+    observeHeroSection() {
+      // Observar cambios en los tabs del HeroSection
+      const observer = new MutationObserver(() => {
+        this.checkLibrosPorSede()
+      })
+      
+      const heroSection = document.querySelector('.hero .widget-tabs')
+      if (heroSection) {
+        observer.observe(heroSection, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          attributeFilter: ['class']
+        })
+      }
+      
+      // También escuchar clicks en los tabs
+      const tabs = document.querySelectorAll('.hero .tab')
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          setTimeout(() => {
+            this.checkLibrosPorSede()
+          }, 100)
+        })
+      })
+    },
     handleServiceClick(service) {
       // Aquí puedes agregar la lógica de navegación o acción
       console.log('Service clicked:', service.name)
@@ -364,7 +437,7 @@ export default {
 .section-title {
   text-align: center;
   font-size: 36px;
-  color: var(--primary-blue);
+  color: #024588;
   margin-bottom: 40px;
 }
 
@@ -381,21 +454,6 @@ export default {
   position: relative;
 }
 
-.carousel-wrapper::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 135px;
-  height: 100%;
-  background: #ffffff7d;
-  pointer-events: none;
-  z-index: 10;
-}
-
-.carousel-wrapper.is-last-slide::after {
-  display: none;
-}
 
 .carousel-container {
   display: flex;
@@ -407,17 +465,25 @@ export default {
   width: calc((100% - 48px) / 3.5);
   min-width: calc((100% - 48px) / 3.5);
   flex-shrink: 0;
-  background: var(--white);
+  background: #f5f5f5;
   border-radius: 8px;
-  border: 2px solid var(--border-gray);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border: 2px solid #f5f5f5;
+  box-shadow: none;
   overflow: hidden;
-  transition: transform 0.3s;
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+@media (min-width: 769px) {
+  .book-card.libros-por-sede {
+    width: calc((100% - 72px) / 4);
+    min-width: calc((100% - 72px) / 4);
+  }
 }
 
 .book-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border-color: #e0e0e0;
 }
 
 .book-cover {
@@ -425,21 +491,126 @@ export default {
   height: 250px;
   background: linear-gradient(135deg, #8B4513 0%, #654321 100%);
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+@media (min-width: 769px) {
+  .book-cover.libros-por-sede {
+    width: 188px;
+    height: 226px;
+    margin: 0 auto;
+  }
+  
+  .book-info.libros-por-sede {
+    width: 288px;
+    height: 256px;
+    margin: 0 auto;
+  }
 }
 
 .cover-placeholder {
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(139,69,19,0.3) 0%, rgba(101,67,33,0.3) 100%);
+  background: linear-gradient(180deg, #8B4513 0%, #654321 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  border-radius: 8px;
+  border: 1px solid #FFFFFF;
 }
 
 .book-info {
   padding: 20px;
+  overflow: hidden;
+}
+
+@media (min-width: 769px) {
+  .book-info.libros-por-sede {
+    width: 288px;
+    height: 256px;
+    margin: 0 auto;
+    padding: 16px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  
+  .book-info.libros-por-sede .book-author {
+    font-size: 14px;
+    margin-bottom: 6px;
+    flex-shrink: 0;
+    line-height: 1.4;
+    color: #182844;
+  }
+  
+  .book-info.libros-por-sede .book-title {
+    font-size: 18px;
+    margin-bottom: 6px;
+    line-height: 1.3;
+    flex-shrink: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .book-info.libros-por-sede .book-isbn {
+    font-size: 11px;
+    margin-bottom: 8px;
+    flex-shrink: 0;
+  }
+  
+  .book-info.libros-por-sede .book-description {
+    font-size: 12px;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    -webkit-line-clamp: 2;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+  
+  .book-info.libros-por-sede .btn {
+    margin-top: auto;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+    background-color: #D0DCE8;
+    color: #024588;
+    width: auto;
+    align-self: flex-start;
+  }
+  
+  .book-info.libros-por-sede .btn svg {
+    transition: transform 0.3s ease;
+  }
+  
+  .book-info.libros-por-sede .btn:hover {
+    background-color: #182844;
+    color: var(--white);
+  }
+  
+  .book-info.libros-por-sede .btn:hover svg {
+    transform: translateX(4px);
+  }
+  
+  .book-info.libros-por-sede .btn:hover svg path {
+    fill: var(--white);
+  }
 }
 
 .book-author {
   font-size: 14px;
-  color: var(--text-light);
+  color: #182844;
   margin-bottom: 8px;
 }
 
@@ -458,8 +629,8 @@ export default {
 }
 
 .book-description {
-  font-size: 14px;
-  color: var(--text-dark);
+  font-size: 12px;
+  color: #182844;
   line-height: 1.6;
   margin-bottom: 16px;
   display: -webkit-box;
@@ -522,6 +693,12 @@ export default {
   height: 12px;
 }
 
+@media (min-width: 769px) {
+  .novedades-section .container {
+    max-width: 1216px;
+  }
+}
+
 @media (max-width: 968px) {
   .book-card {
     min-width: calc(50% - 12px);
@@ -549,14 +726,54 @@ export default {
   }
   
   .carousel-container {
-    gap: 16px;
+    gap: 8px;
     transform: none !important;
   }
   
   .book-card {
-    width: 85%;
-    min-width: 85%;
+    width: calc(100% - 8px);
+    min-width: calc(100% - 8px);
     scroll-snap-align: start;
+  }
+  
+  .book-cover.libros-por-sede {
+    width: 188px;
+    height: 254px;
+    margin: 0 auto;
+  }
+  
+  .cover-placeholder {
+    width: 188px;
+    height: 254px;
+  }
+  
+  .book-info.libros-por-sede .btn {
+    margin-top: auto;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+    background-color: #D0DCE8;
+    color: #024588;
+    width: auto;
+    align-self: flex-start;
+  }
+  
+  .book-info.libros-por-sede .btn svg {
+    transition: transform 0.3s ease;
+  }
+  
+  .book-info.libros-por-sede .btn:hover {
+    background-color: #182844;
+    color: var(--white);
+  }
+  
+  .book-info.libros-por-sede .btn:hover svg {
+    transform: translateX(4px);
+  }
+  
+  .book-info.libros-por-sede .btn:hover svg path {
+    fill: var(--white);
   }
   
   .carousel-wrapper::after {
@@ -589,6 +806,8 @@ export default {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Ocultar servicios-content en desktop cuando Libros digitales está activo */
+
 .servicios-text {
   flex: 1;
   max-width: 500px;
@@ -597,14 +816,14 @@ export default {
 .title-bar {
   width: 500px;
   height: 8px;
-  background: var(--primary-blue);
+  background: #102A8A;
   margin-bottom: 24px;
 }
 
 .servicios-title {
   font-size: 31px;
   font-weight: 700;
-  color: var(--primary-blue);
+  color: #024588;
   margin-bottom: 16px;
   line-height: 1.2;
 }
@@ -621,7 +840,7 @@ export default {
 
 .servicios-subtitle {
   font-size: 15px;
-  color: var(--primary-blue);
+  color: #024588;
   line-height: 1.6;
 }
 
@@ -687,6 +906,10 @@ export default {
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
+  
+  .servicios-content.hide-on-libros-por-sede-mobile {
+    display: none;
+  }
 
   .title-bar {
     width: 50%;
@@ -724,6 +947,13 @@ export default {
     padding: 16px 24px;
     font-size: 16px;
     min-height: 50px;
+  }
+}
+
+/* Ocultar servicios-content en desktop cuando Libros digitales está activo */
+@media (min-width: 769px) {
+  .novedades-section .servicios-content.hide-on-libros-digitales-desktop {
+    display: none;
   }
 }
 </style>

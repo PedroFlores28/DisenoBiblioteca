@@ -423,6 +423,12 @@ export default {
   width: auto;
 }
 
+@media (min-width: 769px) {
+  .footer .container {
+    max-width: 1216px;
+  }
+}
+
 @media (max-width: 968px) {
   .footer-grid {
     grid-template-columns: repeat(2, 1fr);
