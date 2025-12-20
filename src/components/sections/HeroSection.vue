@@ -722,7 +722,7 @@ export default {
     border-radius: 8px;
     padding: 12px 16px;
     padding-right: 32px;
-    font-size: 1em;
+    font-size: 15px;
     line-height: 1.5;
     box-sizing: border-box;
     min-height: 44px;
@@ -800,7 +800,7 @@ export default {
     .search-input-mobile {
       min-height: 42px;
       padding: 10px 14px;
-      font-size: 0.93em;
+      font-size: 14px;
     }
     
     .search-filter-mobile {
@@ -826,7 +826,7 @@ export default {
     .search-input-mobile {
       min-height: 40px;
       padding: 8px 12px;
-      font-size: 0.86em;
+      font-size: 13px;
     }
     
     .search-filter-mobile {
