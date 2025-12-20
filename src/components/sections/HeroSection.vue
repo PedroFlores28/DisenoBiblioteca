@@ -306,6 +306,14 @@ export default {
   margin: 16px 0;
 }
 
+@media (max-width: 768px) {
+  .widget-divider {
+    width: calc(100% + 48px);
+    margin-left: -24px;
+    margin-right: -24px;
+  }
+}
+
 @media (min-width: 769px) {
   .widget-divider {
     height: 1px;
