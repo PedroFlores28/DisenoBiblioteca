@@ -64,7 +64,9 @@
           <div class="filter-wrapper">
             <select v-model="selectedCareer" class="filter-dropdown career-dropdown">
               <option value="">Carrera</option>
-              <option v-for="career in filteredCareers" :key="career.id" :value="career.id">{{ career.name }}</option>
+              <option value="administracion-gastronomica">Administración en Empresas Gastronómicas</option>
+              <option value="gastronomia-internacional">Gastronomía Internacional</option>
+              <option value="tecnico-turismo">Técnico en Turismo</option>
             </select>
             <svg class="dropdown-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M8.99179 13.533C8.48879 13.533 7.98578 13.3464 7.5558 12.9651L1.14658 6.82359C0.830175 6.5153 0.813949 6.0123 1.12224 5.6959C1.43053 5.37949 1.93353 5.36327 2.24994 5.67156L8.63482 11.7887C8.87009 11.9996 9.1216 11.9996 9.38932 11.7644L15.7499 5.67156C16.0663 5.36327 16.5774 5.37949 16.8776 5.6959C17.1859 6.0123 17.1696 6.52341 16.8532 6.82359L10.4683 12.9407C10.0221 13.3383 9.5029 13.533 8.99179 13.533Z" fill="#024588"/>
@@ -129,14 +131,7 @@
             @click="page !== '...' && goToCareerPage(page)"
             :disabled="page === '...'"
           >
-            <template v-if="page === 1 && page === careersCurrentPage">
-              <svg width="7" height="18" viewBox="0 0 8 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M-3.8445e-06 4.00381C1.064 3.59314 2.1 3.07047 3.108 2.43581C4.116 1.78247 5.04 0.970474 5.88 -0.000191927H7.728V19.4038H5.124V3.61181C4.9 3.81714 4.62 4.03181 4.284 4.25581C3.96666 4.47981 3.612 4.69447 3.22 4.89981C2.84666 5.10514 2.44533 5.30114 2.016 5.48781C1.60533 5.67447 1.204 5.83314 0.811996 5.96381L-3.8445e-06 4.00381Z" :fill="page === careersCurrentPage ? 'white' : '#024588'"/>
-              </svg>
-            </template>
-            <template v-else>
-              {{ page }}
-            </template>
+            {{ page }}
           </button>
           
           <button 
@@ -187,50 +182,36 @@
               </svg>
             </a>
           </div>
-          <!-- Mobile: cards individuales cuando Libros por sede o Libros digitales está activo -->
-          <template v-if="isLibrosPorSede || isLibrosDigitales">
+          <!-- Mobile: cards agrupadas en pares (siempre) -->
+          <template v-for="(school, index) in schools" :key="`mobile-${school.id}`">
             <div 
-              v-for="school in schools" 
-              :key="`mobile-single-${school.id}`"
-              class="school-card mobile-single-card"
+              v-if="index % 2 === 0"
+              class="card-pair mobile-pair"
             >
-              <div :class="['card-accent', `accent-${school.color}`]"></div>
-              <h3 class="card-title">{{ school.name }}</h3>
-              <a href="#" class="card-link">
-                Ver más
-                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M19.5019 10.0015L13.5177 3.75535C13.2161 3.44583 12.724 3.42995 12.4145 3.73155C12.1049 4.03314 12.0891 4.52521 12.3907 4.83474L17.9542 10.6444H1.85079C1.41428 10.6444 1.05713 11.0015 1.05713 11.438C1.05713 11.8745 1.41428 12.2317 1.85079 12.2317H17.9542L12.3907 18.0413C12.0891 18.3508 12.1049 18.8509 12.4145 19.1445C12.5653 19.2874 12.7637 19.3588 12.9542 19.3588C13.1605 19.3588 13.3669 19.2794 13.5177 19.1207L19.5257 12.8507C20.2717 12.0015 20.2717 10.8666 19.5019 10.0015Z" fill="#0065DC"/>
-                </svg>
-              </a>
-            </div>
-          </template>
-          <!-- Mobile: cards agrupadas en pares cuando ninguna opción está activa -->
-          <template v-else>
-            <template v-for="(school, index) in schools" :key="`mobile-${school.id}`">
-              <div 
-                v-if="index % 2 === 0"
-                class="card-pair mobile-pair"
-              >
-                <div class="school-card">
-                  <div :class="['card-accent', `accent-${school.color}`]"></div>
-                  <h3 class="card-title">{{ school.name }}</h3>
-                  <a href="#" class="card-link">
-                    Ver más
-                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M19.5019 10.0015L13.5177 3.75535C13.2161 3.44583 12.724 3.42995 12.4145 3.73155C12.1049 4.03314 12.0891 4.52521 12.3907 4.83474L17.9542 10.6444H1.85079C1.41428 10.6444 1.05713 11.0015 1.05713 11.438C1.05713 11.8745 1.41428 12.2317 1.85079 12.2317H17.9542L12.3907 18.0413C12.0891 18.3508 12.1049 18.8509 12.4145 19.1445C12.5653 19.2874 12.7637 19.3588 12.9542 19.3588C13.1605 19.3588 13.3669 19.2794 13.5177 19.1207L19.5257 12.8507C20.2717 12.0015 20.2717 10.8666 19.5019 10.0015Z" fill="#0065DC"/>
-                    </svg>
-                  </a>
-                </div>
-                <div 
-                  v-if="schools[index + 1]"
-                  class="school-card"
-                >
-                  <div :class="['card-accent', `accent-${schools[index + 1].color}`]"></div>
-                  <h3 class="card-title">{{ schools[index + 1].name }}</h3>
-                  <a href="#" class="card-link">Ver más →</a>
-                </div>
+              <div class="school-card">
+                <div :class="['card-accent', `accent-${school.color}`]"></div>
+                <h3 class="card-title">{{ school.name }}</h3>
+                <a href="#" class="card-link">
+                  Ver más
+                  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19.5019 10.0015L13.5177 3.75535C13.2161 3.44583 12.724 3.42995 12.4145 3.73155C12.1049 4.03314 12.0891 4.52521 12.3907 4.83474L17.9542 10.6444H1.85079C1.41428 10.6444 1.05713 11.0015 1.05713 11.438C1.05713 11.8745 1.41428 12.2317 1.85079 12.2317H17.9542L12.3907 18.0413C12.0891 18.3508 12.1049 18.8509 12.4145 19.1445C12.5653 19.2874 12.7637 19.3588 12.9542 19.3588C13.1605 19.3588 13.3669 19.2794 13.5177 19.1207L19.5257 12.8507C20.2717 12.0015 20.2717 10.8666 19.5019 10.0015Z" fill="#0065DC"/>
+                  </svg>
+                </a>
               </div>
-            </template>
+              <div 
+                v-if="schools[index + 1]"
+                class="school-card"
+              >
+                <div :class="['card-accent', `accent-${schools[index + 1].color}`]"></div>
+                <h3 class="card-title">{{ schools[index + 1].name }}</h3>
+                <a href="#" class="card-link">
+                  Ver más
+                  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19.5019 10.0015L13.5177 3.75535C13.2161 3.44583 12.724 3.42995 12.4145 3.73155C12.1049 4.03314 12.0891 4.52521 12.3907 4.83474L17.9542 10.6444H1.85079C1.41428 10.6444 1.05713 11.0015 1.05713 11.438C1.05713 11.8745 1.41428 12.2317 1.85079 12.2317H17.9542L12.3907 18.0413C12.0891 18.3508 12.1049 18.8509 12.4145 19.1445C12.5653 19.2874 12.7637 19.3588 12.9542 19.3588C13.1605 19.3588 13.3669 19.2794 13.5177 19.1207L19.5257 12.8507C20.2717 12.0015 20.2717 10.8666 19.5019 10.0015Z" fill="#0065DC"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
           </template>
           </div>
         </div>
@@ -244,7 +225,7 @@
           @click="scrollLeft"
         >
           <svg width="9" height="19" viewBox="0 0 9 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8.11127 18.0301C7.87646 18.0301 7.64164 17.9398 7.47005 17.7592L0.660453 10.6516C-0.215582 9.65812 -0.215582 8.36664 0.63336 7.40932L7.47005 0.2746C7.81324 -0.0776207 8.37318 -0.0956822 8.7254 0.247507C9.07762 0.590696 9.09568 1.15064 8.75249 1.50286L1.9429 8.61048C1.70808 8.88142 1.70808 9.15236 1.96999 9.45039L8.75249 16.5309C9.09568 16.8832 9.07762 17.4521 8.7254 17.7863C8.55381 17.9488 8.32802 18.0301 8.11127 18.0301Z" fill="#8B93A1"/>
+            <path d="M8.11127 18.0301C7.87646 18.0301 7.64164 17.9398 7.47005 17.7592L0.660453 10.6516C-0.215582 9.65812 -0.215582 8.36664 0.63336 7.40932L7.47005 0.2746C7.81324 -0.0776207 8.37318 -0.0956822 8.7254 0.247507C9.07762 0.590696 9.09568 1.15064 8.75249 1.50286L1.9429 8.61048C1.70808 8.88142 1.70808 9.15236 1.96999 9.45039L8.75249 16.5309C9.09568 16.8832 9.07762 17.4521 8.7254 17.7863C8.55381 17.9488 8.32802 18.0301 8.11127 18.0301Z" fill="#D1D4DA"/>
           </svg>
         </button>
         <button 
@@ -557,59 +538,31 @@ export default {
     },
     scrollLeft() {
       if (this.$refs.carouselWrapper && this.windowWidth <= 768) {
-        if (this.isLibrosPorSede || this.isLibrosDigitales) {
-          // Cuando Libros por sede o Libros digitales está activo, scroll por card individual
-          const card = this.$refs.carouselWrapper.querySelector('.mobile-single-card')
-          if (card) {
-            const cardWidth = card.offsetWidth
-            const gap = 16
-            const scrollAmount = cardWidth + gap
-            this.$refs.carouselWrapper.scrollBy({
-              left: -scrollAmount,
-              behavior: 'smooth'
-            })
-          }
-        } else {
-          // Cuando ninguna opción está activa, scroll por card-pair
-          const cardPair = this.$refs.carouselWrapper.querySelector('.card-pair')
-          if (cardPair) {
-            const cardPairWidth = cardPair.offsetWidth
-            const gap = 16
-            const scrollAmount = cardPairWidth + gap
-            this.$refs.carouselWrapper.scrollBy({
-              left: -scrollAmount,
-              behavior: 'smooth'
-            })
-          }
+        // Siempre scroll por card-pair en mobile
+        const cardPair = this.$refs.carouselWrapper.querySelector('.card-pair.mobile-pair')
+        if (cardPair) {
+          const cardPairWidth = cardPair.offsetWidth
+          const gap = 16
+          const scrollAmount = cardPairWidth + gap
+          this.$refs.carouselWrapper.scrollBy({
+            left: -scrollAmount,
+            behavior: 'smooth'
+          })
         }
       }
     },
     scrollRight() {
       if (this.$refs.carouselWrapper && this.windowWidth <= 768) {
-        if (this.isLibrosPorSede || this.isLibrosDigitales) {
-          // Cuando Libros por sede o Libros digitales está activo, scroll por card individual
-          const card = this.$refs.carouselWrapper.querySelector('.mobile-single-card')
-          if (card) {
-            const cardWidth = card.offsetWidth
-            const gap = 16
-            const scrollAmount = cardWidth + gap
-            this.$refs.carouselWrapper.scrollBy({
-              left: scrollAmount,
-              behavior: 'smooth'
-            })
-          }
-        } else {
-          // Cuando ninguna opción está activa, scroll por card-pair
-          const cardPair = this.$refs.carouselWrapper.querySelector('.card-pair')
-          if (cardPair) {
-            const cardPairWidth = cardPair.offsetWidth
-            const gap = 16
-            const scrollAmount = cardPairWidth + gap
-            this.$refs.carouselWrapper.scrollBy({
-              left: scrollAmount,
-              behavior: 'smooth'
-            })
-          }
+        // Siempre scroll por card-pair en mobile
+        const cardPair = this.$refs.carouselWrapper.querySelector('.card-pair.mobile-pair')
+        if (cardPair) {
+          const cardPairWidth = cardPair.offsetWidth
+          const gap = 16
+          const scrollAmount = cardPairWidth + gap
+          this.$refs.carouselWrapper.scrollBy({
+            left: scrollAmount,
+            behavior: 'smooth'
+          })
         }
       }
     },
@@ -983,9 +936,8 @@ export default {
 }
 
 .pagination-arrow:not(:disabled) {
-  background: var(--primary-blue);
-  color: var(--white);
-  border-color: var(--primary-blue);
+  background: white;
+  border-color: #E0E0E0;
 }
 
 .pagination-dots {
@@ -1099,20 +1051,8 @@ export default {
     flex-shrink: 0;
   }
   
-  /* Cards individuales en mobile cuando Libros por sede está activo */
+  /* Ocultar cards individuales en mobile - siempre usar pares */
   .school-card.mobile-single-card {
-    min-width: calc(100% - 8px);
-    width: calc(100% - 8px);
-    flex-shrink: 0;
-    scroll-snap-align: start;
-    height: 160px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  
-  /* Ocultar card-pair cuando Libros por sede está activo */
-  .carousel-wrapper:has(.mobile-single-card) .card-pair.mobile-pair {
     display: none;
   }
   
@@ -1124,6 +1064,7 @@ export default {
     -webkit-box-orient: vertical;
     overflow: hidden;
     line-height: 1.4;
+    font-size: 21px;
   }
   
   .card-link {

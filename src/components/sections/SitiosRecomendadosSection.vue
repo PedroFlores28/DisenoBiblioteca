@@ -30,30 +30,8 @@
               </div>
             </div>
             </template>
-            <!-- Mobile: cards individuales cuando Libros por sede está activo -->
-            <template v-if="windowWidth <= 768 && isLibrosPorSede">
-              <div 
-                v-for="site in sites" 
-                :key="`mobile-single-${site.id}`"
-                class="site-card mobile-single-card"
-              >
-                <SiteIcon :icon-type="site.iconType" />
-                <div class="site-content">
-                  <h3 class="site-title site-title-portal" v-if="site.name === 'Portal de Revistas Académicas Chilenas'">
-                    Portal de Revistas<br>Académicas<br>Chilenas
-                  </h3>
-                  <h3 class="site-title" v-else>{{ site.name }}</h3>
-                  <a :href="site.url" target="_blank" class="btn btn-secondary">
-                    Ir al sitio
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M18.4509 9.13788L12.7891 3.22831C12.5038 2.93546 12.0382 2.92045 11.7454 3.20579C11.4525 3.49113 11.4375 3.95669 11.7228 4.24954L16.9866 9.7461H1.7509C1.3379 9.7461 1 10.084 1 10.497C1 10.91 1.3379 11.2479 1.7509 11.2479H16.9866L11.7228 16.7445C11.4375 17.0373 11.4525 17.5104 11.7454 17.7882C11.888 17.9234 12.0757 17.991 12.256 17.991C12.4512 17.991 12.6464 17.9159 12.7891 17.7657L18.4734 11.8336C19.1792 11.0301 19.1792 9.95636 18.4509 9.13788Z" fill="#024588"/>
-                    </svg>
-                  </a>
-                </div>
-              </div>
-            </template>
-            <!-- Mobile: cards agrupadas de 2 en 2 cuando Libros digitales está activo o ninguna opción está activa -->
-            <template v-else-if="windowWidth <= 768">
+            <!-- Mobile: cards agrupadas de 2 en 2 (siempre) -->
+            <template v-if="windowWidth <= 768">
               <div 
                 v-for="(pair, pairIndex) in pairedSites" 
                 :key="`pair-${pairIndex}`"
@@ -343,59 +321,31 @@ export default {
     },
       scrollLeft() {
         if (this.$refs.carouselWrapper) {
-          if (this.isLibrosPorSede) {
-            // Cuando Libros por sede está activo, scroll por card individual
-            const card = this.$refs.carouselWrapper.querySelector('.mobile-single-card')
-            if (card) {
-              const cardWidth = card.offsetWidth
-              const gap = 8
-              const scrollAmount = cardWidth + gap
-              this.$refs.carouselWrapper.scrollBy({
-                left: -scrollAmount,
-                behavior: 'smooth'
-              })
-            }
-          } else {
-            // Cuando Libros digitales está activo o ninguna opción está activa, scroll por card-pair
-            const pair = this.$refs.carouselWrapper.querySelector('.mobile-card-pair')
-            if (pair) {
-              const pairWidth = pair.offsetWidth
-              const gap = 16
-              const scrollAmount = pairWidth + gap
-              this.$refs.carouselWrapper.scrollBy({
-                left: -scrollAmount,
-                behavior: 'smooth'
-              })
-            }
+          // Siempre scroll por card-pair en mobile
+          const pair = this.$refs.carouselWrapper.querySelector('.mobile-card-pair')
+          if (pair) {
+            const pairWidth = pair.offsetWidth
+            const gap = 16
+            const scrollAmount = pairWidth + gap
+            this.$refs.carouselWrapper.scrollBy({
+              left: -scrollAmount,
+              behavior: 'smooth'
+            })
           }
         }
       },
       scrollRight() {
         if (this.$refs.carouselWrapper) {
-          if (this.isLibrosPorSede) {
-            // Cuando Libros por sede está activo, scroll por card individual
-            const card = this.$refs.carouselWrapper.querySelector('.mobile-single-card')
-            if (card) {
-              const cardWidth = card.offsetWidth
-              const gap = 8
-              const scrollAmount = cardWidth + gap
-              this.$refs.carouselWrapper.scrollBy({
-                left: scrollAmount,
-                behavior: 'smooth'
-              })
-            }
-          } else {
-            // Cuando Libros digitales está activo o ninguna opción está activa, scroll por card-pair
-            const pair = this.$refs.carouselWrapper.querySelector('.mobile-card-pair')
-            if (pair) {
-              const pairWidth = pair.offsetWidth
-              const gap = 16
-              const scrollAmount = pairWidth + gap
-              this.$refs.carouselWrapper.scrollBy({
-                left: scrollAmount,
-                behavior: 'smooth'
-              })
-            }
+          // Siempre scroll por card-pair en mobile
+          const pair = this.$refs.carouselWrapper.querySelector('.mobile-card-pair')
+          if (pair) {
+            const pairWidth = pair.offsetWidth
+            const gap = 16
+            const scrollAmount = pairWidth + gap
+            this.$refs.carouselWrapper.scrollBy({
+              left: scrollAmount,
+              behavior: 'smooth'
+            })
           }
         }
       },
@@ -735,33 +685,12 @@ export default {
   }
   
   .carousel-container {
-    gap: 8px;
+    gap: 16px;
     transform: none !important;
   }
   
-  /* Cards individuales en mobile cuando Libros por sede está activo */
+  /* Ocultar cards individuales en mobile - siempre usar pares */
   .site-card.mobile-single-card {
-    min-width: calc(100% - 8px);
-    width: calc(100% - 8px);
-    flex-shrink: 0;
-    scroll-snap-align: start;
-    border: 2px solid #FFFFFF;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    padding: 24px;
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    gap: 20px;
-    background: var(--white);
-    border-radius: 8px;
-    min-height: 140px;
-    height: auto;
-    box-sizing: border-box;
-    overflow: visible;
-  }
-  
-  /* Ocultar card-pair cuando Libros por sede está activo */
-  .carousel-container:has(.mobile-single-card) .mobile-card-pair {
     display: none;
   }
   
@@ -787,8 +716,8 @@ export default {
     gap: 20px;
     background: var(--white);
     border-radius: 8px;
-    min-height: 140px;
-    height: auto;
+    min-height: 160px;
+    height: 160px;
     box-sizing: border-box;
     overflow: visible;
   }
