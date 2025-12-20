@@ -209,7 +209,7 @@ export default {
           {
             id: 1,
             author: 'Eastman, Charles M.',
-            title: 'BIM handbook: a guide to building information...',
+            title: 'BIM handbook : a guide to building information modeling for owners, managers, designers, engineers and contractors',
             isbn: '9780470541371',
             description: 'The BIM Handbook presents the technology and processes behind BIM and how architects, engineers, contractors...'
           },
@@ -545,7 +545,7 @@ export default {
   }
   
   .book-info.libros-por-sede .book-author {
-    font-size: 14px;
+    font-size: 16px;
     margin-bottom: 6px;
     flex-shrink: 0;
     line-height: 1.4;
@@ -553,7 +553,9 @@ export default {
   }
   
   .book-info.libros-por-sede .book-title {
-    font-size: 18px;
+    font-size: 20px;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 500;
     margin-bottom: 6px;
     line-height: 1.3;
     flex-shrink: 0;
@@ -570,7 +572,7 @@ export default {
   }
   
   .book-info.libros-por-sede .book-description {
-    font-size: 12px;
+    font-size: 13px;
     line-height: 1.5;
     margin-bottom: 12px;
     -webkit-line-clamp: 2;
@@ -614,14 +616,14 @@ export default {
 }
 
 .book-author {
-  font-size: 14px;
+  font-size: 16px;
   color: #182844;
   margin-bottom: 8px;
   font-family: Verdana, sans-serif;
 }
 
 .book-title {
-  font-size: 18px;
+  font-size: 20px;
   color: var(--accent-red);
   font-weight: 500;
   font-family: 'Ubuntu', sans-serif;
@@ -637,7 +639,7 @@ export default {
 }
 
 .book-description {
-  font-size: 12px;
+  font-size: 13px;
   color: #182844;
   line-height: 1.6;
   margin-bottom: 16px;
@@ -752,15 +754,46 @@ export default {
     scroll-snap-align: start;
   }
   
+  .book-card.libros-por-sede {
+    display: flex;
+    flex-direction: column;
+  }
+  
   .book-cover.libros-por-sede {
     width: 188px;
     height: 254px;
     margin: 0 auto;
+    flex-shrink: 0;
   }
   
   .cover-placeholder {
     width: 188px;
     height: 254px;
+  }
+  
+  .book-info.libros-por-sede {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+  
+  .book-info.libros-por-sede .book-author {
+    flex-shrink: 0;
+  }
+  
+  .book-info.libros-por-sede .book-title {
+    flex-shrink: 0;
+  }
+  
+  .book-info.libros-por-sede .book-isbn {
+    flex-shrink: 0;
+  }
+  
+  .book-info.libros-por-sede .book-description {
+    flex: 1;
+    min-height: 0;
+    margin-bottom: 12px;
   }
   
   .book-info.libros-por-sede .btn {

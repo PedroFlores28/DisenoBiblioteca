@@ -314,11 +314,13 @@ export default {
   color: var(--text-dark);
   line-height: 1.6;
   background-color: var(--background-light);
-  font-family: Verdana, sans-serif;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 500;
 }
 
 .faq-answer p {
-  font-family: Verdana, sans-serif;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 500;
   margin: 0;
   color: inherit;
   display: block;

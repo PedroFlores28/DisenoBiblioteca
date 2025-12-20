@@ -455,15 +455,15 @@ export default {
   }
   
   .accreditation-full-image {
-    max-height: 85px;
+    max-height: 75px;
   }
   
   .red-campus-image {
-    max-height: 85px;
+    max-height: 75px;
   }
   
   .accreditation-logo svg {
-    max-height: 85px;
+    max-height: 75px;
   }
 }
 
@@ -482,6 +482,14 @@ export default {
 }
 
 @media (max-width: 768px) {
+  .footer-top {
+    padding: 60px 10px;
+  }
+  
+  .footer-bottom {
+    padding: 40px 10px;
+  }
+  
   .footer-grid {
     grid-template-columns: 1fr;
     gap: 24px;
@@ -504,6 +512,15 @@ export default {
   
   .accreditation-full-image {
     margin: 0 auto;
+    max-height: 75px;
+  }
+  
+  .red-campus-image {
+    max-height: 75px;
+  }
+  
+  .accreditation-logo svg {
+    max-height: 75px;
   }
 }
 </style>
