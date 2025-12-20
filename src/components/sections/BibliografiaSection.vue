@@ -1084,6 +1084,11 @@ export default {
     margin-top: 24px;
   }
   
+  .mobile-navigation .pagination-arrow {
+    width: 48px;
+    height: 48px;
+  }
+  
   .view-all-button-wrapper {
     display: flex;
     justify-content: center;

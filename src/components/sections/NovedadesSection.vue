@@ -809,6 +809,11 @@ export default {
     gap: 16px;
     margin-top: 24px;
   }
+  
+  .carousel-controls .carousel-btn {
+    width: 48px;
+    height: 48px;
+  }
 }
 
 /* Estilos para la sección de servicios */

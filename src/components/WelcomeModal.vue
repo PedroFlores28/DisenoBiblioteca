@@ -127,7 +127,7 @@ export default {
   align-items: flex-start;
   justify-content: center;
   z-index: 10000;
-  padding: 0 20px;
+  padding: 0;
 }
 
 .welcome-modal {
@@ -139,6 +139,25 @@ export default {
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   animation: slideUp 0.3s ease-out;
   margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .welcome-modal-overlay {
+    padding-top: 80px;
+    padding-left: 20px;
+    padding-right: 20px;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  
+  .welcome-modal {
+    width: 90%;
+    max-width: 400px;
+    margin: 0 auto;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 @keyframes slideUp {
@@ -155,7 +174,7 @@ export default {
 .modal-image-container {
   position: relative;
   width: calc(100% - 24px);
-  height: 150px;
+  height: 130px;
   overflow: hidden;
   background-color: #182844A6;
   margin: 12px;
@@ -194,14 +213,14 @@ export default {
 }
 
 .modal-content {
-  padding: 8px 24px 24px 24px;
+  padding: 8px 20px 20px 20px;
 }
 
 .modal-title {
   font-size: 20px;
   font-weight: bold;
   color: #024588;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   line-height: 1.3;
   text-align: center;
 }
@@ -209,7 +228,7 @@ export default {
 .modal-question {
   font-size: 16px;
   color: #6B7280;
-  margin-bottom: 24px;
+  margin-bottom: 18px;
   text-align: center;
 }
 
@@ -279,15 +298,26 @@ export default {
 }
 
 @media (max-width: 768px) {
+  .welcome-modal-overlay {
+    padding: 165px 20px 40px;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  
   .welcome-modal {
-    margin-top: 30px;
+    margin-top: -4px;
+    width: 90%;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+    background: #F8F8F8;
   }
 }
 
 @media (max-width: 480px) {
   .welcome-modal-overlay {
-    padding: 0 20px;
-    padding-top: 80px;
+    padding: 160px 20px 40px;
   }
   
   .welcome-modal {
@@ -310,6 +340,13 @@ export default {
   
   .modal-content {
     padding: 0px 24px 24px 24px;
+  }
+}
+
+@media (max-width: 360px) {
+  .welcome-modal {
+    width: 90%;
+    max-width: 400px;
   }
 }
 </style>

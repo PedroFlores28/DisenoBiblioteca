@@ -592,7 +592,7 @@ export default {
 @media (max-width: 768px) {
   .hero {
     padding: 80px 20px 40px;
-    min-height: auto;
+    min-height: 550px;
   }
   
   .hero-text {
@@ -603,6 +603,7 @@ export default {
     width: 90%;
     max-width: 400px;
     margin: 0 auto;
+    min-height: 400px;
   }
   
   .hero-container {
@@ -680,8 +681,15 @@ export default {
   }
   
   .widget-description {
-    font-size: 13px;
+    font-size: 15px;
     margin-bottom: 24px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .search-container {

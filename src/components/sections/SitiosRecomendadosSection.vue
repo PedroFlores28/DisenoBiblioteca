@@ -828,6 +828,11 @@ export default {
     margin-top: 24px;
   }
   
+  .carousel-controls .carousel-btn {
+    width: 48px;
+    height: 48px;
+  }
+  
   .carousel-btn .mobile-icon {
     display: block;
   }
