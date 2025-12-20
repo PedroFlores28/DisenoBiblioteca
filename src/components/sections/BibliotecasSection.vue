@@ -1652,6 +1652,12 @@ export default {
   
   .map-link-container {
     text-align: right;
+    padding-top: 15px;
+  }
+  
+  .map-link {
+    position: relative;
+    top: -7px;
   }
   
   .region-tabs {
