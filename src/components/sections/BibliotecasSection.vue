@@ -1548,10 +1548,12 @@ export default {
     align-items: stretch;
     gap: 16px;
     order: 2; /* El buscador va abajo */
+    margin-top: 16px;
   }
   
   .region-select-container {
     order: 1; /* El selector de región va arriba */
+    margin-bottom: 0;
   }
   
   .region-tabs {

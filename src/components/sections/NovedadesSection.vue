@@ -583,7 +583,7 @@ export default {
   
   .book-info.libros-por-sede .btn {
     margin-top: auto;
-    padding: 8px 16px;
+    padding: 8px 20px;
     font-size: 13px;
     font-weight: bold;
     font-family: 'Ubuntu', sans-serif;
@@ -765,7 +765,7 @@ export default {
   
   .book-info.libros-por-sede .btn {
     margin-top: auto;
-    padding: 8px 16px;
+    padding: 8px 20px;
     font-size: 13px;
     font-weight: bold;
     font-family: 'Ubuntu', sans-serif;

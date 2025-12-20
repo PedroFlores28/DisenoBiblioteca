@@ -18,7 +18,12 @@
               <SiteIcon :icon-type="site.iconType" />
               <div class="site-content">
                 <h3 class="site-title site-title-portal" v-if="site.name === 'Portal de Revistas Académicas Chilenas'">
-                  Portal de Revistas<br>Académicas<br>Chilenas
+                  <template v-if="windowWidth <= 768">
+                    Portal de Revistas<br>Académicas Chilenas
+                  </template>
+                  <template v-else>
+                    Portal de Revistas<br>Académicas<br>Chilenas
+                  </template>
                 </h3>
                 <h3 class="site-title" v-else>{{ site.name }}</h3>
                 <a :href="site.url" target="_blank" class="btn btn-secondary">
@@ -45,7 +50,12 @@
                   <SiteIcon :icon-type="site.iconType" />
                   <div class="site-content">
                     <h3 class="site-title site-title-portal" v-if="site.name === 'Portal de Revistas Académicas Chilenas'">
-                      Portal de Revistas<br>Académicas<br>Chilenas
+                      <template v-if="windowWidth <= 768">
+                        Portal de Revistas<br>Académicas Chilenas
+                      </template>
+                      <template v-else>
+                        Portal de Revistas<br>Académicas<br>Chilenas
+                      </template>
                     </h3>
                     <h3 class="site-title" v-else>{{ site.name }}</h3>
                     <a :href="site.url" target="_blank" class="btn btn-secondary">
@@ -510,7 +520,7 @@ export default {
   transition: transform 0.3s;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   gap: 20px;
 }
 
@@ -526,6 +536,23 @@ export default {
     width: 100%;
     min-width: 0;
     max-width: 100%;
+    padding: 17px 19px;
+  }
+  
+  .site-content {
+    justify-content: space-between;
+    min-height: 100%;
+    gap: 10px;
+  }
+  
+  .site-title {
+    flex: 1;
+  }
+  
+  .site-card .btn {
+    margin-top: auto;
+    flex-shrink: 0;
+    padding: 6px 24px;
   }
 }
 
@@ -722,6 +749,11 @@ export default {
     overflow: visible;
   }
   
+  .site-card.mobile-card > :first-child,
+  .site-card.mobile-card .site-icon {
+    margin-top: 16px;
+  }
+  
   .site-card.mobile-card .site-content {
     display: flex;
     flex-direction: column;
@@ -729,7 +761,7 @@ export default {
     gap: 12px;
     min-width: 0;
     justify-content: space-between;
-    height: 100%;
+    height: 85%;
   }
   
   .site-card.mobile-single-card .site-content {
@@ -761,12 +793,17 @@ export default {
     display: block;
   }
   
+  .site-card.mobile-card .site-title:not(.site-title-portal) {
+    font-size: 18px;
+  }
+  
   .site-card.mobile-card .site-title-portal,
   .site-card.mobile-single-card .site-title-portal {
     font-size: 16px;
     overflow: visible;
     display: block;
   }
+  
   
   .site-card.mobile-single-card .site-title {
     overflow: visible;
