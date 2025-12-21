@@ -56,6 +56,9 @@
               <option value="administracion">Administración y Gestión Empresarial</option>
               <option value="desarrollo">Desarrollo Social y Educación</option>
               <option value="estetica">Estética Integral</option>
+              <option value="gastronomia">Gastronomía, Hotelería y Turismo</option>
+              <option value="ingenieria">Ingenierías, Energías y Tecnologías</option>
+              <option value="salud">Salud & Deportes</option>
             </select>
             <svg class="dropdown-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M8.99179 13.533C8.48879 13.533 7.98578 13.3464 7.5558 12.9651L1.14658 6.82359C0.830175 6.5153 0.813949 6.0123 1.12224 5.6959C1.43053 5.37949 1.93353 5.36327 2.24994 5.67156L8.63482 11.7887C8.87009 11.9996 9.1216 11.9996 9.38932 11.7644L15.7499 5.67156C16.0663 5.36327 16.5774 5.37949 16.8776 5.6959C17.1859 6.0123 17.1696 6.52341 16.8532 6.82359L10.4683 12.9407C10.0221 13.3383 9.5029 13.533 8.99179 13.533Z" fill="#024588"/>
@@ -64,9 +67,13 @@
           <div class="filter-wrapper">
             <select v-model="selectedCareer" class="filter-dropdown career-dropdown">
               <option value="">Carrera</option>
-              <option value="administracion-gastronomica">Administración en Empresas Gastronómicas</option>
-              <option value="gastronomia-internacional">Gastronomía Internacional</option>
-              <option value="tecnico-turismo">Técnico en Turismo</option>
+              <option 
+                v-for="career in filteredCareers" 
+                :key="career.id" 
+                :value="career.id.toString()"
+              >
+                {{ career.name }}
+              </option>
             </select>
             <svg class="dropdown-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M8.99179 13.533C8.48879 13.533 7.98578 13.3464 7.5558 12.9651L1.14658 6.82359C0.830175 6.5153 0.813949 6.0123 1.12224 5.6959C1.43053 5.37949 1.93353 5.36327 2.24994 5.67156L8.63482 11.7887C8.87009 11.9996 9.1216 11.9996 9.38932 11.7644L15.7499 5.67156C16.0663 5.36327 16.5774 5.37949 16.8776 5.6959C17.1859 6.0123 17.1696 6.52341 16.8532 6.82359L10.4683 12.9407C10.0221 13.3383 9.5029 13.533 8.99179 13.533Z" fill="#024588"/>
@@ -97,12 +104,24 @@
             class="career-card"
           >
             <div class="career-image">
-              <div class="career-image-placeholder"></div>
+              <img 
+                v-if="career.imageUrl" 
+                :src="career.imageUrl" 
+                :alt="career.name"
+                class="career-image-img"
+                @error="handleImageError"
+              />
+              <div v-else class="career-image-placeholder"></div>
             </div>
             <div class="career-content">
               <p class="career-category">{{ currentSchoolName }}</p>
               <h3 class="career-title">{{ career.name }}</h3>
-              <a href="#" class="career-link">
+              <a 
+                :href="career.url || '#'" 
+                :target="career.url ? '_blank' : '_self'"
+                class="career-link"
+                @click.prevent="handleCareerLinkClick(career)"
+              >
                 Ver bibliografía
                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M19.5019 10.0015L13.5177 3.75535C13.2161 3.44583 12.724 3.42995 12.4145 3.73155C12.1049 4.03314 12.0891 4.52521 12.3907 4.83474L17.9542 10.6444H1.85079C1.41428 10.6444 1.05713 11.0015 1.05713 11.438C1.05713 11.8745 1.41428 12.2317 1.85079 12.2317H17.9542L12.3907 18.0413C12.0891 18.3508 12.1049 18.8509 12.4145 19.1445C12.5653 19.2874 12.7637 19.3588 12.9542 19.3588C13.1605 19.3588 13.3669 19.2794 13.5177 19.1207L19.5257 12.8507C20.2717 12.0015 20.2717 10.8666 19.5019 10.0015Z" fill="#0065DC"/>
@@ -252,6 +271,7 @@ import heroBackground from '@/assets/images/hero-background.jpg'
 import heroBackgroundMobile from '@/assets/images/b1b818e26d255f001e62b637fce22a3221cf95c6.jpg'
 import PreguntasFrecuentesSection from './PreguntasFrecuentesSection.vue'
 import FooterSection from './FooterSection.vue'
+import { careersData } from '../../data/careersData'
 
 export default {
   name: 'BibliografiaSection',
@@ -288,17 +308,7 @@ export default {
       heroBackgroundMobile: heroBackgroundMobile,
       careersCurrentPage: 1,
       careersPerPage: 9,
-      careers: [
-        { id: 1, name: 'Animación 3D', school: 'artes' },
-        { id: 2, name: 'Diseño de Vestuario mención Alta Costura', school: 'artes' },
-        { id: 3, name: 'Diseño Gráfico', school: 'artes' },
-        { id: 4, name: 'Ingeniería en Animación 3D', school: 'artes' },
-        { id: 5, name: 'Ingeniería en Sonido', school: 'artes' },
-        { id: 6, name: 'Teatro', school: 'artes' },
-        { id: 7, name: 'Técnico en Arte y Gestión Cultural', school: 'artes' },
-        { id: 8, name: 'Técnico en Comunicación y Relaciones Públicas', school: 'artes' },
-        { id: 9, name: 'Técnico en Diseño de Espacios y Equipamiento', school: 'artes' }
-      ]
+      careers: [] // Se carga desde careersData en mounted
     }
   },
   computed: {
@@ -313,7 +323,10 @@ export default {
         'artes': 'Artes e Industrias Creativas',
         'administracion': 'Administración y Gestión Empresarial',
         'desarrollo': 'Desarrollo Social y Educación',
-        'estetica': 'Estética Integral'
+        'estetica': 'Estética Integral',
+        'gastronomia': 'Gastronomía, Hotelería y Turismo',
+        'ingenieria': 'Ingenierías, Energías y Tecnologías',
+        'salud': 'Salud & Deportes'
       }
       return schoolMap[this.selectedSchool] || 'Artes e Industrias Creativas'
     },
@@ -328,7 +341,7 @@ export default {
       }
       
       if (this.selectedCareer) {
-        filtered = filtered.filter(career => career.id === parseInt(this.selectedCareer))
+        filtered = filtered.filter(career => career.id.toString() === this.selectedCareer.toString())
       }
       
       return filtered
@@ -432,8 +445,16 @@ export default {
       return Math.ceil(remainingAfterFirst / 1) + 1
     }
   },
+  watch: {
+    selectedSchool() {
+      // Resetear carrera seleccionada y página cuando cambia la escuela
+      this.selectedCareer = ''
+      this.careersCurrentPage = 1
+    }
+  },
   async mounted() {
     await this.loadSchools()
+    this.loadCareersFromData()
     this.checkLibrosPorSede()
     // Verificar vista detallada inmediatamente
     this.checkDetailedView()
@@ -485,6 +506,27 @@ export default {
         }
       } catch (error) {
         // Si falla, mantener los datos de ejemplo que ya están cargados
+      }
+    },
+    loadCareersFromData() {
+      // Cargar todas las carreras desde el archivo de datos
+      this.careers = careersData
+    },
+    handleImageError(event) {
+      // Si la imagen falla al cargar, mostrar placeholder
+      event.target.style.display = 'none'
+      const placeholder = event.target.parentElement.querySelector('.career-image-placeholder')
+      if (!placeholder) {
+        const placeholderDiv = document.createElement('div')
+        placeholderDiv.className = 'career-image-placeholder'
+        event.target.parentElement.appendChild(placeholderDiv)
+      } else {
+        placeholder.style.display = 'block'
+      }
+    },
+    handleCareerLinkClick(career) {
+      if (career && career.url) {
+        window.open(career.url, '_blank')
       }
     },
     previousPage() {
@@ -1598,6 +1640,13 @@ export default {
   background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
   position: relative;
   min-height: 0;
+}
+
+.career-image-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .career-content {
