@@ -10,7 +10,15 @@
     "update:images:csv": "node scripts/update-image-urls-csv.js",
     "update:images:excel": "node scripts/update-image-urls.js",
     "update:libraries:images": "node scripts/update-library-images.js",
-    "update:images": "node scripts/update-image-urls.js"
+    "update:images": "node scripts/update-image-urls.js",
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:stop": "pm2 stop biblioteca-aiep",
+    "pm2:restart": "pm2 restart biblioteca-aiep",
+    "pm2:reload": "pm2 reload biblioteca-aiep",
+    "pm2:delete": "pm2 delete biblioteca-aiep",
+    "pm2:logs": "pm2 logs biblioteca-aiep",
+    "pm2:status": "pm2 status",
+    "deploy": "bash deploy.sh"
   },
   "dependencies": {
     "axios": "^1.6.0",
