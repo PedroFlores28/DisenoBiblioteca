@@ -8,6 +8,7 @@ module.exports = defineConfig({
     // Permitir acceso desde otros hosts (para desarrollo con Nginx)
     allowedHosts: [
       'cmsbiblioteca.aiep.cl',
+      'portal-biblioteca.aiep.cl',
       '.aiep.cl',
       'localhost'
     ],

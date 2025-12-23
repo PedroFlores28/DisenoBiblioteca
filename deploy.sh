@@ -33,23 +33,28 @@ if git diff HEAD@{1} HEAD --name-only | grep -q "package.json\|package-lock.json
     npm install
 fi
 
-# 3. Recompilar la aplicación (si es necesario para producción)
-# Descomenta las siguientes líneas si estás sirviendo archivos compilados
-# echo -e "${YELLOW}🔨 Compilando aplicación...${NC}"
-# npm run build
-
-# 4. Reiniciar PM2
+# 3. Reiniciar PM2 (la aplicación corre en el puerto 3000)
 echo -e "${YELLOW}🔄 Reiniciando aplicación en PM2...${NC}"
 pm2 restart biblioteca-aiep
 
 if [ $? -eq 0 ]; then
-    echo -e "${GREEN}✅ Aplicación reiniciada exitosamente${NC}"
+    echo -e "${GREEN}✅ Aplicación reiniciada exitosamente en PM2${NC}"
     echo -e "${GREEN}📊 Estado de PM2:${NC}"
     pm2 status
 else
     echo -e "${RED}❌ Error al reiniciar PM2${NC}"
     echo -e "${YELLOW}💡 Intenta manualmente: pm2 restart biblioteca-aiep${NC}"
     exit 1
+fi
+
+# 4. Recargar Nginx (proxy a PM2 en puerto 3000)
+echo -e "${YELLOW}🔄 Recargando Nginx...${NC}"
+sudo nginx -t && sudo systemctl reload nginx
+
+if [ $? -eq 0 ]; then
+    echo -e "${GREEN}✅ Nginx recargado exitosamente${NC}"
+else
+    echo -e "${YELLOW}⚠️  Advertencia: No se pudo recargar Nginx. Verifica manualmente: sudo systemctl reload nginx${NC}"
 fi
 
 echo -e "${GREEN}✨ Deploy completado exitosamente!${NC}"
