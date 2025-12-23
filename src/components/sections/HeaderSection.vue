@@ -10,7 +10,7 @@
   </div>
   <header class="header">
     <div class="header-container">
-      <div class="logo">
+      <div class="logo" @click="navigateToHome" style="cursor: pointer;">
         <svg class="logo-text-desktop" width="385" height="67" viewBox="0 0 385 67" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M61.1321 53.2433C60.9724 53.2067 60.8092 53.1885 60.6433 53.1885C60.5365 53.1885 60.4192 53.198 60.2921 53.2163C60.1651 53.2346 60.0592 53.2529 59.9763 53.2711C59.8933 53.2894 59.8024 53.3112 59.7054 53.3355C59.6074 53.3599 59.5554 53.3721 59.5492 53.3721V57.1702H58.3042V52.749C58.4701 52.682 58.771 52.6029 59.2068 52.5115C59.6427 52.4201 60.0618 52.374 60.4651 52.374C60.803 52.374 61.0254 52.3923 61.1321 52.4288V53.2433Z" fill="white"/>
           <path d="M83.8388 34.9793H78.2218L81.0126 26.4659H81.0815L83.8388 34.9793ZM85.6653 40.3001L87.3541 44.9466H94.5559L84.7697 18.2014H77.3959L67.4023 44.9466H74.5697L76.3618 40.3001H85.6653Z" fill="white"/>
@@ -458,6 +458,39 @@ export default {
         behavior: 'smooth'
       })
       this.isAtTop = true
+    },
+    navigateToHome() {
+      // Limpiar cualquier vista detallada abierta
+      sessionStorage.removeItem('bibliografiaFromHeader')
+      sessionStorage.removeItem('selectedSchool')
+      
+      // Cerrar cualquier dropdown abierto
+      this.showServiciosDropdown = false
+      this.showBibliografiaDropdown = false
+      this.showBibliotecasDropdown = false
+      this.showRecursosDropdown = false
+      
+      // Cerrar menú móvil si está abierto
+      this.closeMobileMenu()
+      
+      // Limpiar el hash para volver al home
+      window.location.hash = ''
+      
+      // Hacer scroll al inicio
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
+      
+      // Resetear estados
+      this.isAtTop = true
+      this.isInBibliografia = false
+      this.isInBibliotecas = false
+      
+      // Notificar a BibliografiaSection que cierre la vista detallada si está abierta
+      window.dispatchEvent(new CustomEvent('bibliografia-detailed-view-changed', {
+        detail: { show: false }
+      }))
     },
     showServiciosDropdownHover() {
       if (this.serviciosTimeout) {

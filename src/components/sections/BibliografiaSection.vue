@@ -194,7 +194,7 @@
           >
             <div :class="['card-accent', `accent-${school.color}`]"></div>
             <h3 class="card-title">{{ school.name }}</h3>
-            <a href="#" class="card-link">
+            <a href="#" class="card-link" @click.prevent="navigateToSchoolFromCard(school)">
               Ver más
               <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M19.5019 10.0015L13.5177 3.75535C13.2161 3.44583 12.724 3.42995 12.4145 3.73155C12.1049 4.03314 12.0891 4.52521 12.3907 4.83474L17.9542 10.6444H1.85079C1.41428 10.6444 1.05713 11.0015 1.05713 11.438C1.05713 11.8745 1.41428 12.2317 1.85079 12.2317H17.9542L12.3907 18.0413C12.0891 18.3508 12.1049 18.8509 12.4145 19.1445C12.5653 19.2874 12.7637 19.3588 12.9542 19.3588C13.1605 19.3588 13.3669 19.2794 13.5177 19.1207L19.5257 12.8507C20.2717 12.0015 20.2717 10.8666 19.5019 10.0015Z" fill="#0065DC"/>
@@ -210,7 +210,7 @@
               <div class="school-card">
                 <div :class="['card-accent', `accent-${school.color}`]"></div>
                 <h3 class="card-title">{{ school.name }}</h3>
-                <a href="#" class="card-link">
+                <a href="#" class="card-link" @click.prevent="navigateToSchoolFromCard(school)">
                   Ver más
                   <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M19.5019 10.0015L13.5177 3.75535C13.2161 3.44583 12.724 3.42995 12.4145 3.73155C12.1049 4.03314 12.0891 4.52521 12.3907 4.83474L17.9542 10.6444H1.85079C1.41428 10.6444 1.05713 11.0015 1.05713 11.438C1.05713 11.8745 1.41428 12.2317 1.85079 12.2317H17.9542L12.3907 18.0413C12.0891 18.3508 12.1049 18.8509 12.4145 19.1445C12.5653 19.2874 12.7637 19.3588 12.9542 19.3588C13.1605 19.3588 13.3669 19.2794 13.5177 19.1207L19.5257 12.8507C20.2717 12.0015 20.2717 10.8666 19.5019 10.0015Z" fill="#0065DC"/>
@@ -223,7 +223,7 @@
               >
                 <div :class="['card-accent', `accent-${schools[index + 1].color}`]"></div>
                 <h3 class="card-title">{{ schools[index + 1].name }}</h3>
-                <a href="#" class="card-link">
+                <a href="#" class="card-link" @click.prevent="navigateToSchoolFromCard(schools[index + 1])">
                   Ver más
                   <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M19.5019 10.0015L13.5177 3.75535C13.2161 3.44583 12.724 3.42995 12.4145 3.73155C12.1049 4.03314 12.0891 4.52521 12.3907 4.83474L17.9542 10.6444H1.85079C1.41428 10.6444 1.05713 11.0015 1.05713 11.438C1.05713 11.8745 1.41428 12.2317 1.85079 12.2317H17.9542L12.3907 18.0413C12.0891 18.3508 12.1049 18.8509 12.4145 19.1445C12.5653 19.2874 12.7637 19.3588 12.9542 19.3588C13.1605 19.3588 13.3669 19.2794 13.5177 19.1207L19.5257 12.8507C20.2717 12.0015 20.2717 10.8666 19.5019 10.0015Z" fill="#0065DC"/>
@@ -465,6 +465,7 @@ export default {
     window.addEventListener('resize', this.handleResize)
     window.addEventListener('hashchange', this.checkDetailedView)
     window.addEventListener('bibliografia-navigated', this.checkDetailedView)
+    window.addEventListener('bibliografia-detailed-view-changed', this.handleDetailedViewChange)
     this.$nextTick(() => {
       if (this.$refs.carouselWrapper) {
         if (this.windowWidth <= 768) {
@@ -480,6 +481,7 @@ export default {
     window.removeEventListener('resize', this.handleResize)
     window.removeEventListener('hashchange', this.checkDetailedView)
     window.removeEventListener('bibliografia-navigated', this.checkDetailedView)
+    window.removeEventListener('bibliografia-detailed-view-changed', this.handleDetailedViewChange)
     if (this.$refs.carouselWrapper) {
       this.$refs.carouselWrapper.removeEventListener('scroll', this.handleScroll)
     }
@@ -726,6 +728,50 @@ export default {
       }))
       window.location.hash = ''
       window.scrollTo({ top: 0, behavior: 'smooth' })
+    },
+    handleDetailedViewChange(event) {
+      // Escuchar eventos para cerrar la vista detallada cuando se hace clic en el logo
+      if (event.detail && event.detail.show === false) {
+        this.showDetailedView = false
+      }
+    },
+    getSchoolKeyFromName(schoolName) {
+      // Mapear el nombre de la escuela a su clave
+      const nameToKeyMap = {
+        'Administración y Gestión Empresarial': 'administracion',
+        'Artes e Industrias Creativas': 'artes',
+        'Desarrollo Social y Educación': 'desarrollo',
+        'Estética Integral': 'estetica',
+        'Gastronomía, Hotelería y Turismo': 'gastronomia',
+        'Ingeniería, Energía y Tecnología': 'ingenieria',
+        'Ingenierías, Energías y Tecnologías': 'ingenieria',
+        'Salud y Deporte': 'salud',
+        'Salud & Deportes': 'salud'
+      }
+      return nameToKeyMap[schoolName] || 'artes' // Default a 'artes' si no se encuentra
+    },
+    navigateToSchoolFromCard(school) {
+      // Obtener la clave de la escuela desde su nombre
+      const schoolKey = this.getSchoolKeyFromName(school.name)
+      
+      // Guardar la escuela seleccionada en sessionStorage
+      sessionStorage.setItem('selectedSchool', schoolKey)
+      sessionStorage.setItem('bibliografiaFromHeader', 'true')
+      
+      // Actualizar el hash para navegar a bibliografía
+      window.location.hash = '#bibliografia'
+      
+      // Forzar la verificación de la vista detallada
+      this.checkDetailedView()
+      
+      // Disparar eventos para asegurar que se detecte
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('bibliografia-navigated'))
+      }, 100)
+      
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('bibliografia-navigated'))
+      }, 500)
     },
     observeHeroSection() {
       // Observar cambios en los tabs del HeroSection
