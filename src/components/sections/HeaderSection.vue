@@ -65,16 +65,14 @@
             @mouseenter="showServiciosDropdownHover"
             @mouseleave="hideServiciosDropdown"
           >
-          <a 
-            href="#" 
+          <span 
             :class="['nav-link', { active: isAtTop && !isInBibliografia && !isInBibliotecas }]"
-              @click.prevent="toggleServiciosDropdown"
           >
             Servicios
             <svg class="dropdown-icon" :class="{ rotated: showServiciosDropdown }" width="13" height="7" viewBox="0 0 13 7" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M6.29369 6.28738C5.90247 6.28738 5.51124 6.14224 5.17681 5.84567L0.19186 1.06896C-0.0542323 0.829176 -0.0668524 0.437952 0.17293 0.19186C0.412712 -0.0542327 0.803936 -0.0668521 1.05003 0.17293L6.01605 4.93071C6.19904 5.09477 6.39465 5.09477 6.60288 4.91178L11.55 0.17293C11.7961 -0.0668521 12.1936 -0.0542327 12.4271 0.19186C12.6669 0.437952 12.6542 0.835486 12.4081 1.06896L7.44212 5.82674C7.09507 6.13593 6.69122 6.28738 6.29369 6.28738Z" fill="white"/>
             </svg>
-          </a>
+          </span>
             <div 
               class="dropdown-menu dropdown-servicios"
               :class="{ active: showServiciosDropdown }"
@@ -90,16 +88,14 @@
             @mouseenter="showBibliografiaDropdownHover"
             @mouseleave="hideBibliografiaDropdown"
           >
-          <a 
-            href="#bibliografia" 
+          <span 
             :class="['nav-link', { active: isInBibliografia }]"
-              @click.prevent="navigateToBibliografia"
           >
             Bibliografía por escuelas
             <svg class="dropdown-icon" :class="{ rotated: showBibliografiaDropdown }" width="13" height="7" viewBox="0 0 13 7" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M6.29369 6.28738C5.90247 6.28738 5.51124 6.14224 5.17681 5.84567L0.19186 1.06896C-0.0542323 0.829176 -0.0668524 0.437952 0.17293 0.19186C0.412712 -0.0542327 0.803936 -0.0668521 1.05003 0.17293L6.01605 4.93071C6.19904 5.09477 6.39465 5.09477 6.60288 4.91178L11.55 0.17293C11.7961 -0.0668521 12.1936 -0.0542327 12.4271 0.19186C12.6669 0.437952 12.6542 0.835486 12.4081 1.06896L7.44212 5.82674C7.09507 6.13593 6.69122 6.28738 6.29369 6.28738Z" fill="white"/>
             </svg>
-          </a>
+          </span>
             <div 
               class="dropdown-menu dropdown-escuelas"
               :class="{ active: showBibliografiaDropdown }"
@@ -118,16 +114,14 @@
             @mouseenter="showBibliotecasDropdownHover"
             @mouseleave="hideBibliotecasDropdown"
           >
-          <a 
-            href="#bibliotecas" 
+          <span 
             :class="['nav-link', { active: isInBibliotecas }]"
-              @click.prevent="toggleBibliotecasDropdown"
           >
             Encuentra tu biblioteca
             <svg class="dropdown-icon" :class="{ rotated: showBibliotecasDropdown }" width="13" height="7" viewBox="0 0 13 7" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M6.29369 6.28738C5.90247 6.28738 5.51124 6.14224 5.17681 5.84567L0.19186 1.06896C-0.0542323 0.829176 -0.0668524 0.437952 0.17293 0.19186C0.412712 -0.0542327 0.803936 -0.0668521 1.05003 0.17293L6.01605 4.93071C6.19904 5.09477 6.39465 5.09477 6.60288 4.91178L11.55 0.17293C11.7961 -0.0668521 12.1936 -0.0542327 12.4271 0.19186C12.6669 0.437952 12.6542 0.835486 12.4081 1.06896L7.44212 5.82674C7.09507 6.13593 6.69122 6.28738 6.29369 6.28738Z" fill="white"/>
             </svg>
-          </a>
+          </span>
             <div 
               class="dropdown-menu dropdown-bibliotecas"
               :class="{ active: showBibliotecasDropdown }"
@@ -168,16 +162,14 @@
             @mouseenter="showRecursosDropdownHover"
             @mouseleave="hideRecursosDropdown"
           >
-          <a 
-            href="#" 
+          <span 
             :class="['nav-link', { active: isInRecursos }]"
-              @click.prevent="toggleRecursosDropdown"
           >
             Recursos de información
             <svg class="dropdown-icon" :class="{ rotated: showRecursosDropdown }" width="13" height="7" viewBox="0 0 13 7" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M6.29369 6.28738C5.90247 6.28738 5.51124 6.14224 5.17681 5.84567L0.19186 1.06896C-0.0542323 0.829176 -0.0668524 0.437952 0.17293 0.19186C0.412712 -0.0542327 0.803936 -0.0668521 1.05003 0.17293L6.01605 4.93071C6.19904 5.09477 6.39465 5.09477 6.60288 4.91178L11.55 0.17293C11.7961 -0.0668521 12.1936 -0.0542327 12.4271 0.19186C12.6669 0.437952 12.6542 0.835486 12.4081 1.06896L7.44212 5.82674C7.09507 6.13593 6.69122 6.28738 6.29369 6.28738Z" fill="white"/>
             </svg>
-          </a>
+          </span>
             <div 
               class="dropdown-menu dropdown-recursos"
               :class="{ active: showRecursosDropdown }"
@@ -467,9 +459,6 @@ export default {
       })
       this.isAtTop = true
     },
-    toggleServiciosDropdown() {
-      this.showServiciosDropdown = !this.showServiciosDropdown
-    },
     showServiciosDropdownHover() {
       if (this.serviciosTimeout) {
         clearTimeout(this.serviciosTimeout)
@@ -535,9 +524,6 @@ export default {
       }
       this.showBibliografiaDropdown = false
     },
-    toggleBibliotecasDropdown() {
-      this.showBibliotecasDropdown = !this.showBibliotecasDropdown
-    },
     showBibliotecasDropdownHover() {
       if (this.bibliotecasTimeout) {
         clearTimeout(this.bibliotecasTimeout)
@@ -558,9 +544,6 @@ export default {
     navigateToLibraryFromDropdown(library) {
       this.hideBibliotecasDropdown()
       this.navigateToLibrary(library)
-    },
-    toggleRecursosDropdown() {
-      this.showRecursosDropdown = !this.showRecursosDropdown
     },
     showRecursosDropdownHover() {
       if (this.recursosTimeout) {
@@ -1005,6 +988,8 @@ export default {
   border-radius: 4px;
   transition: all 0.3s;
   white-space: nowrap;
+  cursor: default;
+  user-select: none;
 }
 
 .nav-link:hover {
