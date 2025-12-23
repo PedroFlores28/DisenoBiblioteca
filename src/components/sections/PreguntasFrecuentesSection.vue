@@ -168,37 +168,37 @@ export default {
           {
             id: 1,
             question: '¿Cómo puedo ver la bibliografía de mi carrera?',
-            answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation',
+            answer: 'Puedes acceder a la bibliografía de tu carrera desde la sección "Bibliografía por escuelas" en el menú principal. Allí encontrarás todos los recursos bibliográficos organizados por área de estudio.',
             isOpen: false
           },
           {
             id: 2,
-            question: '¿Cómo entro a mi cuenta de biblioteca?',
-            answer: 'Para acceder a tu cuenta de biblioteca, debes utilizar tus credenciales institucionales en el portal de estudiantes.',
+            question: '¿Dónde puedo aprender a usar la biblioteca digital?',
+            answer: 'Puedes acceder a los tutoriales y guías disponibles en la sección de ayuda del sitio web, donde encontrarás instrucciones detalladas sobre cómo utilizar todos los recursos digitales disponibles.',
             isOpen: false
           },
           {
             id: 3,
-            question: '¿Dónde puedo aprender a usar la biblioteca digital?',
-            answer: 'Puedes acceder a los tutoriales y guías disponibles en la sección de ayuda del sitio web.',
+            question: '¿Qué diferencia hay entre libros físicos y digitales?',
+            answer: 'Los libros físicos están disponibles para préstamo presencial en las sedes de la biblioteca, mientras que los libros digitales pueden ser consultados en línea desde cualquier lugar y en cualquier momento a través de tu cuenta.',
             isOpen: false
           },
           {
             id: 4,
-            question: '¿Qué puedo hacer dentro del sitio de Bibliotecas AIEP?',
-            answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation',
+            question: '¿Cómo entro a mi cuenta de biblioteca?',
+            answer: 'Para acceder a tu cuenta de biblioteca, debes utilizar tus credenciales institucionales (usuario y contraseña) en el portal de estudiantes de AIEP.',
             isOpen: false
           },
           {
             id: 5,
-            question: '¿Qué diferencia hay entre libros físicos y digitales?',
-            answer: 'Los libros físicos están disponibles para préstamo en las sedes, mientras que los digitales pueden ser consultados en línea.',
+            question: '¿Qué puedo hacer dentro del sitio de Bibliotecas AIEP?',
+            answer: 'Dentro del sitio puedes consultar bibliografía por carrera, buscar bibliotecas por ubicación, acceder a servicios y recursos digitales, ver novedades, y encontrar respuestas a preguntas frecuentes sobre nuestros servicios.',
             isOpen: false
           },
           {
             id: 6,
             question: '¿Cómo sé si un libro está disponible en mi sede?',
-            answer: 'Puedes consultar la disponibilidad de libros en la sección de búsqueda, filtrando por tu sede.',
+            answer: 'Puedes consultar la disponibilidad de libros en la sección de búsqueda del catálogo, filtrando por tu sede específica. También puedes contactar directamente a tu biblioteca para verificar la disponibilidad.',
             isOpen: false
           }
         ]
