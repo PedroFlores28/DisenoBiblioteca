@@ -12,6 +12,11 @@ module.exports = defineConfig({
       '.aiep.cl',
       'localhost'
     ],
+    // Deshabilitar hot reload y WebSocket cuando está detrás de proxy HTTPS
+    // Esto evita errores de WebSocket inseguro desde HTTPS
+    hot: false,
+    liveReload: false,
+    webSocketServer: false, // Deshabilitar completamente el servidor WebSocket
     // Proxy para desarrollo: redirige las peticiones a /api a Strapi
     proxy: {
       '/api': {
