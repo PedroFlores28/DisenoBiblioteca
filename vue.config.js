@@ -14,7 +14,7 @@ module.exports = defineConfig({
     // Proxy para desarrollo: redirige las peticiones a /api a Strapi
     proxy: {
       '/api': {
-        target: process.env.VUE_APP_STRAPI_URL || 'http://68.211.112.39:1337',
+        target: process.env.VUE_APP_STRAPI_URL || 'https://cmsbiblioteca.aiep.cl',
         changeOrigin: true,
         secure: false,
         logLevel: 'debug'
