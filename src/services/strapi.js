@@ -33,9 +33,9 @@ const API_BASE = getApiBase()
 // Función helper para obtener la URL base sin /api (para mensajes de error)
 const getStrapiBaseUrl = () => {
   if (process.env.NODE_ENV === 'development') {
-    return process.env.VUE_APP_STRAPI_URL || 'http://68.211.112.39:1337'
+    return process.env.VUE_APP_STRAPI_URL || 'https://cmsbiblioteca.aiep.cl'
   }
-  return process.env.VUE_APP_STRAPI_URL_PROD || process.env.VUE_APP_STRAPI_URL || 'http://68.211.112.39:1337'
+  return process.env.VUE_APP_STRAPI_URL_PROD || process.env.VUE_APP_STRAPI_URL || 'https://cmsbiblioteca.aiep.cl'
 }
 
 // Log para debugging
