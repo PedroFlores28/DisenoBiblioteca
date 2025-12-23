@@ -324,8 +324,9 @@ export default {
       libraries: [],
       regions: [
         { id: 'norte', name: 'Zona Norte' },
-        { id: 'centro', name: 'Zona Centro' },
+        { id: 'centro-costa', name: 'Centro Costa' },
         { id: 'metropolitana', name: 'Región Metropolitana' },
+        { id: 'centro', name: 'Centro Sur' },
         { id: 'sur', name: 'Zona Sur' }
       ],
       schools: [

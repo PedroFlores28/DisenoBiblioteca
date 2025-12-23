@@ -357,11 +357,23 @@ export default {
   async mounted() {
     await this.loadLibraries()
     window.addEventListener('resize', this.handleResize)
+    window.addEventListener('region-selected', this.handleRegionSelected)
     this.checkLibrosPorSede()
     // Escuchar cambios en el botón de HeroSection
     setInterval(() => {
       this.checkLibrosPorSede()
     }, 100)
+    
+    // Verificar si hay una región seleccionada desde sessionStorage
+    const selectedRegion = sessionStorage.getItem('selectedRegion')
+    if (selectedRegion) {
+      // Esperar un poco para que el componente esté completamente renderizado
+      setTimeout(() => {
+        this.selectRegion(selectedRegion)
+        sessionStorage.removeItem('selectedRegion')
+      }, 300)
+    }
+    
     this.$nextTick(() => {
       if (this.$refs.carouselWrapper && this.windowWidth <= 768) {
         this.$refs.carouselWrapper.addEventListener('scroll', this.handleScroll)
@@ -371,6 +383,7 @@ export default {
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.handleResize)
+    window.removeEventListener('region-selected', this.handleRegionSelected)
     if (this.$refs.carouselWrapper) {
       this.$refs.carouselWrapper.removeEventListener('scroll', this.handleScroll)
     }
@@ -702,6 +715,17 @@ export default {
       this.$nextTick(() => {
         this.updateScrollButtons()
       })
+    },
+    handleRegionSelected(event) {
+      // Manejar el evento cuando se selecciona una región desde el header
+      if (event && event.detail && event.detail.regionId) {
+        const regionId = event.detail.regionId
+        // Verificar que la región existe
+        const regionExists = this.regions.some(r => r.id === regionId)
+        if (regionExists) {
+          this.selectRegion(regionId)
+        }
+      }
     },
     handleSearch() {
       // Mapeo de términos de búsqueda a IDs de región
