@@ -126,35 +126,15 @@
               class="dropdown-menu dropdown-bibliotecas"
               :class="{ active: showBibliotecasDropdown }"
             >
-              <div 
+              <a 
                 v-for="region in regions" 
                 :key="region.id"
-                class="dropdown-accordion"
+                href="#" 
+                class="dropdown-item"
+                @click.prevent="navigateToRegionFromDropdown(region)"
               >
-                <div 
-                  class="dropdown-accordion-header"
-                  @click.stop="toggleBibliotecaAccordion(region.id)"
-                >
-                  <span>{{ region.name }}</span>
-                  <svg class="dropdown-chevron" :class="{ rotated: expandedBibliotecaAccordions[region.id] }" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </div>
-                <div 
-                  class="dropdown-accordion-content"
-                  v-if="expandedBibliotecaAccordions[region.id]"
-                >
-                  <a 
-                    v-for="library in getLibrariesByRegion(region.id)" 
-                    :key="library.id"
-                    href="#" 
-                    class="dropdown-item dropdown-subitem"
-                    @click.prevent="navigateToLibraryFromDropdown(library)"
-                  >
-                    {{ library.name }}
-                  </a>
-                </div>
-              </div>
+                {{ region.name }}
+              </a>
             </div>
           </div>
           <div 
@@ -301,12 +281,6 @@ export default {
       bibliografiaTimeout: null,
       bibliotecasTimeout: null,
       recursosTimeout: null,
-      expandedBibliotecaAccordions: {
-        norte: false,
-        centro: false,
-        metropolitana: false,
-        sur: false
-      },
       expandedSections: {
         servicios: false,
         bibliografia: true,
@@ -577,12 +551,20 @@ export default {
       }
       this.showBibliotecasDropdown = false
     },
-    toggleBibliotecaAccordion(regionId) {
-      this.expandedBibliotecaAccordions[regionId] = !this.expandedBibliotecaAccordions[regionId]
-    },
-    navigateToLibraryFromDropdown(library) {
+    navigateToRegionFromDropdown(region) {
       this.hideBibliotecasDropdown()
-      this.navigateToLibrary(library)
+      // Navegar a la sección de bibliotecas y seleccionar la región
+      this.scrollToSection('#bibliotecas', { preventDefault: () => {} })
+      
+      // Guardar la región seleccionada para que BibliotecasSection la detecte
+      sessionStorage.setItem('selectedRegion', region.id)
+      
+      // Disparar evento para que BibliotecasSection seleccione la región
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('region-selected', {
+          detail: { regionId: region.id }
+        }))
+      }, 500)
     },
     showRecursosDropdownHover() {
       if (this.recursosTimeout) {
