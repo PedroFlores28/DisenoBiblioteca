@@ -256,49 +256,49 @@ export default {
           {
             id: 1,
             name: 'Revistas Académicas (Proquest)',
-            url: 'https://www.proquest.com',
+            url: 'https://itmsp.museknowledge.com/MuseSessionID=0910qnxid/MuseProtocol=https/MuseHost=www.proquest.com/MusePath/index?parentSessionId=Qru4aIKBNrLQJ%2FvHVgOHse7XO26dC1QXWOcVe1ik2RQ%3D&accountid=163619',
             iconType: 'book'
           },
           {
             id: 2,
             name: 'Portal de Revistas Académicas Chilenas',
-            url: '#',
+            url: 'https://revistaschilenas.uchile.cl/',
             iconType: 'document'
           },
           {
             id: 3,
             name: 'Biblioteca del Congreso',
-            url: '#',
+            url: 'https://www.leychile.cl/Consulta/homebasico',
             iconType: 'people'
           },
           {
             id: 4,
             name: 'Normas Chilenas',
-            url: '#',
+            url: 'https://www.inncoleccion.cl/colecao.aspx',
             iconType: 'normas'
           },
           {
             id: 5,
             name: 'Diario Oficial de la República',
-            url: '#',
+            url: 'http://www.diariooficial.interior.gob.cl/',
             iconType: 'diario-oficial'
           },
           {
             id: 6,
             name: 'Biblioteca Thomson-Reuters',
-            url: '#',
+            url: 'https://09115nxig-y-https-next--proview-thomsonreuters-com.itmsp.museknowledge.com/library',
             iconType: 'thomson-reuters'
           },
           {
             id: 7,
             name: 'Biblioteca ENI',
-            url: '#',
+            url: 'https://0910cnxik-y-https-www-eni--training-com.itmsp.museknowledge.com/instant-Connection/Default.aspx',
             iconType: 'eni'
           },
           {
             id: 8,
             name: 'Enciclopedia OIT',
-            url: '#',
+            url: 'http://www.insht.es/portal/site/Insht/menuitem.1f1a3bc79ab34c578c2e8884060961ca/?vgnextoid=a981ceffc39a5110VgnVCM100000dc0ca8c0RCRD&vgnextchannel=9f164a7f8a651110VgnVCM100000dc0ca8c0RCRD',
             iconType: 'oit'
           }
         ]
