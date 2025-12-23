@@ -391,14 +391,14 @@ export default {
   }
   
   .widget-title {
-    padding: 12px 24px 4px 16px;
+    padding: 12px 24px 4px 21px;
     margin: 0;
     font-size: 28px;
     color: #024588;
   }
   
   .widget-description {
-    padding: 0 24px 16px 16px;
+    padding: 0 24px 16px 21px;
     margin: 0;
     font-size: 16px;
     font-family: Verdana, sans-serif;
@@ -433,12 +433,13 @@ export default {
   font-size: 28px;
   color: #024588;
   margin-bottom: 8px;
+  margin-top: 28px;
 }
 
 .widget-description {
   color: var(--text-light);
   font-size: 16px;
-  margin-bottom: 20px;
+  margin-bottom: -14px;
   font-family: Verdana, sans-serif;
 }
 
