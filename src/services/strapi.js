@@ -2,40 +2,24 @@ import axios from 'axios'
 
 // URL del servidor Strapi
 // En desarrollo: usa el proxy de vue.config.js (relativo)
-// En producción: usa la URL completa desde variables de entorno
+// En producción: usa la URL completa directamente
+const STRAPI_URL = 'https://cmsbiblioteca.aiep.cl'
+
 const getApiBase = () => {
   // En desarrollo, usar el proxy (ruta relativa)
   if (process.env.NODE_ENV === 'development') {
     return '/api' // Usa el proxy configurado en vue.config.js
   }
   
-  // En producción, usar la URL completa desde variables de entorno
-  const prodUrl = process.env.VUE_APP_STRAPI_URL_PROD || process.env.VUE_APP_STRAPI_URL || 'https://cmsbiblioteca.aiep.cl'
-  
-  // Verificar si la página está en HTTPS
-  if (typeof window !== 'undefined' && window.location.protocol === 'https:') {
-    // Si la URL de producción es HTTP, mostrar advertencia
-    if (prodUrl.startsWith('http://')) {
-      console.error('❌ ERROR: La aplicación está en HTTPS pero Strapi está configurado en HTTP')
-      console.error('❌ Esto causará un error de "Mixed Content"')
-      console.error('📋 Soluciones:')
-      console.error('   1. Configura HTTPS en tu servidor Strapi')
-      console.error('   2. O crea un archivo .env.production con: VUE_APP_STRAPI_URL_PROD=https://tu-servidor:1337')
-      console.error('   3. O usa un proxy reverso con HTTPS')
-    }
-  }
-  
-  return `${prodUrl}/api`
+  // En producción, usar la URL completa directamente
+  return `${STRAPI_URL}/api`
 }
 
 const API_BASE = getApiBase()
 
 // Función helper para obtener la URL base sin /api (para mensajes de error)
 const getStrapiBaseUrl = () => {
-  if (process.env.NODE_ENV === 'development') {
-    return process.env.VUE_APP_STRAPI_URL || 'https://cmsbiblioteca.aiep.cl'
-  }
-  return process.env.VUE_APP_STRAPI_URL_PROD || process.env.VUE_APP_STRAPI_URL || 'https://cmsbiblioteca.aiep.cl'
+  return STRAPI_URL
 }
 
 // Log para debugging
