@@ -12,6 +12,7 @@
     "update:libraries:images": "node scripts/update-library-images.js",
     "update:images": "node scripts/update-image-urls.js",
     "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:init": "bash iniciar-pm2.sh",
     "pm2:stop": "pm2 stop biblioteca-aiep",
     "pm2:restart": "pm2 restart biblioteca-aiep",
     "pm2:reload": "pm2 reload biblioteca-aiep",
