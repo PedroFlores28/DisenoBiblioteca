@@ -69,7 +69,14 @@
               :class="['library-card', { highlighted: selectedLibraryId === library.id, 'libros-por-sede': isLibrosPorSede }]"
             >
               <div class="library-image">
-                <div class="image-placeholder" :class="{ 'split-image': isLibrosPorSede }">
+                <img 
+                  v-if="library.imageUrl" 
+                  :src="library.imageUrl" 
+                  :alt="library.name"
+                  class="library-image-img"
+                  @error="handleImageError"
+                />
+                <div v-else class="image-placeholder" :class="{ 'split-image': isLibrosPorSede }">
                   <div v-if="isLibrosPorSede" class="image-top"></div>
                 </div>
               </div>
@@ -163,8 +170,9 @@ export default {
       searchQuery: '',
       regions: [
         { id: 'norte', name: 'Zona Norte' },
-        { id: 'centro', name: 'Zona Centro' },
+        { id: 'centro-costa', name: 'Centro Costa' },
         { id: 'metropolitana', name: 'Región Metropolitana' },
+        { id: 'centro', name: 'Centro Sur' },
         { id: 'sur', name: 'Zona Sur' }
       ],
       windowWidth: window.innerWidth,
@@ -234,6 +242,8 @@ export default {
           'zona norte': 'norte',
           'centro': 'centro',
           'zona centro': 'centro',
+          'centro sur': 'centro',
+          'centro costa': 'centro-costa',
           'metropolitana': 'metropolitana',
           'región metropolitana': 'metropolitana',
           'region metropolitana': 'metropolitana',
@@ -366,6 +376,18 @@ export default {
     }
   },
   methods: {
+    handleImageError(event) {
+      // Si la imagen falla al cargar, mostrar placeholder
+      event.target.style.display = 'none'
+      const placeholder = event.target.parentElement.querySelector('.image-placeholder')
+      if (placeholder) {
+        placeholder.style.display = 'block'
+      } else {
+        const placeholderDiv = document.createElement('div')
+        placeholderDiv.className = 'image-placeholder'
+        event.target.parentElement.appendChild(placeholderDiv)
+      }
+    },
     checkLibrosPorSede() {
       const tabButton = document.querySelector('.tab.active')
       if (tabButton) {
@@ -390,245 +412,213 @@ export default {
           // Región Metropolitana
           {
             id: 1,
-            name: 'Biblioteca Grajales',
+            name: 'Barrio Universitario - Biblioteca Grajales',
             address: 'Grajales 2550, Santiago',
             email: 'dae.bus@aiep.cl',
             phone: '',
-            region: 'metropolitana',
-            hours: {
+            region: 'metropolitana', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_bus_grajales.jpg', hours: {
               weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
               saturday: 'Sábados de 09:00 a 18:00 horas'
             }
           },
           {
             id: 2,
-            name: 'Biblioteca Ejército',
+            name: 'Barrio Universitario Biblioteca Ejército',
             address: 'Ejército 49, Santiago Centro',
             email: 'dae.bus@aiep.cl',
             phone: '',
-            region: 'metropolitana',
-            hours: {
-              weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
-            }
-          },
-          {
-            id: 3,
-            name: 'Biblioteca San Joaquín',
-            address: 'Vicuña Mackenna 4685, Macul',
-            email: 'dae.sanjoaquin@aiep.cl',
-            phone: '2 32014507',
-            region: 'metropolitana',
-            hours: {
-              weekdays: 'Lunes a Viernes 08:30 a 21:00 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
-            }
-          },
-          // Zona Norte
-          {
-            id: 4,
-            name: 'Biblioteca Antofagasta',
-            address: 'Av. Angamos 601, Antofagasta',
-            email: 'dae.antofagasta@aiep.cl',
-            phone: '55 2635000',
-            region: 'norte',
-            hours: {
-              weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
-            }
-          },
-          {
-            id: 5,
-            name: 'Biblioteca La Serena',
-            address: 'Av. Francisco de Aguirre 470, La Serena',
-            email: 'dae.laserena@aiep.cl',
-            phone: '51 2485000',
-            region: 'norte',
-            hours: {
-              weekdays: 'Lunes a Viernes 08:30 a 21:00 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
-            }
-          },
-          {
-            id: 6,
-            name: 'Biblioteca Iquique',
-            address: 'Av. Arturo Prat 2120, Iquique',
-            email: 'dae.iquique@aiep.cl',
-            phone: '57 2425000',
-            region: 'norte',
-            hours: {
-              weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
-            }
-          },
-          // Zona Centro
-          {
-            id: 7,
-            name: 'Biblioteca Valparaíso',
-            address: 'Av. España 2250, Valparaíso',
-            email: 'dae.valparaiso@aiep.cl',
-            phone: '32 2505000',
-            region: 'centro',
-            hours: {
-              weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
-            }
-          },
-          {
-            id: 8,
-            name: 'Biblioteca Viña del Mar',
-            address: 'Av. Libertad 1340, Viña del Mar',
-            email: 'dae.vinadelmar@aiep.cl',
-            phone: '32 2485000',
-            region: 'centro',
-            hours: {
-              weekdays: 'Lunes a Viernes 08:30 a 21:00 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
-            }
-          },
-          {
-            id: 9,
-            name: 'Biblioteca Rancagua',
-            address: 'Av. Millán 341, Rancagua',
-            email: 'dae.rancagua@aiep.cl',
-            phone: '72 2235000',
-            region: 'centro',
-            hours: {
-              weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
-            }
-          },
-          // Zona Sur
-          {
-            id: 10,
-            name: 'Biblioteca Concepción',
-            address: 'Av. O\'Higgins 630, Concepción',
-            email: 'dae.concepcion@aiep.cl',
-            phone: '41 2265000',
-            region: 'sur',
-            hours: {
-              weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
-            }
-          },
-          {
-            id: 11,
-            name: 'Biblioteca Temuco',
-            address: 'Av. Alemania 0280, Temuco',
-            email: 'dae.temuco@aiep.cl',
-            phone: '45 2405000',
-            region: 'sur',
-            hours: {
-              weekdays: 'Lunes a Viernes 08:30 a 21:00 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
-            }
-          },
-          // Más bibliotecas Zona Norte
-          {
-            id: 13,
-            name: 'Biblioteca Arica',
-            address: 'Av. General Velásquez 1775, Arica',
-            email: 'dae.arica@aiep.cl',
-            phone: '58 2235000',
-            region: 'norte',
-            hours: {
-              weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
-            }
-          },
-          {
-            id: 14,
-            name: 'Biblioteca Copiapó',
-            address: 'Av. Copayapu 485, Copiapó',
-            email: 'dae.copiapo@aiep.cl',
-            phone: '52 2215000',
-            region: 'norte',
-            hours: {
-              weekdays: 'Lunes a Viernes 08:30 a 21:00 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
-            }
-          },
-          {
-            id: 15,
-            name: 'Biblioteca Calama',
-            address: 'Av. Granaderos 2901, Calama',
-            email: 'dae.calama@aiep.cl',
-            phone: '55 2345000',
-            region: 'norte',
-            hours: {
+            region: 'metropolitana', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_generica.jpg', hours: {
               weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
               saturday: 'Sábados de 09:00 a 18:00 horas'
             }
           },
           {
             id: 16,
-            name: 'Biblioteca Coquimbo',
-            address: 'Av. Costanera 700, Coquimbo',
-            email: 'dae.coquimbo@aiep.cl',
-            phone: '51 2315000',
-            region: 'norte',
-            hours: {
+            name: 'Biblioteca Bellavista',
+            address: 'Bellavista 0121, Providencia',
+            email: 'dae.bellavista@aiep.cl',
+            phone: '',
+            region: 'metropolitana', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_bellavista.jpg', hours: {
+              weekdays: 'Lunes a Viernes 09:00 a 21:30 horas',
+              saturday: 'Sábados de 08:30 a 18:30 horas'
+            }
+          },
+          {
+            id: 21,
+            name: 'Biblioteca Maipú',
+            address: 'Chacabuco 40, 5to Piso, Maipú, Región Metropolitana',
+            email: 'dae.maipu@aiep.cl',
+            phone: '',
+            region: 'metropolitana', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_maipu.jpg', hours: {
+              weekdays: 'Lunes a Viernes 08:30 a 21:00 horas',
+              saturday: 'Sábados de 09:30 a 18:00 horas'
+            }
+          },
+          {
+            id: 3,
+            name: 'Biblioteca San Joaquín',
+            address: 'Vicuña Mackenna 4685, Macul, Región Metropolitana',
+            email: 'dae.sanjoaquin@aiep.cl',
+            phone: '2 32014507',
+            region: 'metropolitana', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_sanjoaquin.jpg', hours: {
               weekdays: 'Lunes a Viernes 08:30 a 21:00 horas',
               saturday: 'Sábados de 09:00 a 18:00 horas'
             }
           },
-          {
-            id: 28,
-            name: 'Biblioteca Ovalle',
-            address: 'Av. Ariztía 300, Ovalle',
-            email: 'dae.ovalle@aiep.cl',
-            phone: '53 2255000',
-            region: 'norte',
-            hours: {
-              weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
-            }
-          },
-          {
-            id: 29,
-            name: 'Biblioteca Vallenar',
-            address: 'Av. Matta 550, Vallenar',
-            email: 'dae.vallenar@aiep.cl',
-            phone: '51 2665000',
-            region: 'norte',
-            hours: {
-              weekdays: 'Lunes a Viernes 08:30 a 21:00 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
-            }
-          },
-          // Más bibliotecas Zona Centro
           {
             id: 17,
-            name: 'Biblioteca Quillota',
-            address: 'Av. Condell 200, Quillota',
-            email: 'dae.quillota@aiep.cl',
-            phone: '33 2215000',
-            region: 'centro',
-            hours: {
+            name: 'Biblioteca Santiago Norte',
+            address: 'Av. Vespucio Norte #1796, Huechuraba, Santiago',
+            email: 'daesantiagonorte@aiep.cl',
+            phone: '',
+            region: 'metropolitana', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_stgonorte.jpg', hours: {
+              weekdays: 'Lunes a Viernes 08:30 a 21:00 horas',
+              saturday: 'Sábados de 09:30 a 18:00 horas'
+            }
+          },
+          {
+            id: 24,
+            name: 'Biblioteca San Bernardo',
+            address: 'Av. San José 672, San Bernardo',
+            email: 'dae.sanbernardo@aiep.cl',
+            phone: '55 2572303, 55 2572301',
+            region: 'metropolitana', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_sanbernardo.jpg', hours: {
               weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
               saturday: 'Sábados de 09:00 a 18:00 horas'
+            }
+          },
+          // Zona Norte
+          {
+            id: 4,
+            name: 'Biblioteca Calama',
+            address: 'Balmaceda 3242, Calama',
+            email: 'biblioteca.calama@aiep.cl',
+            phone: '55-2572400',
+            region: 'norte', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_calama.jpg', hours: {
+              weekdays: 'Lunes a Viernes 09:00 a 21:30 horas',
+              saturday: 'Sábados de 09:00 a 18:00 horas'
+            }
+          },
+          {
+            id: 5,
+            name: 'Biblioteca La Serena',
+            address: 'Huanhuali 105, La Serena',
+            email: 'dae.laserena@aiep.cl',
+            phone: '51-2541553- 51-2541542',
+            region: 'norte', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_generica.jpg', hours: {
+              weekdays: 'Lunes a Viernes 09:00 a 21:30 horas',
+              saturday: 'Sábados de 09:00 a 18:00 horas'
+            }
+          },
+          {
+            id: 6,
+            name: 'Biblioteca Antofagasta',
+            address: 'San Martín 2341, Antofagasta',
+            email: 'dae.antofagasta@aiep.cl',
+            phone: '55 2572303, 55 2572301',
+            region: 'norte', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_antofagasta.jpg', hours: {
+              weekdays: 'Lunes a Viernes 09:00 a 21:30 horas',
+              saturday: 'Sábados de 09:00 a 18:00 horas'
+            }
+          },
+          // Centro Costa
+          {
+            id: 7,
+            name: 'Biblioteca San Felipe',
+            address: 'Yungay 1580, San Felipe',
+            email: 'dae.sanfelipe@aiep.cl',
+            phone: '34 2352808',
+            region: 'centro-costa', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_generica.jpg', hours: {
+              weekdays: 'Lunes a Viernes 09:00 a 21:30 horas',
+              saturday: 'Sábados de 09:00 a 18:00 horas'
+            }
+          },
+          {
+            id: 13,
+            name: 'Biblioteca Álvarez (Viña del Mar)',
+            address: 'Álvarez 860, Viña del Mar',
+            email: 'dae.vinadelmar@aiep.cl',
+            phone: '',
+            region: 'centro-costa', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_vinha.jpg', hours: {
+              weekdays: 'Lunes a Viernes 09:00 a 21:30 horas',
+              saturday: 'Sábados de 09:00 a 18:00 horas'
+            }
+          },
+          {
+            id: 14,
+            name: 'Biblioteca Valparaíso',
+            address: 'Errázuriz 641, Valparaíso',
+            email: 'dae.valparaiso@aiep.cl',
+            phone: '',
+            region: 'centro-costa', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_valparaiso.jpg', hours: {
+              weekdays: 'Lunes a Viernes 09:00 a 21:30 horas',
+              saturday: 'Sábados de 09:00 a 18:00 horas'
+            }
+          },
+          {
+            id: 15,
+            name: 'Biblioteca San Antonio',
+            address: 'General Ibañez 1760, San Antonio',
+            email: 'dae.sanantonio@aiep.cl',
+            phone: '',
+            region: 'centro-costa', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_valparaiso.jpg', hours: {
+              weekdays: 'Lunes a Viernes 08:30 a 21:00 horas',
+              saturday: 'Sábados de 09:30 a 18:00 horas'
+            }
+          },
+          // Centro Sur
+          {
+            id: 10,
+            name: 'Biblioteca Rancagua',
+            address: 'German Riesco N° 63 - 1° piso Edificio D',
+            email: 'dae.rancagua@aiep.cl',
+            phone: '',
+            region: 'centro', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_rancagua.jpg', hours: {
+              weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
+              saturday: 'Sábados de 09:30 a 18:00 horas'
             }
           },
           {
             id: 18,
-            name: 'Biblioteca Los Andes',
-            address: 'Av. Santa Teresa 555, Los Andes',
-            email: 'dae.losandes@aiep.cl',
-            phone: '34 2425000',
-            region: 'centro',
-            hours: {
+            name: 'Biblioteca San Fernando',
+            address: 'Carampagne 1058, San Fernando',
+            email: 'dae.sanfernando@aiep.cl',
+            phone: '',
+            region: 'centro', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_valparaiso.jpg', hours: {
               weekdays: 'Lunes a Viernes 08:30 a 21:00 horas',
+              saturday: 'Sábados de 09:30 a 18:00 horas'
+            }
+          },
+          // Zona Sur
+          {
+            id: 11,
+            name: 'Concepción Biblioteca Barros',
+            address: 'Barros Arana 302, Concepción',
+            email: 'dae.concepcion@aiep.cl',
+            phone: '',
+            region: 'sur', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_conce_a.jpg', hours: {
+              weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
               saturday: 'Sábados de 09:00 a 18:00 horas'
             }
           },
           {
             id: 19,
-            name: 'Biblioteca San Felipe',
-            address: 'Av. Yungay 850, San Felipe',
-            email: 'dae.sanfelipe@aiep.cl',
-            phone: '34 2515000',
-            region: 'centro',
-            hours: {
+            name: 'Concepción Biblioteca Prat',
+            address: 'Avda. Prat 288, Concepción',
+            email: 'dae.concepcion@aiep.cl',
+            phone: '',
+            region: 'sur', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_conce_prat.jpg', hours: {
+              weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
+              saturday: 'Sábados de 08:30 a 18:30 horas'
+            }
+          },
+          {
+            id: 12,
+            name: 'Biblioteca Temuco',
+            address: 'Avda. Alemania 035, Temuco',
+            email: 'dae.temuco@aiep.cl',
+            phone: '',
+            region: 'sur', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_temuco.jpg', hours: {
               weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
               saturday: 'Sábados de 09:00 a 18:00 horas'
             }
@@ -636,147 +626,67 @@ export default {
           {
             id: 20,
             name: 'Biblioteca Curicó',
-            address: 'Av. O\'Higgins 220, Curicó',
-            email: 'dae.curico@aiep.cl',
-            phone: '75 2315000',
-            region: 'centro',
-            hours: {
+            address: 'Avenida Libertador Bernardo O\'Higgins 201, Curicó, Maule',
+            email: 'dae.Curicó@aiep.cl',
+            phone: '075-2574513 - 075-2574506',
+            region: 'centro', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_curico.jpg', hours: {
               weekdays: 'Lunes a Viernes 08:30 a 21:00 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
+              saturday: 'Sábados de 09:30 a 18:00 horas'
             }
           },
-          {
-            id: 30,
-            name: 'Biblioteca San Antonio',
-            address: 'Av. Barros Luco 1477, San Antonio',
-            email: 'dae.sanantonio@aiep.cl',
-            phone: '35 2355000',
-            region: 'centro',
-            hours: {
-              weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
-            }
-          },
-          {
-            id: 31,
-            name: 'Biblioteca Linares',
-            address: 'Av. Independencia 575, Linares',
-            email: 'dae.linares@aiep.cl',
-            phone: '73 2155000',
-            region: 'centro',
-            hours: {
-              weekdays: 'Lunes a Viernes 08:30 a 21:00 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
-            }
-          },
-          // Más bibliotecas Región Metropolitana
-          {
-            id: 21,
-            name: 'Biblioteca Maipú',
-            address: 'Av. Pajaritos 4555, Maipú',
-            email: 'dae.maipu@aiep.cl',
-            phone: '2 32514507',
-            region: 'metropolitana',
-            hours: {
-              weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
-            }
-          },
-          {
-            id: 22,
-            name: 'Biblioteca Puente Alto',
-            address: 'Av. Concha y Toro 1340, Puente Alto',
-            email: 'dae.puentealto@aiep.cl',
-            phone: '2 32814507',
-            region: 'metropolitana',
-            hours: {
-              weekdays: 'Lunes a Viernes 08:30 a 21:00 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
-            }
-          },
-          {
-            id: 23,
-            name: 'Biblioteca La Florida',
-            address: 'Av. Vicuña Mackenna 9100, La Florida',
-            email: 'dae.laflorida@aiep.cl',
-            phone: '2 32914507',
-            region: 'metropolitana',
-            hours: {
-              weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
-            }
-          },
-          {
-            id: 24,
-            name: 'Biblioteca San Bernardo',
-            address: 'Av. Freire 1200, San Bernardo',
-            email: 'dae.sanbernardo@aiep.cl',
-            phone: '2 32714507',
-            region: 'metropolitana',
-            hours: {
-              weekdays: 'Lunes a Viernes 08:30 a 21:00 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
-            }
-          },
-          {
-            id: 32,
-            name: 'Biblioteca Las Condes',
-            address: 'Av. Apoquindo 4700, Las Condes',
-            email: 'dae.lascondes@aiep.cl',
-            phone: '2 32914507',
-            region: 'metropolitana',
-            hours: {
-              weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
-            }
-          },
-          {
-            id: 33,
-            name: 'Biblioteca Providencia',
-            address: 'Av. Providencia 2653, Providencia',
-            email: 'dae.providencia@aiep.cl',
-            phone: '2 32614507',
-            region: 'metropolitana',
-            hours: {
-              weekdays: 'Lunes a Viernes 08:30 a 21:00 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
-            }
-          },
-          // Más bibliotecas Zona Sur
           {
             id: 25,
             name: 'Biblioteca Osorno',
-            address: 'Av. O\'Higgins 1050, Osorno',
+            address: 'Patricio Lynch 1462, Osorno',
             email: 'dae.osorno@aiep.cl',
-            phone: '64 2235000',
-            region: 'sur',
-            hours: {
+            phone: '',
+            region: 'sur', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_osorno.jpg', hours: {
               weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
+              saturday: 'Sábados de 08:30 a 18:30 horas'
             }
           },
           {
             id: 26,
-            name: 'Biblioteca Puerto Montt',
-            address: 'Av. Diego Portales 450, Puerto Montt',
+            name: 'Puerto Montt Biblioteca Ejército',
+            address: 'Ejército 200, Puerto Montt',
             email: 'dae.puertomontt@aiep.cl',
-            phone: '65 2485000',
-            region: 'sur',
-            hours: {
-              weekdays: 'Lunes a Viernes 08:30 a 21:00 horas',
+            phone: '',
+            region: 'sur', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/puerto montt ejercito.JPG', hours: {
+              weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
               saturday: 'Sábados de 09:00 a 18:00 horas'
+            }
+          },
+          {
+            id: 28,
+            name: 'Puerto Montt Biblioteca Benavente',
+            address: 'Benavente 720, Puerto Montt',
+            email: 'dae.puertomontt@aiep.cl',
+            phone: '',
+            region: 'sur', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_generica.jpg', hours: {
+              weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
+              saturday: 'Sábados de 09:00 a 18:00 horas'
+            }
+          },
+          {
+            id: 29,
+            name: 'Biblioteca Castro',
+            address: 'O\'Higgins 801',
+            email: 'dae.castro@aiep.cl',
+            phone: '65 2386894 - 65 2386877',
+            region: 'sur', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_castro.jpg', hours: {
+              weekdays: 'Lunes a Viernes 08:30 a 21:00 horas',
+              saturday: 'Sábados de 09:30 a 18:00 horas'
             }
           },
           {
             id: 27,
             name: 'Biblioteca Talca',
-            address: 'Av. 1 Norte 875, Talca',
+            address: '6 Oriente 1380, Talca',
             email: 'dae.talca@aiep.cl',
-            phone: '71 2235000',
-            region: 'sur',
-            hours: {
-              weekdays: 'Lunes a Viernes 08:30 a 21:30 horas',
-              saturday: 'Sábados de 09:00 a 18:00 horas'
+            phone: '',
+            region: 'centro', imageUrl: 'https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_talca.jpg', hours: {
+              weekdays: 'Lunes a Viernes 08:30 a 21:00 horas',
+              saturday: 'Sábados de 09:30 a 18:00 horas'
             }
           }
         ]
@@ -800,6 +710,8 @@ export default {
         'zona norte': 'norte',
         'centro': 'centro',
         'zona centro': 'centro',
+        'centro sur': 'centro',
+        'centro costa': 'centro-costa',
         'metropolitana': 'metropolitana',
         'región metropolitana': 'metropolitana',
         'region metropolitana': 'metropolitana',
@@ -1053,26 +965,32 @@ export default {
 @media (min-width: 769px) {
   .region-tab.region-metropolitana {
     text-align: center;
-    padding: 12px 24px;
+    padding: 12px 28px;
     display: flex;
     align-items: center;
     justify-content: center;
+    min-width: 200px;
+    flex: 0 0 auto;
   }
   
   .region-tab.region-metropolitana.active {
     text-align: center;
-    padding: 12px 24px;
+    padding: 12px 28px;
     display: flex;
     align-items: center;
     justify-content: center;
+    min-width: 200px;
+    flex: 0 0 auto;
   }
   
   .region-tab.region-metropolitana.libros-digitales-active {
     text-align: center;
-    padding: 12px 24px;
+    padding: 12px 28px;
     display: flex;
     align-items: center;
     justify-content: center;
+    min-width: 200px;
+    flex: 0 0 auto;
   }
 }
 
@@ -1086,6 +1004,13 @@ export default {
   flex-shrink: 0;
   min-width: 350px;
   width: 350px;
+}
+
+@media (min-width: 769px) {
+  .search-container {
+    min-width: 340px;
+    width: 340px;
+  }
 }
 
 /* Ocultar buscador en desktop cuando Libros digitales está activo */
@@ -1275,6 +1200,14 @@ export default {
   height: 200px;
   background: linear-gradient(135deg, var(--secondary-blue) 0%, var(--primary-blue) 100%);
   position: relative;
+  overflow: hidden;
+}
+
+.library-image-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .library-card.libros-por-sede .library-image {
@@ -1336,7 +1269,9 @@ export default {
 }
 
 .phone-placeholder {
-  visibility: hidden;
+  opacity: 0;
+  min-height: 1em;
+  display: inline-block;
 }
 
 .icon svg {
@@ -1464,6 +1399,10 @@ export default {
     font-size: 18px;
     padding: 21px 20px 0;
     margin-bottom: 7px;
+    line-height: 1.4;
+    min-height: 72px;
+    display: flex;
+    align-items: flex-start;
   }
   
   .library-card {
@@ -1504,10 +1443,33 @@ export default {
   
   .info-item {
     margin-bottom: 10px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     min-width: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.4;
+  }
+  
+  .info-item:first-of-type {
+    min-height: 40px;
+    display: flex;
+    align-items: flex-start;
+  }
+  
+  .info-item:nth-of-type(2) {
+    min-height: 32px;
+    display: flex;
+    align-items: flex-start;
+  }
+  
+  .info-item:nth-of-type(3) {
+    min-height: 32px;
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 0;
+  }
+  
+  .info-item .icon {
+    flex-shrink: 0;
   }
   
   .hours {

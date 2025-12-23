@@ -1,0 +1,50 @@
+Orden;Nombre;Region;Dirección;Correo Contacto;Horario Atencion;URL Foto;Teléfono;URL;Aprobado
+1;Biblioteca Calama;Zona Norte;Balmaceda 3242, Calama;biblioteca.calama@aiep.cl;Horario de atención: Lunes a Viernes 09:00 a 21:30 horas Sábados de 09:00 a 18:00 horas;https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_calama.jpg;55-2572400;https://bibliotecas.aiep.cl/client/en_US/default?rm=BIBLIOTECA+CAL0%7C%7C%7C1%7C%7C%7C0%7C%7C%7Ctrue;Si
+2;Biblioteca Antofagasta;Zona Norte;San Martín 2341, Antofagasta;dae.antofagasta@aiep.cl;Horario de atención: Lunes a Viernes 09:00 a 21:30 horas Sábados de 09:00 a 18:00 horas;https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_antofagasta.jpg;Fonos: 55 2572303, 55 2572301;https://bibliotecas.aiep.cl/client/en_US/default?rm=BIBLIOTECA+ANT0%7C%7C%7C1%7C%7C%7C0%7C%7C%7Ctrue;Si
+3;Biblioteca La Serena;Zona Norte;Huanhuali 105, La Serena;dae.laserena@aiep.cl;Horario de atención: Lunes a Viernes 09:00 a 21:30 horas Sábados de 09:00 a 18:00 horas;"
+";51-2541553 - 51-2541542;https://bibliotecas.aiep.cl/client/en_US/default?rm=BIBLIOTECA+LA+0%7C%7C%7C1%7C%7C%7C0%7C%7C%7Ctrue;Si
+4;Biblioteca San Felipe;Zona Centro Costa;Yungay 1580, San Felipe;dae.sanfelipe@aiep.cl;Horario de atención: Lunes a Viernes 09:00 a 21:30 horas Sábados de 09:00 a 18:00 horas;https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_generica.jpg;34 2352808;https://bibliotecas.aiep.cl/client/en_US/default?rm=BIBLIOTECA+SAN0%7C%7C%7C1%7C%7C%7C0%7C%7C%7Ctrue;Si
+5;Biblioteca Álvarez (Viña del Mar);Zona Centro Costa;Álvarez 860, Viña del Mar;dae.vinadelmar@aiep.cl;Horario de atención: Lunes a Viernes 09:00 a 21:30 horas Sábados de 09:00 a 18:00 horas;https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_vinha.jpg;Horario de atención:;https://bibliotecas.aiep.cl/client/en_US/default?rm=BIBLIOTECA+%C3%81LV0%7C%7C%7C1%7C%7C%7C0%7C%7C%7Ctrue;Si
+6;Biblioteca Valparaíso;Zona Centro Costa;Errázuriz 641, Valparaíso;dae.valparaiso@aiep.cl;Horario de atención: Lunes a Viernes 09:00 a 21:30 horas Sábados de 09:00 a 18:00 horas;https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_valparaiso.jpg;"
+";https://bibliotecas.aiep.cl/client/en_US/default?rm=BIBLIOTECA+VAL0%7C%7C%7C1%7C%7C%7C0%7C%7C%7Ctrue;Si
+7;Biblioteca San Antonio;Zona Centro Costa;General Ibañez 1760, San Antonio;dae.sanantonio@aiep.cl;Horario de atención: Lunes a Viernes 08:30 a 21:00 horas Sábados de 09:30 a 18:00 horas;https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_valparaiso.jpg;"
+";https://bibliotecas.aiep.cl/client/en_US/default?rm=BIBLIOTECA+SAN1%7C%7C%7C1%7C%7C%7C0%7C%7C%7Ctrue;Si
+8;Barrio Universitario - Biblioteca Grajales;Zona Región Metropolitana;Grajales 2550, Santiago;dae.bus@aiep.cl;Horario de atención: Lunes a Viernes 08:30 a 21:30 horas Sábados de 09:00 a 18:00 horas;https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_bus_grajales.jpg;"
+";https://bibliotecas.aiep.cl/client/en_US/default/?rm=BIBLIOTECA+GRA0%7C%7C%7C1%7C%7C%7C0%7C%7C%7Ctrue;Si
+9;Barrio Universitario Biblioteca Ejército;Zona Región Metropolitana;Ejército 49, Santiago Centro;dae.bus@aiep.cl;Horario de atención: Lunes a Viernes 09:00 a 21:30 horas Sábados de 09:00 a 18:00 horas;"
+";"
+";https://bibliotecas.aiep.cl/client/en_US/default/?rm=BIBLIOTECA+BAR0%7C%7C%7C1%7C%7C%7C1%7C%7C%7Ctrue;Si
+10;Biblioteca Bellavista;Zona Región Metropolitana;Bellavista 0121, Providencia;dae.bellavista@aiep.cl;Horario de atención: Lunes a Viernes 09:00 a 21:30 horas Sábados de 08:30 a 18:30 horas;https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_bellavista.jpg;"
+";https://bibliotecas.aiep.cl/client/en_US/default?rm=BIBLIOTECA+BEL0%7C%7C%7C1%7C%7C%7C2%7C%7C%7Ctrue;Si
+11;Biblioteca Maipú;Zona Región Metropolitana;Chacabuco 40, 5to Piso, Maipú, Región Metropolitana;dae.maipu@aiep.cl;Horario de atención: Lunes a Viernes 08:30 a 21:00 horas Sábados de 09:30 a 18:00 horas;https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_maipu.jpg;"
+";https://bibliotecas.aiep.cl/client/en_US/default?rm=BIBLIOTECA+MAI0%7C%7C%7C1%7C%7C%7C0%7C%7C%7Ctrue;Si
+12;Biblioteca San Joaquín;Zona Región Metropolitana;Vicuña Mackenna 4685, Macul, Región Metropolitana;dae.sanjoaquin@aiep.cl;Horario de atención: Lunes a Viernes 08:30 a 21:00 horas Sábados de 09:00 a 18:00 horas;https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_sanjoaquin.jpg;Fonos:  2 32014507;https://bibliotecas.aiep.cl/client/en_US/default?rm=BIBLIOTECA+SAN2%7C%7C%7C1%7C%7C%7C0%7C%7C%7Ctrue;Si
+13;Biblioteca Santiago Norte;Zona Región Metropolitana;Av. Vespucio Norte #1796, Huechuraba, Santiago;daesantiagonorte@aiep.cl;Horario de atención: Lunes a Viernes 08:30 a 21:00 horas Sábados de 09:30 a 18:00 horas;https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_stgonorte.jpg;"
+";https://bibliotecas.aiep.cl/client/en_US/default?rm=BIBLIOTECA+SAN3%7C%7C%7C1%7C%7C%7C0%7C%7C%7Ctrue;Si
+14;Biblioteca San Bernardo;Zona Región Metropolitana;Av. San José 672, San Bernardo;dae.sanbernardo@aiep.cl;Horario de atención: Lunes a Viernes 08:30 a 21:30 horas Sábados de 09:00 a 18:00 horas;https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_sanbernardo.jpg;Fonos: 55 2572303, 55 2572301;https://bibliotecas.aiep.cl/client/en_US/default?rm=BIBLIOTECA+SAN4%7C%7C%7C1%7C%7C%7C0%7C%7C%7Ctrue;Si
+15;Biblioteca Rancagua;Zona Centro Sur;German Riesco N° 63 - 1° piso Edificio D;dae.rancagua@aiep.cl;Horario de atención: Lunes a Viernes 08:30 a 21:30 horas Sábados de 09:30 a 18:00 horas;https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_rancagua.jpg;"
+";https://bibliotecas.aiep.cl/client/en_US/default?rm=BIBLIOTECA+RAN0%7C%7C%7C1%7C%7C%7C0%7C%7C%7Ctrue;Si
+16;Biblioteca San Fernando;Zona Centro Sur;Carampagne 1058, San Fernando;dae.sanfernando@aiep.cl;Horario de atención: Lunes a Viernes 08:30 a 21:00 horas Sábados de 09:30 a 18:00 horas;https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_valparaiso.jpg;"
+";https://bibliotecas.aiep.cl/client/en_US/default?rm=BIBLIOTECA+SAN5%7C%7C%7C1%7C%7C%7C0%7C%7C%7Ctrue;Si
+17;Biblioteca Curicó;Zona Centro Sur;Avenida Libertador Bernardo O'Higgins 201, Curicó, Maule;dae.Curicó@aiep.cl;Horario de atención: Lunes a Viernes 08:30 a 21:30 horas Sábados de 09:00 a 18:00 horas;https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_curico.jpg;Fonos: 075-2574513 - 075-2574506;https://bibliotecas.aiep.cl/client/en_US/default?rm=BIBLIOTECA+CUR0%7C%7C%7C1%7C%7C%7C0%7C%7C%7Ctrue;Si
+18;Biblioteca Talca;Zona Centro Sur;6 Oriente 1380, Talca;dae.talca@aiep.cl;Horario de atención: Lunes a Viernes 08:30 a 21:30 horas Sábados de 09:00 a 18:00 horas;https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_talca.jpg;"
+";https://bibliotecas.aiep.cl/client/en_US/default?rm=BIBLIOTECA+TAL0%7C%7C%7C1%7C%7C%7C0%7C%7C%7Ctrue;Si
+19;Concepción Biblioteca Barros;Zona Sur;Barros Arana 302, Concepción;dae.concepcion@aiep.cl;Horario de atención: Lunes a Viernes 08:30 a 21:30 horas Sábados de 09:00 a 18:00 horas;https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_conce_a.jpg;"
+";https://bibliotecas.aiep.cl/client/en_US/default/?rm=BIBLIOTECA+CON0%7C%7C%7C1%7C%7C%7C1%7C%7C%7Ctrue;Si
+20;Concepción Biblioteca Prat;Zona Sur;Avda. Prat 288, Concepción;dae.concepcion@aiep.cl;Horario de atención: Lunes a Viernes 08:30 a 21:30 horas Sábados de 09:00 a 18:00 horas;https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_conce_prat.jpg;"
+";https://bibliotecas.aiep.cl/client/en_US/default/?rm=BIBLIOTECA+AV.0%7C%7C%7C1%7C%7C%7C0%7C%7C%7Ctrue;Si
+21;Biblioteca Los Angeles;Zona Sur;Mendoza 438, Los Ángeles;dae.losangeles@aiep.cl;Horario de atención: Lunes a Viernes 08:30 a 21:30 horas Sábados de 08:30 a 18:30 horas;https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_angeles.jpg;"
+";https://bibliotecas.aiep.cl/client/en_US/default?rm=BIBLIOTECA+LOS0%7C%7C%7C1%7C%7C%7C0%7C%7C%7Ctrue;Si
+22;Biblioteca Temuco;Zona Sur;Avda. Alemania 035, Temuco;dae.temuco@aiep.cl;Horario de atención: Lunes a Viernes 08:30 a 21:30 horas Sábados de 09:00 a 18:00 horas;https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_temuco.jpg;"
+";https://bibliotecas.aiep.cl/client/en_US/default?rm=BIBLIOTECA+TEM0%7C%7C%7C1%7C%7C%7C0%7C%7C%7Ctrue;Si
+23;Biblioteca Osorno;Zona Sur;Patricio Lynch 1462, Osorno;dae.osorno@aiep.cl;Horario de atención: Lunes a Viernes 08:30 a 21:30 horas Sábados de 08:30 a 18:30 horas;https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_osorno.jpg;"
+";https://bibliotecas.aiep.cl/client/en_US/default?rm=BIBLIOTECA+OSO0%7C%7C%7C1%7C%7C%7C0%7C%7C%7Ctrue;Si
+24;Puerto Montt Biblioteca Ejército;Zona Sur;Ejército 200, Puerto Montt;dae.puertomontt@aiep.cl;Horario de atención: Lunes a Viernes 08:30 a 21:30 horas Sábados de 09:00 a 18:00 horas;https://bibliotecas.aiep.cl/custom/web/content/puerto montt ejercito.JPG;"
+";https://bibliotecas.aiep.cl/client/en_US/default/?rm=BIBLIOTECA+PUE0%7C%7C%7C1%7C%7C%7C1%7C%7C%7Ctrue;Si
+25;Puerto Montt Biblioteca Benavente;Zona Sur;Benavente 720, Puerto Montt;dae.puertomontt@aiep.cl;Horario de atención: Lunes a Viernes 08:30 a 21:30 horas Sábados de 09:00 a 18:00 horas;https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_generica.jpg;"
+";https://bibliotecas.aiep.cl/client/en_US/default/?rm=BIBLIOTECAS+BE0%7C%7C%7C1%7C%7C%7C0%7C%7C%7Ctrue;Si
+26;Biblioteca Castro;Zona Sur;O´Higgins 801;dae.castro@aiep.cl;Horario de atención: Lunes a Viernes 08:30 a 21:00 horas Sábados de 09:30 a 18:00 horas;https://bibliotecas.aiep.cl/custom/web/content/bannerbiblio_castro.jpg;Fonos: 65 2386894 - 65 2386877;https://bibliotecas.aiep.cl/client/en_US/default?rm=BIBLIOTECA+CAS0%7C%7C%7C1%7C%7C%7C0%7C%7C%7Ctrue;Si
+;;;;;;;;;
+;;;;;;;;;
+;;;;;;;;;
+;;;;;;;;;
