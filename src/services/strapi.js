@@ -10,7 +10,7 @@ const getApiBase = () => {
   }
   
   // En producción, usar la URL completa desde variables de entorno
-  const prodUrl = process.env.VUE_APP_STRAPI_URL_PROD || process.env.VUE_APP_STRAPI_URL || 'http://68.211.112.39:1337'
+  const prodUrl = process.env.VUE_APP_STRAPI_URL_PROD || process.env.VUE_APP_STRAPI_URL || 'https://cmsbiblioteca.aiep.cl'
   
   // Verificar si la página está en HTTPS
   if (typeof window !== 'undefined' && window.location.protocol === 'https:') {
