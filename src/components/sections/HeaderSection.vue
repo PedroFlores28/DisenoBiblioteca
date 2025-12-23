@@ -77,10 +77,38 @@
               class="dropdown-menu dropdown-servicios"
               :class="{ active: showServiciosDropdown }"
             >
-              <a href="#" class="dropdown-item">Bibliografía básica digital</a>
-              <a href="#" class="dropdown-item">Bibliotecario en línea</a>
-              <a href="#" class="dropdown-item">Taller de biblioteca para docentes</a>
-              <a href="#" class="dropdown-item">Taller de biblioteca para estudiantes</a>
+              <a 
+                href="https://bibliografiadigital.aiep.cl/?_gl=1*8rbnmu*_gcl_au*OTUzMjQzNjY5LjE3NjU0NjcxNzM.*_ga*MTc5NjU2OTU3MS4xNzY1NDY3MTcy*_ga_LXQ40Q3QZJ*czE3NjU5ODY1MDIkbzckZzEkdDE3NjU5ODcwMjckajYwJGwwJGgxMDI4OTA1Mw.." 
+                class="dropdown-item" 
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Bibliografía básica digital
+              </a>
+              <a 
+                href="http://biblioteayuda.aiep.cl/referencia/index.php?_gl=1*8rbnmu*_gcl_au*OTUzMjQzNjY5LjE3NjU0NjcxNzM.*_ga*MTc5NjU2OTU3MS4xNzY1NDY3MTcy*_ga_LXQ40Q3QZJ*czE3NjU5ODY1MDIkbzckZzEkdDE3NjU5ODcwMjckajYwJGwwJGgxMDI4OTA1Mw.." 
+                class="dropdown-item" 
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Bibliotecario en línea
+              </a>
+              <a 
+                href="https://forms.office.com/Pages/ResponsePage.aspx?id=jfEJ3MNq8E6gHmZSXtmk0IQ7mA6rH_1GodIbSTop2-1UMFRXSkFEVDdMVE04QTM5MFlBT0E3VkVCQy4u" 
+                class="dropdown-item" 
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Taller de biblioteca para docentes
+              </a>
+              <a 
+                href="https://forms.office.com/Pages/ResponsePage.aspx?id=jfEJ3MNq8E6gHmZSXtmk0IQ7mA6rH_1GodIbSTop2-1UMktRVEtTSVlLSTA3TkZTRjBMTUFRQUM5My4u" 
+                class="dropdown-item" 
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Taller de biblioteca para estudiantes
+              </a>
             </div>
           </div>
           <div 

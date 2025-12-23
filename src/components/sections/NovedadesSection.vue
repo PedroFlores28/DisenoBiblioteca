@@ -102,19 +102,23 @@ export default {
       services: [
         {
           id: 1,
-          name: 'Bibliografia básica digital'
+          name: 'Bibliografia básica digital',
+          url: 'https://bibliografiadigital.aiep.cl/?_gl=1*8rbnmu*_gcl_au*OTUzMjQzNjY5LjE3NjU0NjcxNzM.*_ga*MTc5NjU2OTU3MS4xNzY1NDY3MTcy*_ga_LXQ40Q3QZJ*czE3NjU5ODY1MDIkbzckZzEkdDE3NjU5ODcwMjckajYwJGwwJGgxMDI4OTA1Mw..'
         },
         {
           id: 2,
-          name: 'Bibliotecario en línea'
+          name: 'Bibliotecario en línea',
+          url: 'http://biblioteayuda.aiep.cl/referencia/index.php?_gl=1*8rbnmu*_gcl_au*OTUzMjQzNjY5LjE3NjU0NjcxNzM.*_ga*MTc5NjU2OTU3MS4xNzY1NDY3MTcy*_ga_LXQ40Q3QZJ*czE3NjU5ODY1MDIkbzckZzEkdDE3NjU5ODcwMjckajYwJGwwJGgxMDI4OTA1Mw..'
         },
         {
           id: 3,
-          name: 'Taller de biblioteca para docentes'
+          name: 'Taller de biblioteca para docentes',
+          url: 'https://forms.office.com/Pages/ResponsePage.aspx?id=jfEJ3MNq8E6gHmZSXtmk0IQ7mA6rH_1GodIbSTop2-1UMFRXSkFEVDdMVE04QTM5MFlBT0E3VkVCQy4u'
         },
         {
           id: 4,
-          name: 'Taller de biblioteca para estudiantes'
+          name: 'Taller de biblioteca para estudiantes',
+          url: 'https://forms.office.com/Pages/ResponsePage.aspx?id=jfEJ3MNq8E6gHmZSXtmk0IQ7mA6rH_1GodIbSTop2-1UMktRVEtTSVlLSTA3TkZTRjBMTUFRQUM5My4u'
         }
       ]
     }
@@ -424,8 +428,10 @@ export default {
       })
     },
     handleServiceClick(service) {
-      // Aquí puedes agregar la lógica de navegación o acción
-      console.log('Service clicked:', service.name)
+      // Abrir el link del servicio en una nueva pestaña
+      if (service && service.url) {
+        window.open(service.url, '_blank')
+      }
     }
   }
 }
