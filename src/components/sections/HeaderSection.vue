@@ -100,13 +100,13 @@
               class="dropdown-menu dropdown-escuelas"
               :class="{ active: showBibliografiaDropdown }"
             >
-              <a href="#" class="dropdown-item">Administración y Gestión Empresarial</a>
-              <a href="#" class="dropdown-item">Artes e Industrias Creativas</a>
-              <a href="#" class="dropdown-item">Desarrollo Social y Educación</a>
-              <a href="#" class="dropdown-item">Estética Integral</a>
-              <a href="#" class="dropdown-item">Gastronomía, Hotelería y Turismo</a>
-              <a href="#" class="dropdown-item">Ingeniería, Energía y Tecnología</a>
-              <a href="#" class="dropdown-item">Salud y Deporte</a>
+              <a href="#" class="dropdown-item" @click.prevent="navigateToSchoolFromDropdown('administracion')">Administración y Gestión Empresarial</a>
+              <a href="#" class="dropdown-item" @click.prevent="navigateToSchoolFromDropdown('artes')">Artes e Industrias Creativas</a>
+              <a href="#" class="dropdown-item" @click.prevent="navigateToSchoolFromDropdown('desarrollo')">Desarrollo Social y Educación</a>
+              <a href="#" class="dropdown-item" @click.prevent="navigateToSchoolFromDropdown('estetica')">Estética Integral</a>
+              <a href="#" class="dropdown-item" @click.prevent="navigateToSchoolFromDropdown('gastronomia')">Gastronomía, Hotelería y Turismo</a>
+              <a href="#" class="dropdown-item" @click.prevent="navigateToSchoolFromDropdown('ingenieria')">Ingeniería, Energía y Tecnología</a>
+              <a href="#" class="dropdown-item" @click.prevent="navigateToSchoolFromDropdown('salud')">Salud y Deporte</a>
             </div>
           </div>
           <div 
@@ -509,6 +509,12 @@ export default {
         // Verificar nuevamente después de un delay más largo
         window.dispatchEvent(new CustomEvent('bibliografia-navigated'))
       }, 500)
+    },
+    navigateToSchoolFromDropdown(schoolKey) {
+      // Guardar la escuela seleccionada en sessionStorage
+      sessionStorage.setItem('selectedSchool', schoolKey)
+      // Navegar a bibliografía
+      this.navigateToBibliografia()
     },
     showBibliografiaDropdownHover() {
       if (this.bibliografiaTimeout) {

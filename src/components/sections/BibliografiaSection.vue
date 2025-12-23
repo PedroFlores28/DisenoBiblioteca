@@ -652,6 +652,27 @@ export default {
       if (fromHeader) {
         // Si viene del header, mostrar vista detallada
         this.showDetailedView = true
+        
+        // Verificar si hay una escuela seleccionada desde el dropdown
+        const selectedSchoolKey = sessionStorage.getItem('selectedSchool')
+        if (selectedSchoolKey) {
+          // Mapear la clave de la escuela al valor correcto
+          const schoolMap = {
+            'administracion': 'administracion',
+            'artes': 'artes',
+            'desarrollo': 'desarrollo',
+            'estetica': 'estetica',
+            'gastronomia': 'gastronomia',
+            'ingenieria': 'ingenieria',
+            'salud': 'salud'
+          }
+          if (schoolMap[selectedSchoolKey]) {
+            this.selectedSchool = schoolMap[selectedSchoolKey]
+          }
+          // Limpiar el valor de sessionStorage después de usarlo
+          sessionStorage.removeItem('selectedSchool')
+        }
+        
         // Resetear paginación de carreras
         this.careersCurrentPage = 1
         // Notificar cambio a HomePage inmediatamente
