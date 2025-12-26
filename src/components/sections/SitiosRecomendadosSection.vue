@@ -172,16 +172,18 @@ export default {
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
   margin-bottom: 40px;
+  align-items: stretch;
 }
 
 .site-card {
   background: var(--white);
   border-radius: 8px;
-  padding: 13px;
+  padding: 20px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
   position: relative;
+  height: 100%;
 }
 
 .site-header-line {
@@ -195,19 +197,19 @@ export default {
 }
 
 .site-icon-wrapper {
-  margin-top: 8px;
+  margin-top: 4px;
   margin-bottom: 12px;
   align-self: flex-start;
 }
 
 .site-card :deep(.site-icon) {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
 }
 
 .site-card :deep(.site-icon) svg {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
 }
 
 .site-content {
@@ -216,6 +218,7 @@ export default {
   gap: 12px;
   flex: 1;
   text-align: left;
+  min-height: 0;
 }
 
 .site-title {
@@ -226,6 +229,7 @@ export default {
   margin: 0;
   line-height: 1.4;
   text-align: left;
+  flex-shrink: 0;
 }
 
 .site-description {
@@ -234,6 +238,7 @@ export default {
   line-height: 1.5;
   margin: 0;
   flex: 1;
+  min-height: 0;
 }
 
 .btn-site {
@@ -252,6 +257,8 @@ export default {
   gap: 8px;
   width: fit-content;
   transition: all 0.3s ease;
+  flex-shrink: 0;
+  margin-top: auto;
 }
 
 .btn-site svg {
