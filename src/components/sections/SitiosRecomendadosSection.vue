@@ -256,22 +256,13 @@ export default {
   align-items: center;
   gap: 8px;
   width: fit-content;
-  transition: all 0.3s ease;
   flex-shrink: 0;
   margin-top: auto;
-}
-
-.btn-site svg {
-  transition: transform 0.3s ease;
 }
 
 .btn-site:hover {
   background-color: #B8C8D8;
   color: #024588;
-}
-
-.btn-site:hover svg {
-  transform: translateX(4px);
 }
 
 
