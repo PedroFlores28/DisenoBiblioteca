@@ -162,63 +162,80 @@ export default {
       this.isMobile = window.innerWidth <= 768
     },
     async loadBannerFromStrapi() {
-      try {
-        console.log('🔄 Cargando banner desde Strapi...')
-        const response = await strapiService.getCollection('hero-banner', {
-          populate: '*',
-          'pagination[limit]': 1,
-          sort: 'createdAt:desc'
-        })
-        
-        console.log('✅ Respuesta de Strapi para banner:', response)
-        
-        // Manejar diferentes estructuras de respuesta (Strapi v3 y v4)
-        let bannerData = null
-        
-        // Strapi v4: response.data.data
-        if (response.data?.data && Array.isArray(response.data.data) && response.data.data.length > 0) {
-          bannerData = response.data.data[0]
-          console.log('🔍 Detectado: Strapi v4')
-        }
-        // Strapi v4 alternativo: response.data como array
-        else if (response.data && Array.isArray(response.data) && response.data.length > 0) {
-          bannerData = response.data[0]
-          console.log('🔍 Detectado: Strapi v4 (estructura alternativa)')
-        }
-        // Strapi v3: response como array
-        else if (Array.isArray(response) && response.length > 0) {
-          bannerData = response[0]
-          console.log('🔍 Detectado: Strapi v3')
-        }
-        
-        if (bannerData) {
-          // Extraer atributos según la estructura
-          const attributes = bannerData.attributes || bannerData
+      // Lista de nombres posibles para el tipo de contenido
+      const possibleNames = ['hero-banners', 'hero-banner', 'api::hero-banner.hero-banner']
+      
+      for (const collectionName of possibleNames) {
+        try {
+          console.log(`🔄 Intentando cargar banner desde Strapi con nombre: ${collectionName}...`)
+          const response = await strapiService.getCollection(collectionName, {
+            populate: '*',
+            'pagination[limit]': 1,
+            sort: 'createdAt:desc'
+          })
           
-          // Obtener imagen desktop
-          if (attributes.imagenDesktop) {
-            const desktopUrl = strapiService.getImageUrl(attributes.imagenDesktop)
-            if (desktopUrl) {
-              this.backgroundImageDesktop = desktopUrl
-              console.log('✅ Imagen desktop cargada desde Strapi:', desktopUrl)
-            }
+          console.log(`✅ Respuesta de Strapi para ${collectionName}:`, response)
+          
+          // Manejar diferentes estructuras de respuesta (Strapi v3 y v4)
+          let bannerData = null
+          
+          // Strapi v4: response.data.data
+          if (response.data?.data && Array.isArray(response.data.data) && response.data.data.length > 0) {
+            bannerData = response.data.data[0]
+            console.log('🔍 Detectado: Strapi v4 (response.data.data)')
+          }
+          // Strapi v4 alternativo: response.data como array
+          else if (response.data && Array.isArray(response.data) && response.data.length > 0) {
+            bannerData = response.data[0]
+            console.log('🔍 Detectado: Strapi v4 (response.data como array)')
+          }
+          // Strapi v3: response como array
+          else if (Array.isArray(response) && response.length > 0) {
+            bannerData = response[0]
+            console.log('🔍 Detectado: Strapi v3')
           }
           
-          // Obtener imagen mobile
-          if (attributes.imagenMobile) {
-            const mobileUrl = strapiService.getImageUrl(attributes.imagenMobile)
-            if (mobileUrl) {
-              this.backgroundImageMobile = mobileUrl
-              console.log('✅ Imagen mobile cargada desde Strapi:', mobileUrl)
+          if (bannerData) {
+            // Extraer atributos según la estructura
+            const attributes = bannerData.attributes || bannerData
+            
+            // Obtener imagen desktop
+            if (attributes.imagenDesktop) {
+              const desktopUrl = strapiService.getImageUrl(attributes.imagenDesktop)
+              if (desktopUrl) {
+                this.backgroundImageDesktop = desktopUrl
+                console.log('✅ Imagen desktop cargada desde Strapi:', desktopUrl)
+              }
             }
+            
+            // Obtener imagen mobile
+            if (attributes.imagenMobile) {
+              const mobileUrl = strapiService.getImageUrl(attributes.imagenMobile)
+              if (mobileUrl) {
+                this.backgroundImageMobile = mobileUrl
+                console.log('✅ Imagen mobile cargada desde Strapi:', mobileUrl)
+              }
+            }
+            
+            // Si encontramos datos, salir del loop
+            console.log(`✅ Banner cargado exitosamente usando el nombre: ${collectionName}`)
+            return
+          } else {
+            console.log(`⚠️ No se encontraron datos en ${collectionName}, probando siguiente nombre...`)
           }
-        } else {
-          console.log('⚠️ No se encontraron datos de banner en Strapi, usando imágenes por defecto')
+        } catch (error) {
+          // Si es un 404, probar con el siguiente nombre
+          if (error.response && error.response.status === 404) {
+            console.log(`⚠️ ${collectionName} no existe (404), probando siguiente nombre...`)
+            continue
+          }
+          // Si es otro error, loguearlo pero continuar
+          console.warn(`⚠️ Error al cargar ${collectionName}:`, error.message)
         }
-      } catch (error) {
-        console.warn('⚠️ No se pudo cargar el banner desde Strapi, usando imágenes por defecto:', error.message)
-        // Mantener las imágenes estáticas como fallback
       }
+      
+      // Si llegamos aquí, ningún nombre funcionó
+      console.warn('⚠️ No se pudo cargar el banner desde Strapi con ningún nombre, usando imágenes por defecto')
     },
     handleSearch() {
       // URL base del catálogo de bibliotecas AIEP

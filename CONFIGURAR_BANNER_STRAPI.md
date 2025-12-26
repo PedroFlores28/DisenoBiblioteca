@@ -65,10 +65,38 @@ Para que el frontend pueda acceder a los datos del banner:
 ## 📝 Notas Importantes
 
 - **Nombre del tipo de contenido**: Debe ser exactamente `hero-banner` (con guión, en minúsculas)
+- **Verificar el nombre del API en Strapi v4**: 
+  - Ve a **Content-Type Builder**
+  - Haz clic en el tipo de contenido **Hero-banner**
+  - Revisa el campo **API ID** (este es el nombre que se usa en la API)
+  - Si el API ID es diferente a `hero-banner`, actualiza el código en `HeroSection.vue` línea ~177 para usar el nombre correcto
 - **Orden de prioridad**: Si hay múltiples entradas, se tomará la más reciente (ordenada por `createdAt:desc`)
 - **Fallback**: Si Strapi no está disponible o no hay datos, el componente usará las imágenes estáticas por defecto ubicadas en:
   - Desktop: `src/assets/images/hero-background.jpg`
   - Mobile: `src/assets/images/b1b818e26d255f001e62b637fce22a3221cf95c6.jpg`
+
+## 🔧 Solución de Error 404
+
+Si recibes un error 404 al intentar cargar el banner:
+
+1. **Verifica que el tipo de contenido exista:**
+   - Ve a **Content-Type Builder** en Strapi
+   - Verifica que exista un tipo de contenido llamado **Hero-banner**
+
+2. **Verifica el API ID:**
+   - En Strapi v4, el nombre del API puede ser diferente al nombre mostrado
+   - Haz clic en el tipo de contenido **Hero-banner**
+   - Revisa el campo **API ID** (debe ser `hero-banner` o `api::hero-banner.hero-banner`)
+   - Si es diferente, actualiza el código en `HeroSection.vue` línea ~177
+
+3. **Verifica que haya al menos una entrada:**
+   - Ve a **Content Manager** → **Hero-banner**
+   - Debe haber al menos una entrada creada y publicada
+
+4. **Prueba la API directamente:**
+   - Abre en el navegador: `https://cmsbiblioteca.aiep.cl/api/hero-banner`
+   - Deberías ver una respuesta JSON (puede estar vacía si no hay entradas)
+   - Si ves 404, el tipo de contenido no existe o el nombre es incorrecto
 
 ## 🔍 Verificar que Funciona
 
