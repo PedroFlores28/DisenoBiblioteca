@@ -115,6 +115,8 @@
 </template>
 
 <script>
+import strapiService from '../../services/strapi'
+
 let backgroundImageDesktop = null
 let backgroundImageMobile = null
 
@@ -147,9 +149,10 @@ export default {
       return this.isMobile ? this.backgroundImageMobile : this.backgroundImageDesktop
     }
   },
-  mounted() {
+  async mounted() {
     this.checkMobile()
     window.addEventListener('resize', this.checkMobile)
+    await this.loadBannerFromStrapi()
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.checkMobile)
@@ -157,6 +160,65 @@ export default {
   methods: {
     checkMobile() {
       this.isMobile = window.innerWidth <= 768
+    },
+    async loadBannerFromStrapi() {
+      try {
+        console.log('🔄 Cargando banner desde Strapi...')
+        const response = await strapiService.getCollection('hero-banner', {
+          populate: '*',
+          'pagination[limit]': 1,
+          sort: 'createdAt:desc'
+        })
+        
+        console.log('✅ Respuesta de Strapi para banner:', response)
+        
+        // Manejar diferentes estructuras de respuesta (Strapi v3 y v4)
+        let bannerData = null
+        
+        // Strapi v4: response.data.data
+        if (response.data?.data && Array.isArray(response.data.data) && response.data.data.length > 0) {
+          bannerData = response.data.data[0]
+          console.log('🔍 Detectado: Strapi v4')
+        }
+        // Strapi v4 alternativo: response.data como array
+        else if (response.data && Array.isArray(response.data) && response.data.length > 0) {
+          bannerData = response.data[0]
+          console.log('🔍 Detectado: Strapi v4 (estructura alternativa)')
+        }
+        // Strapi v3: response como array
+        else if (Array.isArray(response) && response.length > 0) {
+          bannerData = response[0]
+          console.log('🔍 Detectado: Strapi v3')
+        }
+        
+        if (bannerData) {
+          // Extraer atributos según la estructura
+          const attributes = bannerData.attributes || bannerData
+          
+          // Obtener imagen desktop
+          if (attributes.imagenDesktop) {
+            const desktopUrl = strapiService.getImageUrl(attributes.imagenDesktop)
+            if (desktopUrl) {
+              this.backgroundImageDesktop = desktopUrl
+              console.log('✅ Imagen desktop cargada desde Strapi:', desktopUrl)
+            }
+          }
+          
+          // Obtener imagen mobile
+          if (attributes.imagenMobile) {
+            const mobileUrl = strapiService.getImageUrl(attributes.imagenMobile)
+            if (mobileUrl) {
+              this.backgroundImageMobile = mobileUrl
+              console.log('✅ Imagen mobile cargada desde Strapi:', mobileUrl)
+            }
+          }
+        } else {
+          console.log('⚠️ No se encontraron datos de banner en Strapi, usando imágenes por defecto')
+        }
+      } catch (error) {
+        console.warn('⚠️ No se pudo cargar el banner desde Strapi, usando imágenes por defecto:', error.message)
+        // Mantener las imágenes estáticas como fallback
+      }
     },
     handleSearch() {
       // URL base del catálogo de bibliotecas AIEP

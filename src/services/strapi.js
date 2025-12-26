@@ -22,13 +22,6 @@ const getStrapiBaseUrl = () => {
   return STRAPI_URL
 }
 
-// Log para debugging
-if (process.env.NODE_ENV === 'development') {
-  console.log('🔗 Conectando a Strapi (desarrollo - usando proxy):', API_BASE)
-} else {
-  console.log('🔗 Conectando a Strapi (producción):', API_BASE)
-}
-
 const api = axios.create({
   baseURL: API_BASE,
   headers: {
@@ -79,6 +72,48 @@ export const strapiService = {
       console.error(`Error fetching ${collectionName} with id ${id}:`, error)
       throw error
     }
+  },
+
+  // Función helper para obtener la URL completa de una imagen desde Strapi
+  getImageUrl(image) {
+    if (!image) return null
+    
+    // Si ya es una URL completa, retornarla
+    if (typeof image === 'string' && (image.startsWith('http://') || image.startsWith('https://'))) {
+      return image
+    }
+    
+    // Si es un objeto con data (Strapi v4)
+    if (image.data) {
+      const imageData = Array.isArray(image.data) ? image.data[0] : image.data
+      if (imageData?.attributes?.url) {
+        return `${STRAPI_URL}${imageData.attributes.url}`
+      }
+      if (imageData?.url) {
+        return `${STRAPI_URL}${imageData.url}`
+      }
+    }
+    
+    // Si es un objeto con url directamente
+    if (image.url) {
+      // Si la URL ya es completa, retornarla
+      if (image.url.startsWith('http://') || image.url.startsWith('https://')) {
+        return image.url
+      }
+      // Si es relativa, agregar el dominio de Strapi
+      return `${STRAPI_URL}${image.url}`
+    }
+    
+    // Si es un objeto con attributes (Strapi v4)
+    if (image.attributes?.url) {
+      const url = image.attributes.url
+      if (url.startsWith('http://') || url.startsWith('https://')) {
+        return url
+      }
+      return `${STRAPI_URL}${url}`
+    }
+    
+    return null
   },
 
   // Función de prueba para verificar la conexión
