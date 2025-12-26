@@ -14,8 +14,9 @@ Esta guía explica cómo configurar el banner del Hero Section para que sea admi
 1. Ve al panel de administración de Strapi: `https://cmsbiblioteca.aiep.cl/admin`
 2. En el menú lateral izquierdo, haz clic en **Content-Type Builder**
 3. Haz clic en **Create new collection type**
-4. Nombre del tipo de contenido: `hero-banner` (debe ser exactamente este nombre)
-5. Haz clic en **Continue**
+4. Nombre del tipo de contenido: Puede ser `Hero Banners`, `Hero-banner`, o cualquier nombre
+5. **IMPORTANTE**: El **API ID** debe ser `hero-banners` (con guión, en minúsculas, plural)
+6. Haz clic en **Continue**
 
 ### 2. Agregar Campos al Tipo de Contenido
 
@@ -45,7 +46,7 @@ Agrega los siguientes campos:
 Para que el frontend pueda acceder a los datos del banner:
 
 1. Ve a **Settings** → **Users & Permissions Plugin** → **Roles** → **Public**
-2. Busca la sección **Hero-banner**
+2. Busca la sección **Banners** (o el nombre que le diste al tipo de contenido)
 3. Marca las siguientes casillas:
    - ✅ **find** (permitir buscar/listar)
    - ✅ **findOne** (permitir obtener un elemento específico)
@@ -54,7 +55,7 @@ Para que el frontend pueda acceder a los datos del banner:
 ### 5. Crear una Entrada del Banner
 
 1. Ve a **Content Manager** en el menú lateral
-2. Selecciona **Hero-banner**
+2. Selecciona **Banners** (o el nombre que le diste al tipo de contenido)
 3. Haz clic en **Create new entry**
 4. Sube las imágenes:
    - **Imagen Desktop**: Imagen para pantallas grandes (recomendado: 1920x1080px o similar)
@@ -64,12 +65,13 @@ Para que el frontend pueda acceder a los datos del banner:
 
 ## 📝 Notas Importantes
 
-- **Nombre del tipo de contenido**: Debe ser exactamente `hero-banner` (con guión, en minúsculas)
-- **Verificar el nombre del API en Strapi v4**: 
+- **API ID del tipo de contenido**: Debe ser `banners` (sin prefijo, en minúsculas)
+- **El código probará automáticamente varios nombres**: `banners`, `hero-banners`, `hero-banner`, etc.
+- **Verificar el API ID en Strapi v4**: 
   - Ve a **Content-Type Builder**
-  - Haz clic en el tipo de contenido **Hero-banner**
+  - Haz clic en el tipo de contenido
   - Revisa el campo **API ID** (este es el nombre que se usa en la API)
-  - Si el API ID es diferente a `hero-banner`, actualiza el código en `HeroSection.vue` línea ~177 para usar el nombre correcto
+  - El código detectará automáticamente el nombre correcto
 - **Orden de prioridad**: Si hay múltiples entradas, se tomará la más reciente (ordenada por `createdAt:desc`)
 - **Fallback**: Si Strapi no está disponible o no hay datos, el componente usará las imágenes estáticas por defecto ubicadas en:
   - Desktop: `src/assets/images/hero-background.jpg`
@@ -108,7 +110,7 @@ Si recibes un error 404 al intentar cargar el banner:
    - `✅ Imagen mobile cargada desde Strapi: [URL]`
 
 Si ves mensajes de error, verifica:
-- Que el tipo de contenido se llame exactamente `hero-banner`
+- Que el API ID del tipo de contenido sea `banners` (o que esté en la lista de nombres que el código prueba automáticamente)
 - Que los permisos públicos estén configurados correctamente
 - Que la entrada esté publicada (no solo guardada)
 
@@ -124,7 +126,7 @@ Si ves mensajes de error, verifica:
 
 Para cambiar el banner en el futuro:
 
-1. Ve a **Content Manager** → **Hero-banner**
+1. Ve a **Content Manager** → **Banners** (o el nombre que le diste)
 2. Edita la entrada existente o crea una nueva
 3. Reemplaza las imágenes según sea necesario
 4. Guarda y publica los cambios

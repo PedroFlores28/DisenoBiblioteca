@@ -163,7 +163,7 @@ export default {
     },
     async loadBannerFromStrapi() {
       // Lista de nombres posibles para el tipo de contenido
-      const possibleNames = ['hero-banners', 'hero-banner', 'api::hero-banner.hero-banner']
+      const possibleNames = ['hero-banners']
       
       for (const collectionName of possibleNames) {
         try {
