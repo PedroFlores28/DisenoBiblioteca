@@ -450,6 +450,22 @@ export default {
       // Resetear carrera seleccionada y página cuando cambia la escuela
       this.selectedCareer = ''
       this.careersCurrentPage = 1
+    },
+    searchQuery() {
+      // Resetear página cuando cambia la búsqueda
+      this.careersCurrentPage = 1
+    },
+    selectedCareer() {
+      // Resetear página cuando cambia la carrera seleccionada
+      this.careersCurrentPage = 1
+    },
+    displayedCareers() {
+      // Si la página actual es mayor que el total de páginas disponibles, resetear a la última página válida
+      if (this.careersCurrentPage > this.careersTotalPages && this.careersTotalPages > 0) {
+        this.careersCurrentPage = this.careersTotalPages
+      } else if (this.careersTotalPages === 0) {
+        this.careersCurrentPage = 1
+      }
     }
   },
   async mounted() {
