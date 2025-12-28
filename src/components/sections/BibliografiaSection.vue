@@ -1424,11 +1424,13 @@ export default {
 
 .filter-wrapper .dropdown-arrow {
   position: absolute;
-  right: 16px;
+  right: 20px;
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
   z-index: 1;
+  width: 20px;
+  height: 20px;
 }
 
 .search-wrapper {
@@ -1479,17 +1481,18 @@ export default {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  padding: 12px 40px 12px 16px;
+  padding: 16px 48px 16px 20px;
   border: 1px solid #024588;
   border-radius: 6px;
   background: white;
-  font-size: 14px;
+  font-size: 16px;
   font-family: 'Ubuntu', sans-serif;
   font-weight: 600;
   color: #024588;
   cursor: pointer;
-  min-width: 250px;
+  min-width: 300px;
   transition: border-color 0.3s;
+  line-height: 1.5;
 }
 
 .filter-dropdown:focus {
@@ -1498,14 +1501,14 @@ export default {
 }
 
 .school-dropdown {
-  min-width: 236px;
-  max-width: 255px;
-  width: 242px;
+  min-width: 350px;
+  max-width: 400px;
+  width: 100%;
 }
 
 .career-dropdown {
-  min-width: 106px;
-  width: 107px;
+  min-width: 250px;
+  width: 100%;
 }
 
 .filter-wrapper:has(.career-dropdown) .dropdown-arrow {
@@ -1895,6 +1898,14 @@ export default {
     width: 100%;
     min-width: 100%;
     background: #F4F7FF;
+    font-size: 16px;
+    padding: 16px 48px 16px 20px;
+  }
+  
+  .school-dropdown,
+  .career-dropdown {
+    width: 100%;
+    min-width: 100%;
   }
   
   .career-search {
