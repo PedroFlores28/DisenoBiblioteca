@@ -5,27 +5,77 @@
       <p class="section-subtitle">
         Accede a libros, revistas, normas y otras fuentes externas disponibles de uso público.
       </p>
-      <div class="sites-grid">
-        <div 
-          v-for="site in sites" 
-          :key="site.id"
-          class="site-card"
+      <div class="sites-grid" ref="sitesGrid">
+        <template v-if="windowWidth <= 768">
+          <div 
+            v-for="(pair, index) in sitePairs" 
+            :key="`pair-${index}`"
+            class="site-pair"
+          >
+            <div 
+              v-for="site in pair" 
+              :key="site.id"
+              class="site-card"
+            >
+              <div class="site-header-line"></div>
+              <div class="site-icon-wrapper">
+                <SiteIcon :icon-type="site.iconType" />
+              </div>
+              <div class="site-content">
+                <h3 class="site-title">{{ site.name }}</h3>
+                <p class="site-description">{{ site.description || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.' }}</p>
+                <a :href="site.url" target="_blank" class="btn btn-site">
+                  Ir al sitio
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18.4509 9.13788L12.7891 3.22831C12.5038 2.93546 12.0382 2.92045 11.7454 3.20579C11.4525 3.49113 11.4375 3.95669 11.7228 4.24954L16.9866 9.7461H1.7509C1.3379 9.7461 1 10.084 1 10.497C1 10.91 1.3379 11.2479 1.7509 11.2479H16.9866L11.7228 16.7445C11.4375 17.0373 11.4525 17.5104 11.7454 17.7882C11.888 17.9234 12.0757 17.991 12.256 17.991C12.4512 17.991 12.6464 17.9159 12.7891 17.7657L18.4734 11.8336C19.1792 11.0301 19.1792 9.95636 18.4509 9.13788Z" fill="#024588"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </template>
+        <template v-else>
+          <div 
+            v-for="site in sites" 
+            :key="site.id"
+            class="site-card"
+          >
+            <div class="site-header-line"></div>
+            <div class="site-icon-wrapper">
+              <SiteIcon :icon-type="site.iconType" />
+            </div>
+            <div class="site-content">
+              <h3 class="site-title">{{ site.name }}</h3>
+              <p class="site-description">{{ site.description || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.' }}</p>
+              <a :href="site.url" target="_blank" class="btn btn-site">
+                Ir al sitio
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18.4509 9.13788L12.7891 3.22831C12.5038 2.93546 12.0382 2.92045 11.7454 3.20579C11.4525 3.49113 11.4375 3.95669 11.7228 4.24954L16.9866 9.7461H1.7509C1.3379 9.7461 1 10.084 1 10.497C1 10.91 1.3379 11.2479 1.7509 11.2479H16.9866L11.7228 16.7445C11.4375 17.0373 11.4525 17.5104 11.7454 17.7882C11.888 17.9234 12.0757 17.991 12.256 17.991C12.4512 17.991 12.6464 17.9159 12.7891 17.7657L18.4734 11.8336C19.1792 11.0301 19.1792 9.95636 18.4509 9.13788Z" fill="#024588"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </template>
+      </div>
+      <div class="mobile-navigation" v-if="windowWidth <= 768">
+        <button 
+          class="nav-btn nav-btn-prev"
+          :disabled="isAtStart"
+          @click="scrollLeft"
         >
-          <div class="site-header-line"></div>
-          <div class="site-icon-wrapper">
-            <SiteIcon :icon-type="site.iconType" />
-          </div>
-          <div class="site-content">
-            <h3 class="site-title">{{ site.name }}</h3>
-            <p class="site-description">{{ site.description || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.' }}</p>
-            <a :href="site.url" target="_blank" class="btn btn-site">
-              Ir al sitio
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18.4509 9.13788L12.7891 3.22831C12.5038 2.93546 12.0382 2.92045 11.7454 3.20579C11.4525 3.49113 11.4375 3.95669 11.7228 4.24954L16.9866 9.7461H1.7509C1.3379 9.7461 1 10.084 1 10.497C1 10.91 1.3379 11.2479 1.7509 11.2479H16.9866L11.7228 16.7445C11.4375 17.0373 11.4525 17.5104 11.7454 17.7882C11.888 17.9234 12.0757 17.991 12.256 17.991C12.4512 17.991 12.6464 17.9159 12.7891 17.7657L18.4734 11.8336C19.1792 11.0301 19.1792 9.95636 18.4509 9.13788Z" fill="#024588"/>
-              </svg>
-            </a>
-          </div>
-        </div>
+          <svg width="9" height="19" viewBox="0 0 9 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8.11127 18.0301C7.87646 18.0301 7.64164 17.9398 7.47005 17.7592L0.660453 10.6516C-0.215582 9.65812 -0.215582 8.36664 0.63336 7.40932L7.47005 0.2746C7.81324 -0.0776207 8.37318 -0.0956822 8.7254 0.247507C9.07762 0.590696 9.09568 1.15064 8.75249 1.50286L1.9429 8.61048C1.70808 8.88142 1.70808 9.15236 1.96999 9.45039L8.75249 16.5309C9.09568 16.8832 9.07762 17.4521 8.7254 17.7863C8.55381 17.9488 8.32802 18.0301 8.11127 18.0301Z" fill="#8B93A1"/>
+          </svg>
+        </button>
+        <button 
+          class="nav-btn nav-btn-next"
+          :disabled="isAtEnd"
+          @click="scrollRight"
+        >
+          <svg width="9" height="19" viewBox="0 0 9 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0.888728 18.0301C0.662946 18.0301 0.446195 17.9488 0.2746 17.7863C-0.07762 17.4431 -0.0956828 16.8832 0.247506 16.5309L7.0571 9.4233C7.29192 9.15236 7.29192 8.88142 7.03001 8.58339L0.247506 1.50286C-0.0956828 1.15064 -0.07762 0.581664 0.2746 0.247506C0.626821 -0.0956827 1.19579 -0.0776201 1.52995 0.2746L8.33955 7.38223C9.21558 8.36664 9.21558 9.66715 8.36664 10.6245L1.52995 17.7592C1.35836 17.9398 1.12354 18.0301 0.888728 18.0301Z" fill="white"/>
+          </svg>
+        </button>
       </div>
     </div>
   </section>
@@ -42,11 +92,37 @@ export default {
   },
   data() {
     return {
-      sites: []
+      sites: [],
+      windowWidth: window.innerWidth,
+      isAtStart: true,
+      isAtEnd: false
+    }
+  },
+  computed: {
+    sitePairs() {
+      const pairs = []
+      for (let i = 0; i < this.sites.length; i += 2) {
+        pairs.push(this.sites.slice(i, i + 2))
+      }
+      return pairs
     }
   },
   async mounted() {
     await this.loadSites()
+    this.handleResize()
+    window.addEventListener('resize', this.handleResize)
+    this.$nextTick(() => {
+      if (this.$refs.sitesGrid && this.windowWidth <= 768) {
+        this.$refs.sitesGrid.addEventListener('scroll', this.handleScroll)
+        this.updateScrollButtons()
+      }
+    })
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.handleResize)
+    if (this.$refs.sitesGrid) {
+      this.$refs.sitesGrid.removeEventListener('scroll', this.handleScroll)
+    }
   },
   methods: {
     async loadSites() {
@@ -140,6 +216,61 @@ export default {
             iconType: 'oit'
           }
         ]
+      }
+    },
+    handleResize() {
+      this.windowWidth = window.innerWidth
+      this.$nextTick(() => {
+        if (this.$refs.sitesGrid) {
+          if (this.windowWidth <= 768) {
+            this.$refs.sitesGrid.addEventListener('scroll', this.handleScroll)
+          } else {
+            this.$refs.sitesGrid.removeEventListener('scroll', this.handleScroll)
+          }
+          this.updateScrollButtons()
+        }
+      })
+    },
+    handleScroll() {
+      this.updateScrollButtons()
+    },
+    updateScrollButtons() {
+      if (this.$refs.sitesGrid && this.windowWidth <= 768) {
+        const container = this.$refs.sitesGrid
+        const scrollLeft = container.scrollLeft
+        const scrollWidth = container.scrollWidth
+        const clientWidth = container.clientWidth
+        
+        this.isAtStart = scrollLeft <= 0
+        this.isAtEnd = scrollLeft + clientWidth >= scrollWidth - 1
+      }
+    },
+    scrollLeft() {
+      if (this.$refs.sitesGrid) {
+        const pair = this.$refs.sitesGrid.querySelector('.site-pair')
+        if (pair) {
+          const pairWidth = pair.offsetWidth
+          const gap = 16
+          const scrollAmount = pairWidth + gap
+          this.$refs.sitesGrid.scrollBy({
+            left: -scrollAmount,
+            behavior: 'smooth'
+          })
+        }
+      }
+    },
+    scrollRight() {
+      if (this.$refs.sitesGrid) {
+        const pair = this.$refs.sitesGrid.querySelector('.site-pair')
+        if (pair) {
+          const pairWidth = pair.offsetWidth
+          const gap = 16
+          const scrollAmount = pairWidth + gap
+          this.$refs.sitesGrid.scrollBy({
+            left: scrollAmount,
+            behavior: 'smooth'
+          })
+        }
       }
     }
   }
@@ -280,8 +411,81 @@ export default {
   }
   
   .sites-grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
     gap: 16px;
+    padding-bottom: 20px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .sites-grid::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .site-pair {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: calc(100% - 32px);
+    width: calc(100% - 32px);
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
+  
+  .site-card {
+    height: auto;
+  }
+  
+  .mobile-navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  
+  .nav-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    flex-shrink: 0;
+  }
+  
+  .nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .nav-btn-prev {
+    background: #E5E5E5;
+  }
+  
+  .nav-btn-prev svg path {
+    fill: #8B93A1;
+  }
+  
+  .nav-btn-next {
+    background: #024588;
+  }
+  
+  .nav-btn-next svg path {
+    fill: white;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-navigation {
+    display: none;
   }
 }
 </style>
