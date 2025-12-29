@@ -1507,7 +1507,8 @@ export default {
 }
 
 .career-dropdown {
-  min-width: 250px;
+  min-width: 350px;
+  max-width: 400px;
   width: 100%;
 }
 
