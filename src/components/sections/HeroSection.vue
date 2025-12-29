@@ -633,8 +633,8 @@ export default {
 }
 
 .floating-btn {
-  position: absolute;
-  top: 20px;
+  position: fixed;
+  top: 60%;
   right: 0;
   padding: 12px 20px;
   background: var(--accent-red);
