@@ -182,15 +182,77 @@
               class="dropdown-menu dropdown-recursos"
               :class="{ active: showRecursosDropdown }"
             >
-              <a href="#" class="dropdown-item">Revistas Académicas (Proquest)</a>
-              <a href="#" class="dropdown-item">Portal de Revistas Académicas Chilenas</a>
-              <a href="#" class="dropdown-item">Biblioteca del Congreso</a>
-              <a href="#" class="dropdown-item">Normas Chilenas</a>
-              <a href="#" class="dropdown-item">Diario Oficial de la República</a>
-              <a href="#" class="dropdown-item">Biblioteca Thomson-Reuters</a>
-              <a href="#" class="dropdown-item">Biblioteca ENI</a>
-              <a href="#" class="dropdown-item">Enciclopedia OIT</a>
-              <a href="#" class="dropdown-item">Ver todos los recursos</a>
+              <a 
+                href="https://itmsp.museknowledge.com/MuseSessionID=0910qnxid/MuseProtocol=https/MuseHost=www.proquest.com/MusePath/index?parentSessionId=Qru4aIKBNrLQJ%2FvHVgOHse7XO26dC1QXWOcVe1ik2RQ%3D&accountid=163619" 
+                class="dropdown-item" 
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Revistas Académicas (Proquest)
+              </a>
+              <a 
+                href="https://revistaschilenas.uchile.cl/" 
+                class="dropdown-item" 
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Portal de Revistas Académicas Chilenas
+              </a>
+              <a 
+                href="https://www.leychile.cl/Consulta/homebasico" 
+                class="dropdown-item" 
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Biblioteca del Congreso
+              </a>
+              <a 
+                href="https://www.inncoleccion.cl/colecao.aspx" 
+                class="dropdown-item" 
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Normas Chilenas
+              </a>
+              <a 
+                href="http://www.diariooficial.interior.gob.cl/" 
+                class="dropdown-item" 
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Diario Oficial de la República
+              </a>
+              <a 
+                href="https://09115nxig-y-https-next--proview-thomsonreuters-com.itmsp.museknowledge.com/library" 
+                class="dropdown-item" 
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Biblioteca Thomson-Reuters
+              </a>
+              <a 
+                href="https://0910cnxik-y-https-www-eni--training-com.itmsp.museknowledge.com/instant-Connection/Default.aspx" 
+                class="dropdown-item" 
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Biblioteca ENI
+              </a>
+              <a 
+                href="http://www.insht.es/portal/site/Insht/menuitem.1f1a3bc79ab34c578c2e8884060961ca/?vgnextoid=a981ceffc39a5110VgnVCM100000dc0ca8c0RCRD&vgnextchannel=9f164a7f8a651110VgnVCM100000dc0ca8c0RCRD" 
+                class="dropdown-item" 
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Enciclopedia OIT
+              </a>
+              <a 
+                href="#sitios-recomendados" 
+                class="dropdown-item"
+                @click.prevent="scrollToSitiosRecomendados"
+              >
+                Ver todos los recursos
+              </a>
             </div>
           </div>
         </nav>
@@ -612,8 +674,53 @@ export default {
     navigateToRecursos(resource) {
       this.hideRecursosDropdown()
       this.closeMobileMenu()
-      // Aquí puedes agregar la lógica de navegación según el recurso seleccionado
-      console.log('Navegar a:', resource)
+      
+      // Mapeo de recursos a URLs
+      const recursosUrls = {
+        'revistas-proquest': 'https://itmsp.museknowledge.com/MuseSessionID=0910qnxid/MuseProtocol=https/MuseHost=www.proquest.com/MusePath/index?parentSessionId=Qru4aIKBNrLQJ%2FvHVgOHse7XO26dC1QXWOcVe1ik2RQ%3D&accountid=163619',
+        'portal-revistas-chilenas': 'https://revistaschilenas.uchile.cl/',
+        'biblioteca-congreso': 'https://www.leychile.cl/Consulta/homebasico',
+        'normas-chilenas': 'https://www.inncoleccion.cl/colecao.aspx',
+        'diario-oficial': 'http://www.diariooficial.interior.gob.cl/',
+        'thomson-reuters': 'https://09115nxig-y-https-next--proview-thomsonreuters-com.itmsp.museknowledge.com/library',
+        'biblioteca-eni': 'https://0910cnxik-y-https-www-eni--training-com.itmsp.museknowledge.com/instant-Connection/Default.aspx',
+        'enciclopedia-oit': 'http://www.insht.es/portal/site/Insht/menuitem.1f1a3bc79ab34c578c2e8884060961ca/?vgnextoid=a981ceffc39a5110VgnVCM100000dc0ca8c0RCRD&vgnextchannel=9f164a7f8a651110VgnVCM100000dc0ca8c0RCRD',
+        'todos-recursos': null // Se maneja con scrollToSitiosRecomendados
+      }
+      
+      if (resource === 'todos-recursos') {
+        this.scrollToSitiosRecomendados()
+      } else if (recursosUrls[resource]) {
+        window.open(recursosUrls[resource], '_blank', 'noopener,noreferrer')
+      }
+    },
+    scrollToSitiosRecomendados() {
+      this.hideRecursosDropdown()
+      this.closeMobileMenu()
+      
+      // Buscar la sección de sitios recomendados
+      const sitiosSection = document.getElementById('sitios-recomendados')
+      if (sitiosSection) {
+        const headerHeight = 80
+        const sectionPosition = sitiosSection.getBoundingClientRect().top + window.pageYOffset - headerHeight
+        
+        window.scrollTo({
+          top: sectionPosition,
+          behavior: 'smooth'
+        })
+      } else {
+        // Si no existe el ID, intentar buscar por clase o selector
+        const section = document.querySelector('.sitios-section')
+        if (section) {
+          const headerHeight = 80
+          const sectionPosition = section.getBoundingClientRect().top + window.pageYOffset - headerHeight
+          
+          window.scrollTo({
+            top: sectionPosition,
+            behavior: 'smooth'
+          })
+        }
+      }
     },
     toggleMobileMenu() {
       this.isMobileMenuOpen = !this.isMobileMenuOpen

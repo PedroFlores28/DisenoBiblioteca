@@ -1,7 +1,7 @@
 <template>
-  <section class="sitios-section">
+  <section id="sitios-recomendados" class="sitios-section">
     <div class="container">
-      <h2 class="section-title">Sitios recomendados para tus estudios</h2>
+      <h2 class="section-title">Recursos de infomación para tus estudios</h2>
       <p class="section-subtitle">
         Accede a libros, revistas, normas y otras fuentes externas disponibles de uso público.
       </p>

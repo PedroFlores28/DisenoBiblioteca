@@ -44,22 +44,22 @@
               </svg>
             </div>
             <div class="social-icons">
-              <a href="#" class="social-icon">
+              <a href="https://x.com/AIEP" target="_blank" rel="noopener noreferrer" class="social-icon">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M12.186 8.53308L18.743 0H15.816L10.811 6.51718L6.371 0H0L7.434 10.9091L0.448 20H3.375L8.809 12.9305L13.629 20H20L12.186 8.53308ZM9.919 11.4835L8.544 9.46427L3.2 1.62709H5.4L9.712 7.94433L11.087 9.96355L16.818 18.3729H14.618L9.919 11.4835Z" fill="white"/>
                 </svg>
               </a>
-              <a href="#" class="social-icon">
+              <a href="https://www.tiktok.com/@aiep_oficial" target="_blank" rel="noopener noreferrer" class="social-icon">
                 <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M12.5604 0H9.18984V13.6232C9.18984 15.2464 7.89349 16.5797 6.28022 16.5797C4.66695 16.5797 3.37057 15.2464 3.37057 13.6232C3.37057 12.029 4.63814 10.7246 6.19381 10.6667V7.24639C2.7656 7.30433 0 10.1159 0 13.6232C0 17.1594 2.82321 20 6.30904 20C9.79481 20 12.618 17.1304 12.618 13.6232V6.63767C13.8856 7.56522 15.4412 8.11594 17.0833 8.14495V4.72464C14.5482 4.63768 12.5604 2.55072 12.5604 0Z" fill="white"/>
                 </svg>
               </a>
-              <a href="#" class="social-icon">
+              <a href="https://www.facebook.com/admision.aiep" target="_blank" rel="noopener noreferrer" class="social-icon">
                 <svg width="9" height="20" viewBox="0 0 9 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M5.84326 3.16823H9V0H6.41066C5.2632 0.0013974 4.16313 0.462706 3.35175 1.28274C2.54037 2.10277 2.08393 3.21457 2.08255 4.37427V6.33647H0V9.5047H2.08986V20H5.22466V9.5047H8.3814L9 6.33647H5.22466V3.79238C5.22709 3.62743 5.29308 3.46994 5.4086 3.35339C5.52411 3.23684 5.68005 3.17041 5.84326 3.16823Z" fill="white"/>
                 </svg>
               </a>
-              <a href="#" class="social-icon">
+              <a href="https://www.instagram.com/admision_aiep/" target="_blank" rel="noopener noreferrer" class="social-icon">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <g clip-path="url(#clip0_40002132_3240)">
                     <path d="M10 1.80078C12.6719 1.80078 12.9883 1.8125 14.0391 1.85937C15.0156 1.90234 15.543 2.06641 15.8945 2.20313C16.3594 2.38281 16.6953 2.60156 17.043 2.94922C17.3945 3.30078 17.6094 3.63281 17.7891 4.09766C17.9258 4.44922 18.0898 4.98047 18.1328 5.95312C18.1797 7.00781 18.1914 7.32422 18.1914 9.99219C18.1914 12.6641 18.1797 12.9805 18.1328 14.0313C18.0898 15.0078 17.9258 15.5352 17.7891 15.8867C17.6094 16.3516 17.3906 16.6875 17.043 17.0352C16.6914 17.3867 16.3594 17.6016 15.8945 17.7813C15.543 17.918 15.0117 18.082 14.0391 18.125C12.9844 18.1719 12.668 18.1836 10 18.1836C7.32813 18.1836 7.01172 18.1719 5.96094 18.125C4.98438 18.082 4.45703 17.918 4.10547 17.7813C3.64063 17.6016 3.30469 17.3828 2.95703 17.0352C2.60547 16.6836 2.39063 16.3516 2.21094 15.8867C2.07422 15.5352 1.91016 15.0039 1.86719 14.0313C1.82031 12.9766 1.80859 12.6602 1.80859 9.99219C1.80859 7.32031 1.82031 7.00391 1.86719 5.95312C1.91016 4.97656 2.07422 4.44922 2.21094 4.09766C2.39063 3.63281 2.60938 3.29688 2.95703 2.94922C3.30859 2.59766 3.64063 2.38281 4.10547 2.20313C4.45703 2.06641 4.98828 1.90234 5.96094 1.85937C7.01172 1.8125 7.32813 1.80078 10 1.80078ZM10 0C7.28516 0 6.94531 0.0117187 5.87891 0.0585938C4.81641 0.105469 4.08594 0.277344 3.45313 0.523438C2.79297 0.78125 2.23438 1.12109 1.67969 1.67969C1.12109 2.23438 0.78125 2.79297 0.523438 3.44922C0.277344 4.08594 0.105469 4.8125 0.0585938 5.875C0.0117188 6.94531 0 7.28516 0 10C0 12.7148 0.0117188 13.0547 0.0585938 14.1211C0.105469 15.1836 0.277344 15.9141 0.523438 16.5469C0.78125 17.207 1.12109 17.7656 1.67969 18.3203C2.23438 18.875 2.79297 19.2188 3.44922 19.4727C4.08594 19.7188 4.8125 19.8906 5.875 19.9375C6.94141 19.9844 7.28125 19.9961 9.99609 19.9961C12.7109 19.9961 13.0508 19.9844 14.1172 19.9375C15.1797 19.8906 15.9102 19.7188 16.543 19.4727C17.1992 19.2188 17.7578 18.875 18.3125 18.3203C18.8672 17.7656 19.2109 17.207 19.4648 16.5508C19.7109 15.9141 19.8828 15.1875 19.9297 14.125C19.9766 13.0586 19.9883 12.7188 19.9883 10.0039C19.9883 7.28906 19.9766 6.94922 19.9297 5.88281C19.8828 4.82031 19.7109 4.08984 19.4648 3.45703C19.2188 2.79297 18.8789 2.23438 18.3203 1.67969C17.7656 1.125 17.207 0.78125 16.5508 0.527344C15.9141 0.28125 15.1875 0.109375 14.125 0.0625C13.0547 0.0117188 12.7148 0 10 0Z" fill="white"/>
@@ -73,12 +73,12 @@
                   </defs>
                 </svg>
               </a>
-              <a href="#" class="social-icon">
+              <a href="https://www.youtube.com/@AIEPtv" target="_blank" rel="noopener noreferrer" class="social-icon">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M19.5433 5.49876C19.3794 4.86565 18.8977 4.38285 18.2648 4.21753C17.0087 3.88751 10 3.88751 10 3.88751C10 3.88751 2.99135 3.88751 1.73522 4.21753C1.10232 4.38285 0.620606 4.86565 0.456696 5.49876C0.126465 6.75499 0.126465 10.0063 0.126465 10.0063C0.126465 10.0063 0.126465 13.2576 0.456696 14.5139C0.620606 15.147 1.10232 15.6298 1.73522 15.7951C2.99135 16.1251 10 16.1251 10 16.1251C10 16.1251 17.0087 16.1251 18.2648 15.7951C18.8977 15.6298 19.3794 15.147 19.5433 14.5139C19.8735 13.2576 19.8735 10.0063 19.8735 10.0063C19.8735 10.0063 19.8735 6.75499 19.5433 5.49876ZM8.01634 12.7533V7.25925L13.2065 10.0063L8.01634 12.7533Z" fill="white"/>
                 </svg>
               </a>
-              <a href="#" class="social-icon">
+              <a href="https://cl.linkedin.com/school/instituto-profesional-aiep" target="_blank" rel="noopener noreferrer" class="social-icon">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M18.52 0H1.48C0.66 0 0 0.66 0 1.48V18.52C0 19.34 0.66 20 1.48 20H18.52C19.34 20 20 19.34 20 18.52V1.48C20 0.66 19.34 0 18.52 0ZM5.93 17.04H2.96V7.5H5.93V17.04ZM4.45 6.15C3.46 6.15 2.66 5.35 2.66 4.36C2.66 3.37 3.46 2.57 4.45 2.57C5.44 2.57 6.24 3.37 6.24 4.36C6.24 5.35 5.44 6.15 4.45 6.15ZM17.04 17.04H14.07V12.5C14.07 11.42 14.05 10.04 12.56 10.04C11.05 10.04 10.86 11.2 10.86 12.41V17.04H7.89V7.5H10.73V8.81H10.77C11.11 8.12 11.97 7.4 13.25 7.4C15.91 7.4 17.04 9.18 17.04 12.04V17.04Z" fill="white"/>
                 </svg>
@@ -95,8 +95,8 @@
           <div class="footer-column">
             <h4>Sobre AIEP</h4>
             <ul>
-              <li><a href="#">Institución</a></li>
-              <li><a href="#">Autoridades</a></li>
+              <li><a href="https://www.aiep.cl/sobre-aiep/" target="_blank" rel="noopener noreferrer">Institución</a></li>
+              <li><a href="https://www.aiep.cl/sobre-aiep/autoridades/" target="_blank" rel="noopener noreferrer">Autoridades</a></li>
               <li><a href="#">Calidad</a></li>
               <li><a href="#">Vinculación con el medio</a></li>
               <li><a href="#">Innovación</a></li>
@@ -105,14 +105,17 @@
           <div class="footer-column">
             <h4 class="nowrap">Acceso a portales</h4>
             <ul>
-              <li><a href="#">Estudiantes</a></li>
-              <li><a href="#">Docentes</a></li>
-              <li><a href="#">Titulados</a></li>
+              <li><a href="https://atl-sdcas01.sirsidynix.net/aiep_cas_saml/login?service=https%3A%2F%2Fbibliotecas.aiep.cl%2Fclient%2Fes_CL%2Fdefault%2Fsearch%2Fcasrequest%3F" target="_blank" rel="noopener noreferrer">Estudiantes</a></li>
+              <li><a href="https://atl-sdcas01.sirsidynix.net/aiep_cas_saml/login?service=https%3A%2F%2Fbibliotecas.aiep.cl%2Fclient%2Fes_CL%2Fdefault%2Fsearch%2Fcasrequest%3F" target="_blank" rel="noopener noreferrer">Docentes</a></li>
+              <li><a href="https://www.aiep.cl/titulados/" target="_blank" rel="noopener noreferrer">Titulados</a></li>
               <li><a href="#">Portal de pago</a></li>
             </ul>
           </div>
           <div class="footer-column">
             <h4>Políticas de<br class="mobile-only"> privacidad</h4>
+            <ul>
+              <li><a href="https://www.aiep.cl/politicas-de-privacidad/" target="_blank" rel="noopener noreferrer">Políticas de Privacidad</a></li>
+            </ul>
           </div>
         </div>
       </div>
