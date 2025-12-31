@@ -170,9 +170,9 @@ export default {
       searchQuery: '',
       regions: [
         { id: 'norte', name: 'Zona Norte' },
-        { id: 'centro-costa', name: 'Centro Costa' },
-        { id: 'metropolitana', name: 'Región Metropolitana' },
-        { id: 'centro', name: 'Centro Sur' },
+        { id: 'centro-costa', name: 'Zona Centro Costa' },
+        { id: 'metropolitana', name: 'Zona Región Metropolitana' },
+        { id: 'centro', name: 'Zona Centro Sur' },
         { id: 'sur', name: 'Zona Sur' }
       ],
       windowWidth: window.innerWidth,
@@ -243,10 +243,14 @@ export default {
           'centro': 'centro',
           'zona centro': 'centro',
           'centro sur': 'centro',
+          'zona centro sur': 'centro',
           'centro costa': 'centro-costa',
+          'zona centro costa': 'centro-costa',
           'metropolitana': 'metropolitana',
           'región metropolitana': 'metropolitana',
           'region metropolitana': 'metropolitana',
+          'zona región metropolitana': 'metropolitana',
+          'zona region metropolitana': 'metropolitana',
           'sur': 'sur',
           'zona sur': 'sur'
         }
@@ -735,10 +739,14 @@ export default {
         'centro': 'centro',
         'zona centro': 'centro',
         'centro sur': 'centro',
+        'zona centro sur': 'centro',
         'centro costa': 'centro-costa',
+        'zona centro costa': 'centro-costa',
         'metropolitana': 'metropolitana',
         'región metropolitana': 'metropolitana',
         'region metropolitana': 'metropolitana',
+        'zona región metropolitana': 'metropolitana',
+        'zona region metropolitana': 'metropolitana',
         'sur': 'sur',
         'zona sur': 'sur'
       }
