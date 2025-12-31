@@ -1455,13 +1455,14 @@ export default {
 
 .career-search {
   width: 100%;
-  padding: 12px 40px 12px 16px;
+  padding: 16px 40px 16px 16px;
   border: 1px solid #E0E0E0;
   border-radius: 8px;
   background: transparent;
-  font-size: 14px;
+  font-size: 16px;
   font-family: 'Ubuntu', sans-serif;
   color: #333;
+  line-height: 1.5;
 }
 
 .career-search:focus {
@@ -1539,12 +1540,13 @@ export default {
 
 .career-search {
   width: 100%;
-  padding: 12px 40px 12px 16px;
+  padding: 16px 40px 16px 16px;
   border: 1px solid #024588;
   border-radius: 6px;
   font-size: 16px;
   font-family: 'Ubuntu', sans-serif;
   color: #024588;
+  line-height: 1.5;
 }
 
 .career-search:focus {
