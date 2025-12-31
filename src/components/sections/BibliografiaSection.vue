@@ -667,6 +667,19 @@ export default {
       const fromHeader = sessionStorage.getItem('bibliografiaFromHeader') === 'true'
       const hash = window.location.hash
       
+      // Si el hash es #bibliotecas o cualquier otro que no sea #bibliografia, cerrar vista detallada
+      if (hash === '#bibliotecas' || (hash !== '#bibliografia' && hash !== '' && this.showDetailedView)) {
+        // Cerrar vista detallada cuando se navega a bibliotecas u otra sección
+        this.showDetailedView = false
+        // Limpiar flags de bibliografía
+        sessionStorage.removeItem('bibliografiaFromHeader')
+        sessionStorage.removeItem('selectedSchool')
+        window.dispatchEvent(new CustomEvent('bibliografia-detailed-view-changed', {
+          detail: { show: false }
+        }))
+        return
+      }
+      
       if (fromHeader) {
         // Si viene del header, mostrar vista detallada
         this.showDetailedView = true
@@ -714,7 +727,7 @@ export default {
         window.dispatchEvent(new CustomEvent('bibliografia-detailed-view-changed', {
           detail: { show: false }
         }))
-      } else if (hash !== '#bibliografia' && this.showDetailedView) {
+      } else if (hash !== '#bibliografia' && hash !== '' && this.showDetailedView) {
         // Si no hay hash Y la vista detallada está activa, ocultarla
         this.showDetailedView = false
         window.dispatchEvent(new CustomEvent('bibliografia-detailed-view-changed', {

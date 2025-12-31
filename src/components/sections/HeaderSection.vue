@@ -644,18 +644,44 @@ export default {
     },
     navigateToRegionFromDropdown(region) {
       this.hideBibliotecasDropdown()
-      // Navegar a la sección de bibliotecas y seleccionar la región
-      this.scrollToSection('#bibliotecas', { preventDefault: () => {} })
+      
+      // Limpiar flags de bibliografía para cerrar la vista detallada
+      sessionStorage.removeItem('bibliografiaFromHeader')
+      sessionStorage.removeItem('selectedSchool')
       
       // Guardar la región seleccionada para que BibliotecasSection la detecte
       sessionStorage.setItem('selectedRegion', region.id)
       
-      // Disparar evento para que BibliotecasSection seleccione la región
-      setTimeout(() => {
-        window.dispatchEvent(new CustomEvent('region-selected', {
-          detail: { regionId: region.id }
-        }))
-      }, 500)
+      // Cambiar el hash explícitamente para que se dispare hashchange
+      if (window.location.hash !== '#bibliotecas') {
+        window.location.hash = '#bibliotecas'
+      } else {
+        // Si ya estamos en #bibliotecas, forzar el evento hashchange
+        window.dispatchEvent(new HashChangeEvent('hashchange'))
+      }
+      
+      // Esperar a que la sección esté visible antes de hacer scroll
+      // Usar polling para verificar que la sección existe en el DOM
+      const checkAndScroll = () => {
+        const section = document.querySelector('#bibliotecas')
+        if (section && section.offsetParent !== null) {
+          // La sección está visible, hacer scroll
+          this.scrollToSection('#bibliotecas', { preventDefault: () => {} })
+          
+          // Disparar evento para que BibliotecasSection seleccione la región
+          setTimeout(() => {
+            window.dispatchEvent(new CustomEvent('region-selected', {
+              detail: { regionId: region.id }
+            }))
+          }, 100)
+        } else {
+          // La sección aún no está visible, intentar de nuevo
+          setTimeout(checkAndScroll, 100)
+        }
+      }
+      
+      // Iniciar el polling después de un pequeño delay para dar tiempo a Vue
+      setTimeout(checkAndScroll, 200)
     },
     showRecursosDropdownHover() {
       if (this.recursosTimeout) {
