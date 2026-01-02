@@ -379,16 +379,15 @@ export default {
       },
       expandedSubsections: {
         norte: false,
-        centro: false,
+        'centro-costa': false,
         metropolitana: false,
         sur: false
       },
       libraries: [],
       regions: [
         { id: 'norte', name: 'Zona Norte' },
-        { id: 'centro-costa', name: 'Zona Centro Costa' },
-        { id: 'metropolitana', name: 'Zona Región Metropolitana' },
-        { id: 'centro', name: 'Zona Centro Sur' },
+        { id: 'centro-costa', name: 'Zona Centro' },
+        { id: 'metropolitana', name: 'Región Metropolitana' },
         { id: 'sur', name: 'Zona Sur' }
       ],
       schools: [
@@ -835,17 +834,17 @@ export default {
           {
             id: 7,
             name: 'Biblioteca Valparaíso',
-            region: 'centro'
+            region: 'centro-costa'
           },
           {
             id: 8,
             name: 'Biblioteca Viña del Mar',
-            region: 'centro'
+            region: 'centro-costa'
           },
           {
             id: 9,
             name: 'Biblioteca Rancagua',
-            region: 'centro'
+            region: 'sur'
           },
           // Zona Sur
           {
@@ -958,34 +957,43 @@ export default {
     },
     navigateToSchool(school) {
       this.closeMobileMenu()
-      // Navegar a la sección de bibliografía
-      this.scrollToSection('#bibliografia', { preventDefault: () => {} })
+      // Mapear el ID de la escuela al schoolKey correspondiente (igual que en desktop)
+      const schoolIdToKeyMap = {
+        1: 'administracion',
+        2: 'artes',
+        3: 'desarrollo',
+        4: 'estetica',
+        5: 'gastronomia',
+        6: 'ingenieria',
+        7: 'salud'
+      }
       
-      // Esperar a que se complete el scroll y luego buscar la tarjeta de la escuela
-      setTimeout(() => {
-        const bibliografiaSection = document.getElementById('bibliografia')
-        if (bibliografiaSection) {
-          // Buscar todas las tarjetas de escuelas
-          const schoolCards = bibliografiaSection.querySelectorAll('.school-card')
-          schoolCards.forEach(card => {
-            const titleElement = card.querySelector('.card-title')
-            if (titleElement) {
-              const cardName = titleElement.textContent.trim()
-              // Buscar por nombre exacto o por nombre de búsqueda
-              if (cardName === school.searchName || cardName === school.name) {
-                // Hacer scroll hasta la tarjeta
-                card.scrollIntoView({ behavior: 'smooth', block: 'center' })
-                // Resaltar la tarjeta brevemente
-                card.style.transition = 'box-shadow 0.3s'
-                card.style.boxShadow = '0 0 20px rgba(36, 51, 78, 0.5)'
-                setTimeout(() => {
-                  card.style.boxShadow = ''
-                }, 2000)
-              }
-            }
-          })
+      // Obtener el schoolKey basado en el ID de la escuela
+      const schoolKey = schoolIdToKeyMap[school.id]
+      
+      if (schoolKey) {
+        // Guardar la escuela seleccionada en sessionStorage (igual que desktop)
+        sessionStorage.setItem('selectedSchool', schoolKey)
+        // Navegar a bibliografía usando el mismo método que desktop
+        this.navigateToBibliografia()
+      } else {
+        // Fallback: usar el nombre para buscar el schoolKey
+        const schoolNameToKeyMap = {
+          'Administración y Gestión Empresarial': 'administracion',
+          'Artes e Industrias Creativa': 'artes',
+          'Desarrollo Social y Educación': 'desarrollo',
+          'Estética Integral': 'estetica',
+          'Gastronomía, Hotelería y Turismo': 'gastronomia',
+          'Ingeniería, Energía y Tecnología': 'ingenieria',
+          'Salud y Deporte': 'salud'
         }
-      }, 600)
+        
+        const schoolKeyByName = schoolNameToKeyMap[school.name] || schoolNameToKeyMap[school.searchName]
+        if (schoolKeyByName) {
+          sessionStorage.setItem('selectedSchool', schoolKeyByName)
+          this.navigateToBibliografia()
+        }
+      }
     }
   }
 }
