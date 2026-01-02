@@ -1424,15 +1424,15 @@ export default {
 }
 
 .filters-row {
-  display: flex;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
   align-items: center;
-  flex-wrap: wrap;
 }
 
 .filter-wrapper {
   position: relative;
-  display: inline-block;
+  width: 100%;
 }
 
 .filter-wrapper .dropdown-arrow {
@@ -1448,26 +1448,7 @@ export default {
 
 .search-wrapper {
   position: relative;
-  flex: 1;
-  min-width: 300px;
-  max-width: 100%;
-}
-
-.career-search {
   width: 100%;
-  padding: 16px 40px 16px 16px;
-  border: 1px solid #E0E0E0;
-  border-radius: 8px;
-  background: transparent;
-  font-size: 16px;
-  font-family: 'Ubuntu', sans-serif;
-  color: #333;
-  line-height: 1.5;
-}
-
-.career-search:focus {
-  outline: none;
-  border-color: #024588;
 }
 
 .search-wrapper .search-icon {
@@ -1480,7 +1461,7 @@ export default {
 
 .filter-wrapper {
   position: relative;
-  display: inline-block;
+  width: 100%;
 }
 
 .filter-wrapper .dropdown-arrow {
@@ -1504,7 +1485,7 @@ export default {
   font-weight: 600;
   color: #024588;
   cursor: pointer;
-  min-width: 300px;
+  width: 100%;
   transition: border-color 0.3s;
   line-height: 1.5;
 }
@@ -1515,14 +1496,10 @@ export default {
 }
 
 .school-dropdown {
-  min-width: 350px;
-  max-width: 400px;
   width: 100%;
 }
 
 .career-dropdown {
-  min-width: 350px;
-  max-width: 400px;
   width: 100%;
 }
 
@@ -1532,10 +1509,7 @@ export default {
 
 .search-wrapper {
   position: relative;
-  flex: 1;
-  min-width: 300px;
-  max-width: 400px;
-  margin-left: auto;
+  width: 100%;
 }
 
 .career-search {
@@ -1547,6 +1521,7 @@ export default {
   font-family: 'Ubuntu', sans-serif;
   color: #024588;
   line-height: 1.5;
+  box-sizing: border-box;
 }
 
 .career-search:focus {
@@ -1900,8 +1875,7 @@ export default {
   }
   
   .filters-row {
-    flex-direction: column;
-    align-items: stretch;
+    grid-template-columns: 1fr;
     gap: 12px;
   }
   
@@ -1912,7 +1886,6 @@ export default {
   
   .filter-dropdown {
     width: 100%;
-    min-width: 100%;
     background: #F4F7FF;
     font-size: 16px;
     padding: 16px 48px 16px 20px;
@@ -1921,7 +1894,6 @@ export default {
   .school-dropdown,
   .career-dropdown {
     width: 100%;
-    min-width: 100%;
   }
   
   .career-search {
