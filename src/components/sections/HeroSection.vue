@@ -29,6 +29,10 @@
             Ver guía rápida de uso
           </button>
         </div>
+        <div class="hero-mobile-titles">
+          <p class="hero-mobile-subtitle">Conocimiento al servicio de tu aprendizaje</p>
+          <h2 class="hero-mobile-title">Accede a libros y recursos digitales</h2>
+        </div>
         <div class="hero-widget">
           <div class="widget-tabs-wrapper">
             <div class="widget-tabs">
@@ -76,22 +80,24 @@
                 <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
               </svg>
             </button>
-            <select v-model="searchFilter" class="search-filter search-filter-mobile">
-              <option value="">Filtra resultados</option>
-              <option value="asignatura">Asignatura</option>
-              <option value="autor">Autor</option>
-              <option value="carrera">Carrera</option>
-              <option value="isbn">ISBN</option>
-              <option value="titulo">Título</option>
-            </select>
             <div class="search-input-group">
               <input 
                 v-model="searchQuery"
                 type="text" 
                 class="search-input search-input-mobile" 
-                placeholder="La teoría del color por Joseff Albers"
+                placeholder="Busca por autor, título y más"
                 @keyup.enter="handleSearch"
               />
+            </div>
+            <div class="search-filter-group-mobile">
+              <select v-model="searchFilter" class="search-filter search-filter-mobile">
+                <option value="">Filtrar búsqueda</option>
+                <option value="asignatura">Asignatura</option>
+                <option value="autor">Autor</option>
+                <option value="carrera">Carrera</option>
+                <option value="isbn">ISBN</option>
+                <option value="titulo">Título</option>
+              </select>
               <button class="search-btn search-btn-mobile" @click="handleSearch">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
@@ -326,7 +332,7 @@ export default {
 .hero-content {
   display: grid;
   grid-template-columns: 1fr 1.4fr;
-  gap: 40px;
+  gap: 15px;
   align-items: center;
   width: 100%;
   box-sizing: border-box;
@@ -363,6 +369,10 @@ export default {
   flex: 1;
   display: flex;
   align-items: center;
+}
+
+.hero-mobile-titles {
+  display: none;
 }
 
 .hero-widget {
@@ -597,6 +607,10 @@ export default {
   display: none;
 }
 
+.search-filter-group-mobile {
+  display: none;
+}
+
 .search-btn-mobile {
   display: none;
 }
@@ -675,17 +689,53 @@ export default {
 @media (max-width: 768px) {
   .hero {
     padding: 80px 20px 40px;
-    min-height: 550px;
+    min-height: 400px;
   }
   
   .hero-text {
     display: none;
   }
   
+  .hero-mobile-titles {
+    display: block;
+    text-align: center;
+    color: var(--white);
+    margin-bottom: 10px;
+    margin-top: 40px;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+  
+  .hero-mobile-subtitle {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    font-style: normal;
+    margin: 0 auto 16px;
+    color: #FFFFFF;
+    line-height: 1.4;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .hero-mobile-title {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    font-style: normal;
+    margin: 0;
+    color: #FFFFFF;
+    line-height: 1.3;
+  }
+  
   .hero-widget {
     width: 100%;
     max-width: 500px;
-    margin: 280px auto 0;
+    margin: 0 auto;
     min-height: auto;
     padding: 24px;
   }
@@ -704,10 +754,6 @@ export default {
     padding: 8px 12px;
     font-size: 13px;
     border-radius: 4px 0 0 4px;
-  }
-  
-  .floating-btn span:first-child {
-    font-size: 13px;
   }
   
   .floating-btn-text {
@@ -742,6 +788,14 @@ export default {
     margin-top: 0;
   }
   
+  .search-input-group {
+    order: 1;
+  }
+  
+  .search-filter-group-mobile {
+    order: 2;
+  }
+  
   @media (max-width: 480px) {
     .search-container {
       font-size: 13px;
@@ -764,9 +818,17 @@ export default {
     display: none;
   }
   
+  .search-filter-group-mobile {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    align-items: stretch;
+    box-sizing: border-box;
+  }
+  
   .search-filter-mobile {
     display: block;
-    width: 100%;
+    flex: 1;
     border: 2px solid #102A8A;
     border-radius: 8px;
     padding: 12px 16px;
@@ -796,7 +858,7 @@ export default {
     display: block;
     flex: 1;
     padding: 10px 12px;
-    border: 2px solid #102A8A;
+    border: 1px solid #102A8A;
     border-radius: 8px;
     font-size: 1em;
     background: var(--white);
@@ -819,24 +881,31 @@ export default {
   }
   
   .search-input-group {
-    display: flex;
+    display: block;
     width: 100%;
-    gap: 8px;
-    align-items: stretch;
     box-sizing: border-box;
   }
   
   .search-btn-mobile {
     display: flex;
-    width: 40px;
-    min-width: 40px;
-    min-height: 40px;
-    height: 40px;
+    width: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    height: 44px;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     border-radius: 8px;
     box-sizing: border-box;
+    background: var(--accent-red);
+    color: var(--white);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .search-btn-mobile:hover {
+    background: #880000;
   }
   
   .search-btn-mobile svg {
