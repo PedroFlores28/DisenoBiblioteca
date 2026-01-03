@@ -13,7 +13,7 @@
     <div class="hero-container">
       <div class="hero-content">
         <div class="hero-text">
-          <p class="hero-subtitle">Servicios y recursos al servicio de tu aprendizaje</p>
+          <p class="hero-subtitle">Conocimiento al servicio de tu aprendizaje</p>
           <h2 class="hero-title">¡Bienvenidos a Bibliotecas AIEP!</h2>
           <button class="btn btn-secondary">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,10 +52,12 @@
           </div>
           <div class="widget-divider"></div>
           <h3 class="widget-title">
-            {{ activeTab === 'fisicos' ? 'Libros disponibles en tu sede' : 'Accede a libros y recursos digitales' }}
+            <span class="widget-title-desktop">Accede a libros y recursos digitales</span>
+            <span class="widget-title-mobile">{{ activeTab === 'fisicos' ? 'Accede a libros y recursos digitales' : 'Accede a libros y recursos digitale' }}</span>
           </h3>
           <p class="widget-description">
-            {{ activeTab === 'fisicos' ? 'Accede al catálogo de libros físicos disponibles para préstamo.' : 'Descubre lecturas y materiales digitales que facilitan tu estudio' }}
+            <span class="widget-description-desktop">Descubre lecturas y materiales que facilitan tu estudio.</span>
+            <span class="widget-description-mobile">{{ activeTab === 'fisicos' ? 'Descubre lecturas y materiales que facilitan tu estudio.' : 'Descubre lecturas  materiales digitales que facilitan tu estudio' }}</span>
           </p>
           <div class="search-container">
             <div class="search-box">
@@ -76,8 +78,15 @@
               />
             </div>
             <button class="search-btn" @click="handleSearch">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+              <svg class="search-btn-desktop-svg" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1032_6495)">
+                  <path d="M2.01027 7.16752C2.01027 4.32263 4.32226 2.0104 7.16685 2.0104C10.0114 2.0104 12.3234 4.32263 12.3234 7.16752C12.3234 10.0124 10.0114 12.3246 7.16685 12.3246C4.32226 12.3246 2.01027 10.0124 2.01027 7.16752ZM15.0167 14.1647L12.0692 11.217C12.9771 10.1153 13.5278 8.70498 13.5278 7.16752C13.5278 3.6568 10.6712 0.799805 7.1608 0.799805C3.65045 0.799805 0.799805 3.6568 0.799805 7.16752C0.799805 10.6782 3.6565 13.5352 7.16685 13.5352C8.70414 13.5352 10.1143 12.9844 11.2159 12.0765L14.1633 15.0243C14.2844 15.1453 14.4357 15.1998 14.5931 15.1998C14.7504 15.1998 14.9017 15.1393 15.0228 15.0243C15.2588 14.7882 15.2588 14.4069 15.0228 14.1708H15.0167V14.1647Z" fill="white"/>
+                </g>
+                <defs>
+                  <clipPath id="clip0_1032_6495">
+                    <rect width="16" height="16" fill="white"/>
+                  </clipPath>
+                </defs>
               </svg>
             </button>
             <div class="search-input-group">
@@ -354,15 +363,19 @@ export default {
 }
 
 .hero-subtitle {
-  font-size: 20px;
-  font-weight: 600;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  font-style: normal;
   margin-bottom: 0;
   color: #FFFFFF;
 }
 
 .hero-title {
-  font-size: 56px;
-  font-weight: bold;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 45px;
+  font-weight: 700;
+  font-style: normal;
   margin-bottom: 0;
   margin-top: 0;
   line-height: 1.2;
@@ -417,6 +430,7 @@ export default {
 @media (min-width: 769px) {
   .hero {
     padding: 100px 0 60px;
+    min-height: 480px;
   }
   
   .hero-container {
@@ -432,7 +446,7 @@ export default {
   }
   
   .hero-title {
-    margin-top: -24px;
+    margin-top: -15px;
     margin-bottom: 0;
   }
   
@@ -449,7 +463,7 @@ export default {
     flex-direction: column;
     justify-content: flex-start;
     padding-top: 0;
-    height: 263px;
+    height: 250px;
   }
   
   .hero-text .btn {
@@ -460,45 +474,65 @@ export default {
   .hero-widget {
     width: 100%;
     max-width: 753px;
-    height: 289px;
-    padding: 0;
+    height: auto;
+    min-height: 230px;
+    padding: 24px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     box-sizing: border-box;
+    margin-top: 18px;
+    align-self: flex-start;
   }
   
   .widget-tabs-wrapper {
-    width: auto;
-    background: #F8F8F8;
-    border-radius: 8px 8px 0 0;
+    display: none;
   }
   
-  .widget-tabs {
-    background: #F8F8F8;
-    border-radius: 8px 8px 0 0;
-    padding: 12px 8px 8px 15.5px;
-    margin-bottom: 0;
-    flex-shrink: 0;
+  .widget-divider {
+    display: none;
   }
   
   .widget-title {
-    padding: 12px 24px 4px 21px;
-    margin: 0;
+    padding: 0;
+    margin: 0 0 8px 0;
     font-size: 28px;
     color: #024588;
   }
   
+  .widget-title-desktop {
+    display: inline;
+  }
+  
+  .widget-title-mobile {
+    display: none;
+  }
+  
   .widget-description {
-    padding: 0 24px 16px 21px;
-    margin: 0;
+    padding: 0;
+    margin: 0 0 23px 0;
     font-size: 16px;
     font-family: Verdana, sans-serif;
+    color: var(--text-light);
+  }
+  
+  .widget-description-desktop {
+    display: inline;
+  }
+  
+  .widget-description-mobile {
+    display: none;
   }
   
   .search-container {
-    padding: 0 24px 24px 16px;
+    padding: 0;
     margin-top: 0;
+  }
+  
+  .search-btn-desktop-svg {
+    display: block;
+    width: 16px;
+    height: 16px;
   }
 }
 
@@ -525,14 +559,30 @@ export default {
   font-size: 28px;
   color: #024588;
   margin-bottom: 8px;
-  margin-top: 28px;
+  margin-top: 10px;
+}
+
+.widget-title-desktop {
+  display: none;
+}
+
+.widget-title-mobile {
+  display: inline;
 }
 
 .widget-description {
   color: var(--text-light);
   font-size: 16px;
-  margin-bottom: -14px;
+  margin-bottom: 0px;
   font-family: Verdana, sans-serif;
+}
+
+.widget-description-desktop {
+  display: none;
+}
+
+.widget-description-mobile {
+  display: inline;
 }
 
 .search-container {
@@ -636,6 +686,11 @@ export default {
 
 .search-btn:hover {
   background: #880000;
+}
+
+.search-btn-desktop-svg {
+  width: 16px;
+  height: 16px;
 }
 
 .floating-btn {
@@ -817,6 +872,10 @@ export default {
   }
   
   .search-btn:not(.search-btn-mobile) {
+    display: none;
+  }
+  
+  .search-btn-desktop-svg {
     display: none;
   }
   
