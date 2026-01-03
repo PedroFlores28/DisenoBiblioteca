@@ -127,8 +127,16 @@ export default {
         const extraMargin = 20
         // Calcular la altura máxima del modal (desde el top del botón hasta el bottom del widget + margen)
         this.maxModalHeight = this.heroWidgetBottom - this.floatingBtnTop + extraMargin
-        // Calcular el padding-bottom para que el modal termine un poco más abajo del widget
-        this.paddingBottom = window.innerHeight - this.heroWidgetBottom - extraMargin
+        // Calcular el padding-bottom para que el modal cubra hasta el final del viewport
+        // En resoluciones pequeñas (como 687px), asegurar que cubra toda la parte inferior
+        const viewportHeight = window.innerHeight
+        const availableSpace = viewportHeight - this.heroWidgetBottom
+        // Si hay poco espacio disponible, extender el padding para cubrir completamente
+        if (viewportHeight <= 687) {
+          this.paddingBottom = Math.max(availableSpace - extraMargin, 0)
+        } else {
+          this.paddingBottom = window.innerHeight - this.heroWidgetBottom - extraMargin
+        }
       } else {
         // Fallback: altura máxima aproximada
         this.maxModalHeight = window.innerHeight - this.floatingBtnTop - 40
@@ -172,6 +180,8 @@ export default {
   justify-content: center;
   z-index: 10000;
   padding: 0;
+  min-height: 100vh;
+  min-height: 100dvh; /* Para navegadores que soportan dvh */
 }
 
 .welcome-modal {
@@ -240,14 +250,14 @@ export default {
 }
 
 .modal-content {
-  padding: 8px 20px 28px 20px;
+  padding: 20px 20px 20px 20px;
 }
 
 .modal-title {
   font-size: 20px;
   font-weight: bold;
   color: #024588;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   line-height: 1.3;
   text-align: center;
 }
@@ -255,7 +265,7 @@ export default {
 .modal-question {
   font-size: 16px;
   color: #6B7280;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
@@ -350,6 +360,25 @@ export default {
   }
 }
 
+/* Ajustes específicos para resoluciones pequeñas como 687px */
+@media (max-width: 687px) {
+  .welcome-modal-overlay {
+    align-items: stretch;
+    padding-bottom: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+  
+  .welcome-modal {
+    margin-bottom: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    max-height: none !important;
+  }
+}
+
 @media (max-width: 480px) {
   .welcome-modal-overlay {
     padding-left: 20px;
@@ -363,7 +392,15 @@ export default {
   }
   
   .modal-content {
-    padding: 0px 24px 24px 24px;
+    padding: 20px 20px 20px 20px;
+  }
+  
+  .modal-title {
+    margin-bottom: 16px;
+  }
+  
+  .modal-question {
+    margin-bottom: 20px;
   }
 }
 
