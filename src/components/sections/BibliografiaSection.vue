@@ -58,7 +58,7 @@
               <option value="estetica">Estética Integral</option>
               <option value="gastronomia">Gastronomía, Hotelería y Turismo</option>
               <option value="ingenieria">Ingenierías, Energías y Tecnologías</option>
-              <option value="salud">Salud & Deportes</option>
+              <option value="salud">Salud y Deportes</option>
             </select>
             <svg class="dropdown-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M8.99179 13.533C8.48879 13.533 7.98578 13.3464 7.5558 12.9651L1.14658 6.82359C0.830175 6.5153 0.813949 6.0123 1.12224 5.6959C1.43053 5.37949 1.93353 5.36327 2.24994 5.67156L8.63482 11.7887C8.87009 11.9996 9.1216 11.9996 9.38932 11.7644L15.7499 5.67156C16.0663 5.36327 16.5774 5.37949 16.8776 5.6959C17.1859 6.0123 17.1696 6.52341 16.8532 6.82359L10.4683 12.9407C10.0221 13.3383 9.5029 13.533 8.99179 13.533Z" fill="#024588"/>
@@ -775,7 +775,7 @@ export default {
         'Ingeniería, Energía y Tecnología': 'ingenieria',
         'Ingenierías, Energías y Tecnologías': 'ingenieria',
         'Salud y Deporte': 'salud',
-        'Salud & Deportes': 'salud'
+        'Salud y Deportes': 'salud'
       }
       return nameToKeyMap[schoolName] || 'artes' // Default a 'artes' si no se encuentra
     },

@@ -16,7 +16,7 @@ const schoolMap = {
   'Estética Integral': 'estetica',
   'Gastronomía, Hotelería y Turismo': 'gastronomia',
   'Ingenierías, Energías y Tecnologías': 'ingenieria',
-  'Salud & Deportes': 'salud'
+  'Salud y Deportes': 'salud'
 }
 
 async function importCSVToMongoDB() {
