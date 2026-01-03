@@ -2,9 +2,9 @@
   <div class="top-bar-wrapper">
     <div class="top-bar-white" :class="{ 'hide-on-digitales': isLibrosDigitales }">
       <div class="top-bar-links">
-        <a href="#" class="top-link">Estudiantes</a>
-        <a href="#" class="top-link">Docentes</a>
-        <a href="#" class="top-link">Colaboradores</a>
+        <a href="https://atl-sdcas01.sirsidynix.net/aiep_cas_saml/login?service=https%3A%2F%2Fbibliotecas.aiep.cl%2Fclient%2Fes_CL%2Fdefault%2Fsearch%2Fcasrequest%3F" target="_blank" rel="noopener noreferrer" class="top-link">Estudiantes</a>
+        <a href="https://atl-sdcas01.sirsidynix.net/aiep_cas_saml/login?service=https%3A%2F%2Fbibliotecas.aiep.cl%2Fclient%2Fes_CL%2Fdefault%2Fsearch%2Fcasrequest%3F" target="_blank" rel="noopener noreferrer" class="top-link">Docentes</a>
+        <a href="https://atl-sdcas01.sirsidynix.net/aiep_cas_saml/login?service=https%3A%2F%2Fbibliotecas.aiep.cl%2Fclient%2Fes_CL%2Fdefault%2Fsearch%2Fcasrequest%3F" target="_blank" rel="noopener noreferrer" class="top-link">Colaboradores</a>
       </div>
     </div>
   </div>
