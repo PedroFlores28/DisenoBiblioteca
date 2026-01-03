@@ -29,10 +29,6 @@
             Ver guía rápida de uso
           </button>
         </div>
-        <div class="mobile-title-wrapper">
-          <p class="mobile-hero-subtitle">Conocimiento al servicio de tu aprendizaje</p>
-          <h3 class="mobile-hero-title">Accede a libros y recursos digitales</h3>
-        </div>
         <div class="hero-widget">
           <div class="widget-tabs-wrapper">
             <div class="widget-tabs">
@@ -80,22 +76,22 @@
                 <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
               </svg>
             </button>
-            <input 
-              v-model="searchQuery"
-              type="text" 
-              class="search-input search-input-mobile" 
-              placeholder="Busca por autor, título y más"
-              @keyup.enter="handleSearch"
-            />
-            <div class="search-filter-group-mobile">
-              <select v-model="searchFilter" class="search-filter search-filter-mobile">
-                <option value="">Filtra resultados</option>
-                <option value="asignatura">Asignatura</option>
-                <option value="autor">Autor</option>
-                <option value="carrera">Carrera</option>
-                <option value="isbn">ISBN</option>
-                <option value="titulo">Título</option>
-              </select>
+            <select v-model="searchFilter" class="search-filter search-filter-mobile">
+              <option value="">Filtra resultados</option>
+              <option value="asignatura">Asignatura</option>
+              <option value="autor">Autor</option>
+              <option value="carrera">Carrera</option>
+              <option value="isbn">ISBN</option>
+              <option value="titulo">Título</option>
+            </select>
+            <div class="search-input-group">
+              <input 
+                v-model="searchQuery"
+                type="text" 
+                class="search-input search-input-mobile" 
+                placeholder="La teoría del color por Joseff Albers"
+                @keyup.enter="handleSearch"
+              />
               <button class="search-btn search-btn-mobile" @click="handleSearch">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
@@ -529,18 +525,6 @@ export default {
   font-family: Verdana, sans-serif;
 }
 
-.mobile-title-wrapper {
-  display: none;
-}
-
-.mobile-hero-subtitle {
-  display: none;
-}
-
-.mobile-hero-title {
-  display: none;
-}
-
 .search-container {
   margin-top: 23px;
   display: flex;
@@ -621,10 +605,6 @@ export default {
   display: none;
 }
 
-.search-filter-group-mobile {
-  display: none;
-}
-
 .search-btn-mobile {
   display: none;
 }
@@ -700,10 +680,10 @@ export default {
   }
 }
 
-  @media (max-width: 768px) {
+@media (max-width: 768px) {
   .hero {
-    padding: 120px 20px 40px;
-    min-height: 430px;
+    padding: 80px 20px 40px;
+    min-height: 550px;
   }
   
   .hero-text {
@@ -714,17 +694,14 @@ export default {
     width: 90%;
     max-width: 400px;
     margin: 0 auto;
-    margin-top: -30px;
-    min-height: auto;
-    padding: 20px;
+    min-height: 400px;
   }
   
   .hero-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    padding-top: 0;
+    justify-content: center;
   }
   
   .floating-btn {
@@ -745,50 +722,65 @@ export default {
     line-height: 1.3;
   }
   
-  .mobile-title-wrapper {
-    display: block;
-    text-align: center;
-    margin-bottom: 12px;
-    width: 90%;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .mobile-hero-subtitle {
-    display: block;
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 17px;
-    font-weight: 600;
-    margin: 0 0 8px 0;
-    line-height: 1.3;
-  }
-  
-  .mobile-hero-title {
-    display: block;
-    color: #FFFFFF;
-    font-family: 'Ubuntu', sans-serif;
-    font-size: 32px;
-    font-weight: 700;
-    font-style: normal;
-    margin: 0;
-    line-height: 1.2;
-  }
-  
   .widget-tabs-wrapper {
-    display: none;
+    width: 100%;
+    overflow: hidden;
   }
   
-  .widget-divider {
-    display: none;
+  .widget-tabs {
+    margin-bottom: 0px;
+    display: flex;
+    gap: 0;
+    width: 100%;
+    flex-wrap: nowrap;
+    min-width: 0;
+    padding: 4px;
+    background: #F8F8F8;
+  }
+  
+  .tab {
+    flex: 1;
+    padding: 8px 4px;
+    flex-basis: 50%;
+    padding: 12px 8px;
+    font-size: 14px;
+    white-space: nowrap;
+    line-height: 1.3;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px;
+    width: 50%;
+    box-sizing: border-box;
+  }
+  
+  .tab.active {
+    border-radius: 4px 4px 0 0;
+  }
+  
+  .tab:not(.active) {
+    background: transparent;
+    color: var(--secondary-blue);
+    border: none;
   }
   
   .widget-title {
-    display: none;
+    font-size: 28px;
+    margin-bottom: 4px;
+    line-height: 1.2;
   }
   
   .widget-description {
-    display: none;
+    font-size: 15px;
+    margin-bottom: 24px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .search-container {
@@ -798,7 +790,6 @@ export default {
     max-width: 100%;
     box-sizing: border-box;
     font-size: 14px;
-    margin-top: 0;
   }
   
   @media (max-width: 480px) {
@@ -823,54 +814,17 @@ export default {
     display: none;
   }
   
-  .search-input-mobile {
-    display: block;
-    width: 100%;
-    padding: 12px 16px;
-    border: 1px solid #102A8A;
-    border-radius: 8px;
-    font-size: 16px;
-    background: var(--white);
-    color: var(--text-dark);
-    box-sizing: border-box;
-    min-height: 48px;
-    height: 48px;
-    line-height: 1.5;
-    margin-bottom: 12px;
-  }
-  
-  .search-input-mobile:focus {
-    outline: none;
-    border-color: #102A8A;
-    border-width: 1px;
-  }
-  
-  .search-input-mobile::placeholder {
-    color: var(--text-light);
-    font-size: 16px;
-  }
-  
-  .search-filter-group-mobile {
-    display: flex;
-    width: 100%;
-    gap: 8px;
-    align-items: stretch;
-    box-sizing: border-box;
-  }
-  
   .search-filter-mobile {
     display: block;
-    flex: 1;
-    min-width: 0;
+    width: 100%;
     border: 2px solid #102A8A;
     border-radius: 8px;
-    padding: 10px 14px;
+    padding: 12px 16px;
     padding-right: 32px;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.5;
     box-sizing: border-box;
-    min-height: 48px;
-    height: 48px;
+    min-height: 44px;
     color: #102A8A;
     appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23102A8A' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
@@ -888,12 +842,46 @@ export default {
     color: #24334E;
   }
   
+  .search-input-mobile {
+    display: block;
+    flex: 1;
+    padding: 10px 12px;
+    border: 2px solid #102A8A;
+    border-radius: 8px;
+    font-size: 1em;
+    background: var(--white);
+    color: var(--text-dark);
+    box-sizing: border-box;
+    min-height: 40px;
+    height: 40px;
+    line-height: 1.5;
+    width: 0;
+  }
+  
+  .search-input-mobile:focus {
+    outline: none;
+    border-color: #102A8A;
+  }
+  
+  .search-input-mobile::placeholder {
+    color: var(--text-light);
+    font-size: 1em;
+  }
+  
+  .search-input-group {
+    display: flex;
+    width: 100%;
+    gap: 8px;
+    align-items: stretch;
+    box-sizing: border-box;
+  }
+  
   .search-btn-mobile {
     display: flex;
-    width: 48px;
-    min-width: 48px;
-    min-height: 48px;
-    height: 48px;
+    width: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    height: 40px;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
@@ -902,72 +890,62 @@ export default {
   }
   
   .search-btn-mobile svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
   }
   
   @media (max-width: 480px) {
+    .search-filter-mobile,
     .search-input-mobile {
-      min-height: 44px;
-      height: 44px;
+      min-height: 42px;
       padding: 10px 14px;
-      font-size: 15px;
+      font-size: 14px;
     }
     
     .search-filter-mobile {
-      min-height: 44px;
-      height: 44px;
-      padding: 10px 14px;
       padding-right: 28px;
-      font-size: 14px;
       background-size: 11px;
       background-position: right 10px center;
-    }
-    
-    .search-btn-mobile {
-      width: 44px;
-      min-width: 44px;
-      min-height: 44px;
-      height: 44px;
-    }
-    
-    .search-btn-mobile svg {
-      width: 18px;
-      height: 18px;
-    }
-  }
-  
-  @media (max-width: 360px) {
-    .search-input-mobile {
-      min-height: 42px;
-      height: 42px;
-      padding: 8px 12px;
-      font-size: 14px;
-    }
-    
-    .search-filter-mobile {
-      min-height: 42px;
-      height: 42px;
-      padding: 8px 12px;
-      padding-right: 26px;
-      font-size: 13px;
-      background-size: 10px;
-      background-position: right 8px center;
     }
     
     .search-btn-mobile {
       width: 42px;
       min-width: 42px;
       min-height: 42px;
-      height: 42px;
     }
     
     .search-btn-mobile svg {
       width: 16px;
       height: 16px;
     }
+  }
+  
+  @media (max-width: 360px) {
+    .search-filter-mobile,
+    .search-input-mobile {
+      min-height: 40px;
+      padding: 8px 12px;
+      font-size: 13px;
+    }
     
-    .search-filter-group-mobile {
+    .search-filter-mobile {
+      padding-right: 26px;
+      background-size: 10px;
+      background-position: right 8px center;
+    }
+    
+    .search-btn-mobile {
+      width: 40px;
+      min-width: 40px;
+      min-height: 40px;
+    }
+    
+    .search-btn-mobile svg {
+      width: 15px;
+      height: 15px;
+    }
+    
+    .search-input-group {
       gap: 6px;
     }
   }
