@@ -186,22 +186,6 @@ export default {
   margin: 0 auto;
 }
 
-@media (max-width: 768px) {
-  .welcome-modal-overlay {
-    padding-left: 20px;
-    padding-right: 20px;
-    align-items: flex-start;
-    justify-content: center;
-  }
-  
-  .welcome-modal {
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-  }
-}
 
 @keyframes slideUp {
   from {
@@ -217,7 +201,7 @@ export default {
 .modal-image-container {
   position: relative;
   width: calc(100% - 24px);
-  height: 130px;
+  height: 150px;
   overflow: hidden;
   background-color: #182844A6;
   margin: 12px;
@@ -256,14 +240,14 @@ export default {
 }
 
 .modal-content {
-  padding: 4px 20px 20px 20px;
+  padding: 8px 20px 28px 20px;
 }
 
 .modal-title {
   font-size: 20px;
   font-weight: bold;
   color: #024588;
-  margin-bottom: 10px;
+  margin-bottom: 14px;
   line-height: 1.3;
   text-align: center;
 }
@@ -271,19 +255,19 @@ export default {
 .modal-question {
   font-size: 16px;
   color: #6B7280;
-  margin-bottom: 18px;
+  margin-bottom: 24px;
   text-align: center;
 }
 
 .modal-buttons {
   display: flex;
   flex-direction: row;
-  gap: 12px;
+  gap: 10px;
 }
 
 .btn-guide {
   flex: 1;
-  padding: 14px 20px;
+  padding: 14px 12px;
   background: #D7E5F4;
   color: #024588;
   border: 2px solid #024588;
@@ -296,7 +280,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
+  min-width: 0;
   transition: all 0.3s ease;
 }
 
@@ -311,7 +296,7 @@ export default {
 
 .btn-skip {
   flex: 1;
-  padding: 14px 20px;
+  padding: 14px 12px;
   background: var(--white);
   color: #024588;
   border: 2px solid var(--primary-blue);
@@ -324,7 +309,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
+  min-width: 0;
   transition: all 0.3s ease;
 }
 
@@ -356,8 +342,9 @@ export default {
     margin-top: -4px;
     width: 100%;
     max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
     box-sizing: border-box;
     background: #F8F8F8;
   }
@@ -376,26 +363,8 @@ export default {
   }
   
   .modal-content {
-    padding: 8px 24px 24px 24px;
-  }
-  
-  .modal-title {
-    font-size: 20px;
-  }
-  
-  .modal-image-container {
-    height: 150px;
-  }
-  
-  .modal-content {
-    padding: 4px 24px 24px 24px;
+    padding: 0px 24px 24px 24px;
   }
 }
 
-@media (max-width: 360px) {
-  .welcome-modal {
-    width: 100%;
-    max-width: 500px;
-  }
-}
 </style>
