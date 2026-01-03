@@ -1321,8 +1321,8 @@ export default {
 }
 
 .floating-btn {
-  position: absolute;
-  top: 50%;
+  position: fixed;
+  top: 20%;
   right: 0;
   transform: translateY(-50%);
   padding: 12px 20px;
@@ -1868,7 +1868,8 @@ export default {
   }
   
   .floating-btn {
-    top: 20px;
+    position: fixed;
+    top: 85px;
     right: 0;
     transform: none;
     border-radius: 4px 0 0 4px;
