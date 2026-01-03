@@ -559,15 +559,7 @@ export default {
   background-color: #F4F7FFB5;
 }
 
-.search-filter {
-  color: #102A8A;
-}
-
 .search-filter option:first-child {
-  color: #102A8A;
-}
-
-.search-box .search-filter {
   color: #102A8A;
 }
 
@@ -691,17 +683,18 @@ export default {
   }
   
   .hero-widget {
-    width: 90%;
-    max-width: 400px;
-    margin: 0 auto;
-    min-height: 400px;
+    width: 100%;
+    max-width: 500px;
+    margin: 280px auto 0;
+    min-height: auto;
+    padding: 24px;
   }
   
   .hero-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
   }
   
   .floating-btn {
@@ -723,64 +716,19 @@ export default {
   }
   
   .widget-tabs-wrapper {
-    width: 100%;
-    overflow: hidden;
+    display: none;
   }
   
-  .widget-tabs {
-    margin-bottom: 0px;
-    display: flex;
-    gap: 0;
-    width: 100%;
-    flex-wrap: nowrap;
-    min-width: 0;
-    padding: 4px;
-    background: #F8F8F8;
-  }
-  
-  .tab {
-    flex: 1;
-    padding: 8px 4px;
-    flex-basis: 50%;
-    padding: 12px 8px;
-    font-size: 14px;
-    white-space: nowrap;
-    line-height: 1.3;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 50px;
-    width: 50%;
-    box-sizing: border-box;
-  }
-  
-  .tab.active {
-    border-radius: 4px 4px 0 0;
-  }
-  
-  .tab:not(.active) {
-    background: transparent;
-    color: var(--secondary-blue);
-    border: none;
+  .widget-divider {
+    display: none;
   }
   
   .widget-title {
-    font-size: 28px;
-    margin-bottom: 4px;
-    line-height: 1.2;
+    display: none;
   }
   
   .widget-description {
-    font-size: 15px;
-    margin-bottom: 24px;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    display: none;
   }
   
   .search-container {
@@ -790,6 +738,8 @@ export default {
     max-width: 100%;
     box-sizing: border-box;
     font-size: 14px;
+    padding: 0;
+    margin-top: 0;
   }
   
   @media (max-width: 480px) {
@@ -855,7 +805,7 @@ export default {
     min-height: 40px;
     height: 40px;
     line-height: 1.5;
-    width: 0;
+    width: 100%;
   }
   
   .search-input-mobile:focus {
