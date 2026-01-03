@@ -99,8 +99,8 @@
                 <option value="titulo">Título</option>
               </select>
               <button class="search-btn search-btn-mobile" @click="handleSearch">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2.764 9.85522C2.764 5.94349 5.94298 2.76417 9.8543 2.76417C13.7656 2.76417 16.9446 5.94349 16.9446 9.85522C16.9446 13.7669 13.7656 16.9463 9.8543 16.9463C5.94298 16.9463 2.764 13.7669 2.764 9.85522ZM20.6479 19.4764L16.5951 15.4232C17.8434 13.9084 18.6007 11.9692 18.6007 9.85522C18.6007 5.02798 14.6727 1.09961 9.84598 1.09961C5.01925 1.09961 1.09961 5.02798 1.09961 9.85522C1.09961 14.6825 5.02757 18.6108 9.8543 18.6108C11.9681 18.6108 13.9071 17.8535 15.4217 16.605L19.4745 20.6583C19.6409 20.8247 19.849 20.8996 20.0653 20.8996C20.2817 20.8996 20.4898 20.8164 20.6562 20.6583C20.9807 20.3337 20.9807 19.8093 20.6562 19.4847H20.6479V19.4764Z" fill="white"/>
                 </svg>
               </button>
             </div>
@@ -643,7 +643,7 @@ export default {
   top: 20%;
   right: 0;
   padding: 12px 20px;
-  background: var(--accent-red);
+  background: #AA0000;
   color: var(--white);
   border: none;
   border-radius: 4px 0 0 4px;
@@ -673,7 +673,7 @@ export default {
 }
 
 .floating-btn:hover {
-  background: #880000;
+  background: #990000;
 }
 
 @media (max-width: 968px) {
@@ -688,8 +688,10 @@ export default {
 
 @media (max-width: 768px) {
   .hero {
-    padding: 80px 20px 40px;
+    padding: 60px 20px 30px;
     min-height: 400px;
+    max-height: 440px;
+    overflow: hidden;
   }
   
   .hero-text {
@@ -831,7 +833,7 @@ export default {
     flex: 1;
     border: 2px solid #102A8A;
     border-radius: 8px;
-    padding: 12px 16px;
+    padding: 8px 16px;
     padding-right: 32px;
     font-size: 15px;
     line-height: 1.5;
@@ -897,7 +899,7 @@ export default {
     flex-shrink: 0;
     border-radius: 8px;
     box-sizing: border-box;
-    background: var(--accent-red);
+    background: #AA0000;
     color: var(--white);
     border: none;
     cursor: pointer;
@@ -905,12 +907,12 @@ export default {
   }
   
   .search-btn-mobile:hover {
-    background: #880000;
+    background: #990000;
   }
   
   .search-btn-mobile svg {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
   }
   
   @media (max-width: 480px) {
@@ -928,14 +930,14 @@ export default {
     }
     
     .search-btn-mobile {
-      width: 42px;
+      width: 44px;
       min-width: 42px;
       min-height: 42px;
     }
     
     .search-btn-mobile svg {
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
     }
   }
   
@@ -960,8 +962,8 @@ export default {
     }
     
     .search-btn-mobile svg {
-      width: 15px;
-      height: 15px;
+      width: 17px;
+      height: 17px;
     }
     
     .search-input-group {
