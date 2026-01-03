@@ -363,7 +363,7 @@ export default {
   }
   
   .modal-content {
-    padding: 2px 24px 24px 24px;
+    padding: 0px 24px 24px 24px;
   }
 }
 
