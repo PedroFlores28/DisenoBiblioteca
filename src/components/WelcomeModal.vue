@@ -1,6 +1,6 @@
 <template>
-  <div v-if="showModal && isMobile" class="welcome-modal-overlay" @click.self="closeModal">
-    <div class="welcome-modal">
+  <div v-if="showModal && isMobile" class="welcome-modal-overlay" :style="{ paddingTop: floatingBtnTop + 'px', paddingBottom: paddingBottom + 'px' }" @click.self="closeModal">
+    <div class="welcome-modal" :style="{ maxHeight: maxModalHeight + 'px' }">
       <div class="modal-image-container">
         <img 
           :src="modalImage" 
@@ -30,7 +30,7 @@
                 </clipPath>
               </defs>
             </svg>
-            Sí, ver una guía rápida
+            Si, ver guía rápida
           </button>
           <button class="btn-skip" @click="skipToSite">
             <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -39,7 +39,7 @@
               <path d="M9.4843 6.34805L6.60072 3.44405L5.74944 4.29005L8.63302 7.19405L9.4843 6.34805ZM9.50229 8.00405C9.70611 7.78205 9.83201 7.50005 9.83201 7.18205C9.83201 6.86405 9.70012 6.58205 9.50229 6.36005L8.61503 7.16405L8.63901 7.19405C8.63901 7.19405 8.63901 7.18805 8.63901 7.18205V7.17005C8.63901 7.17005 8.63901 7.18205 8.61503 7.20005L9.50229 8.00405ZM6.6247 10.9441L9.4903 8.02205L8.63302 7.18205L5.76742 10.1041L6.6247 10.9441ZM6.60072 3.44405C6.36692 3.21005 5.98923 3.21005 5.75543 3.44405C5.52163 3.67805 5.52163 4.05605 5.75543 4.29005L6.60672 3.44405H6.60072ZM9.05866 6.76805L9.50229 6.36605L9.4903 6.35405L9.47831 6.34205L9.05266 6.76805H9.05866ZM9.05866 7.60205L9.4843 8.02205H9.4903L9.49629 8.00405L9.05266 7.60205H9.05866ZM5.76742 10.1041C5.53362 10.3381 5.53961 10.7221 5.77342 10.9501C6.00722 11.1841 6.3909 11.1781 6.61871 10.9441L5.76143 10.1041H5.76742Z" fill="currentColor"/>
               <path d="M9.23225 6.61206H0.599497V7.81206H9.23225V6.61206ZM0.599497 6.61206C0.269774 6.61206 0 6.88206 0 7.21206C0 7.54206 0.269774 7.81206 0.599497 7.81206V6.61206ZM9.23225 7.81206C9.56197 7.81206 9.83175 7.54206 9.83175 7.21206C9.83175 6.88206 9.56197 6.61206 9.23225 6.61206V7.81206Z" fill="currentColor"/>
             </svg>
-            No, ir directo al sitio
+            No, ir al sitio
           </button>
         </div>
       </div>
@@ -62,23 +62,33 @@ export default {
     return {
       showModal: false,
       isMobile: false,
-      modalImage: modalImage
+      modalImage: modalImage,
+      floatingBtnTop: 0,
+      heroWidgetBottom: 0,
+      maxModalHeight: 0,
+      paddingBottom: 0
     }
   },
   mounted() {
     this.checkMobile()
+    this.calculateFloatingBtnPosition()
     window.addEventListener('resize', this.checkMobile)
+    window.addEventListener('resize', this.calculateFloatingBtnPosition)
+    window.addEventListener('scroll', this.calculateFloatingBtnPosition)
     
     // Mostrar el modal siempre en móvil al cargar/refrescar la página
     if (this.isMobile) {
       setTimeout(() => {
         this.showModal = true
+        this.calculateFloatingBtnPosition()
         document.body.style.overflow = 'hidden'
       }, 500)
     }
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.checkMobile)
+    window.removeEventListener('resize', this.calculateFloatingBtnPosition)
+    window.removeEventListener('scroll', this.calculateFloatingBtnPosition)
     // Restaurar scroll del body
     document.body.style.overflow = ''
   },
@@ -93,6 +103,38 @@ export default {
     }
   },
   methods: {
+    calculateFloatingBtnPosition() {
+      // Buscar el botón flotante en el DOM
+      const floatingBtn = document.querySelector('.floating-btn')
+      if (floatingBtn) {
+        // Obtener la posición del botón desde el top del viewport
+        const btnRect = floatingBtn.getBoundingClientRect()
+        // Usar la posición top del botón para que el modal empiece desde arriba alineado con él
+        this.floatingBtnTop = btnRect.top
+      } else {
+        // Fallback: posición aproximada del botón en móvil (12% del viewport)
+        const viewportHeight = window.innerHeight
+        this.floatingBtnTop = viewportHeight * 0.12
+      }
+      
+      // Calcular la posición del hero-widget para limitar la altura del modal
+      const heroWidget = document.querySelector('.hero-widget')
+      if (heroWidget) {
+        const widgetRect = heroWidget.getBoundingClientRect()
+        // Obtener la posición bottom del widget
+        this.heroWidgetBottom = widgetRect.bottom
+        // Agregar un pequeño margen adicional (20px) para que termine un poco más abajo
+        const extraMargin = 20
+        // Calcular la altura máxima del modal (desde el top del botón hasta el bottom del widget + margen)
+        this.maxModalHeight = this.heroWidgetBottom - this.floatingBtnTop + extraMargin
+        // Calcular el padding-bottom para que el modal termine un poco más abajo del widget
+        this.paddingBottom = window.innerHeight - this.heroWidgetBottom - extraMargin
+      } else {
+        // Fallback: altura máxima aproximada
+        this.maxModalHeight = window.innerHeight - this.floatingBtnTop - 40
+        this.paddingBottom = 40
+      }
+    },
     checkMobile() {
       this.isMobile = window.innerWidth <= 768
       // Si cambia a desktop, ocultar el modal
@@ -100,6 +142,8 @@ export default {
         this.showModal = false
         document.body.style.overflow = ''
       }
+      // Recalcular posición del botón cuando cambia el tamaño
+      this.calculateFloatingBtnPosition()
     },
     closeModal() {
       this.showModal = false
@@ -133,9 +177,10 @@ export default {
 .welcome-modal {
   background: var(--white);
   border-radius: 8px;
-  width: 90%;
-  max-width: 400px;
-  overflow: hidden;
+  width: 100%;
+  max-width: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   animation: slideUp 0.3s ease-out;
   margin: 0 auto;
@@ -143,7 +188,6 @@ export default {
 
 @media (max-width: 768px) {
   .welcome-modal-overlay {
-    padding-top: 80px;
     padding-left: 20px;
     padding-right: 20px;
     align-items: flex-start;
@@ -151,10 +195,9 @@ export default {
   }
   
   .welcome-modal {
-    width: 90%;
-    max-width: 400px;
+    width: 100%;
+    max-width: 500px;
     margin: 0 auto;
-    min-height: 400px;
     display: flex;
     flex-direction: column;
   }
@@ -213,7 +256,7 @@ export default {
 }
 
 .modal-content {
-  padding: 8px 20px 20px 20px;
+  padding: 4px 20px 20px 20px;
 }
 
 .modal-title {
@@ -234,19 +277,21 @@ export default {
 
 .modal-buttons {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 12px;
 }
 
 .btn-guide {
-  width: 100%;
+  flex: 1;
   padding: 14px 20px;
   background: #D7E5F4;
   color: #024588;
-  border: none;
+  border: 2px solid #024588;
   border-radius: 8px;
-  font-size: 16px;
-  font-weight: 500;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  font-style: normal;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -265,14 +310,16 @@ export default {
 }
 
 .btn-skip {
-  width: 100%;
+  flex: 1;
   padding: 14px 20px;
   background: var(--white);
   color: #024588;
   border: 2px solid var(--primary-blue);
   border-radius: 8px;
-  font-size: 16px;
-  font-weight: 500;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  font-style: normal;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -299,15 +346,16 @@ export default {
 
 @media (max-width: 768px) {
   .welcome-modal-overlay {
-    padding: 165px 20px 40px;
+    padding-left: 20px;
+    padding-right: 20px;
     align-items: flex-start;
     justify-content: center;
   }
   
   .welcome-modal {
     margin-top: -4px;
-    width: 90%;
-    max-width: 400px;
+    width: 100%;
+    max-width: 500px;
     margin-left: auto;
     margin-right: auto;
     box-sizing: border-box;
@@ -317,17 +365,18 @@ export default {
 
 @media (max-width: 480px) {
   .welcome-modal-overlay {
-    padding: 160px 20px 40px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
   
   .welcome-modal {
-    width: 90%;
-    max-width: 400px;
+    width: 100%;
+    max-width: 500px;
     border-radius: 8px;
   }
   
   .modal-content {
-    padding: 24px;
+    padding: 8px 24px 24px 24px;
   }
   
   .modal-title {
@@ -339,14 +388,14 @@ export default {
   }
   
   .modal-content {
-    padding: 0px 24px 24px 24px;
+    padding: 4px 24px 24px 24px;
   }
 }
 
 @media (max-width: 360px) {
   .welcome-modal {
-    width: 90%;
-    max-width: 400px;
+    width: 100%;
+    max-width: 500px;
   }
 }
 </style>
