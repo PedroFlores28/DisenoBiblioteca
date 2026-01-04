@@ -1197,6 +1197,7 @@ export default {
   flex-shrink: 0;
   display: inline-block;
   transition: transform 0.3s ease;
+  margin-left: 2px;
 }
 
 .dropdown-icon.rotated {
