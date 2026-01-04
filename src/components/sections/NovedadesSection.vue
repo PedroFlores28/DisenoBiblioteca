@@ -479,7 +479,6 @@ export default {
   border: 2px solid #FFFFFF;
   box-shadow: none;
   overflow: hidden;
-  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
 }
 
 @media (min-width: 769px) {
@@ -487,12 +486,6 @@ export default {
     width: calc((100% - 72px) / 4);
     min-width: calc((100% - 72px) / 4);
   }
-}
-
-.book-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  border-color: #e0e0e0;
 }
 
 .book-cover {

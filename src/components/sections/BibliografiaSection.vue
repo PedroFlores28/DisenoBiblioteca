@@ -935,17 +935,11 @@ export default {
   border-radius: 7px;
   padding: 32px;
   position: relative;
-  transition: transform 0.3s, box-shadow 0.3s;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   border: 2px solid var(--border-gray);
   min-height: 180px;
-}
-
-
-.school-card:hover {
-  transform: translateY(-4px);
 }
 
 .card-accent {
@@ -1699,15 +1693,9 @@ export default {
   border-radius: 8px;
   overflow: hidden;
   border: 2px solid #E0E0E0;
-  transition: transform 0.3s, box-shadow 0.3s;
   display: flex;
   flex-direction: column;
   min-height: 380px;
-}
-
-.career-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .career-image {

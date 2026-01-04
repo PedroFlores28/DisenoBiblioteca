@@ -1199,16 +1199,6 @@ export default {
 .library-card.highlighted {
   border: 3px solid var(--primary-blue);
   box-shadow: 0 0 0 4px rgba(0, 51, 102, 0.2);
-  animation: highlightPulse 1s ease-in-out;
-}
-
-@keyframes highlightPulse {
-  0%, 100% {
-    box-shadow: 0 0 0 4px rgba(0, 51, 102, 0.2);
-  }
-  50% {
-    box-shadow: 0 0 0 8px rgba(0, 51, 102, 0.1);
-  }
 }
 
 .region-select-container {
@@ -1294,7 +1284,6 @@ export default {
   border: 2px solid var(--border-gray);
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  transition: transform 0.3s;
   display: flex;
   flex-direction: column;
 }
@@ -1302,11 +1291,6 @@ export default {
 .library-card.libros-por-sede {
   width: calc((100% - 72px) / 4);
   min-width: calc((100% - 72px) / 4);
-}
-
-.library-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .library-image {
