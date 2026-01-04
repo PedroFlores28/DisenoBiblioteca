@@ -915,11 +915,16 @@ export default {
     color: #24334E;
   }
   
+  .search-filter-mobile:focus {
+    outline: none;
+    border-color: #102A8A;
+  }
+  
   .search-input-mobile {
     display: block;
     flex: 1;
     padding: 10px 12px;
-    border: 1px solid #102A8A;
+    border: 1px solid #024588;
     border-radius: 8px;
     font-size: 1em;
     background: var(--white);
@@ -933,7 +938,7 @@ export default {
   
   .search-input-mobile:focus {
     outline: none;
-    border-color: #102A8A;
+    border-color: #024588;
   }
   
   .search-input-mobile::placeholder {
