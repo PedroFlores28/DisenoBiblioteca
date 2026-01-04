@@ -123,8 +123,8 @@ export default {
         const widgetRect = heroWidget.getBoundingClientRect()
         // Obtener la posición bottom del widget
         this.heroWidgetBottom = widgetRect.bottom
-        // Agregar un pequeño margen adicional (20px) para que termine un poco más abajo
-        const extraMargin = 20
+        // Agregar un pequeño margen adicional (1px) para que termine un poco más abajo
+        const extraMargin = 1
         // Calcular la altura máxima del modal (desde el top del botón hasta el bottom del widget + margen)
         this.maxModalHeight = this.heroWidgetBottom - this.floatingBtnTop + extraMargin
         // Calcular el padding-bottom para que el modal cubra hasta el final del viewport
@@ -250,7 +250,7 @@ export default {
 }
 
 .modal-content {
-  padding: 20px 20px 20px 20px;
+  padding: 20px 20px 2px 20px;
 }
 
 .modal-title {
@@ -265,7 +265,7 @@ export default {
 .modal-question {
   font-size: 16px;
   color: #6B7280;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   text-align: center;
 }
 
@@ -380,27 +380,8 @@ export default {
 }
 
 @media (max-width: 480px) {
-  .welcome-modal-overlay {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-  
-  .welcome-modal {
-    width: 100%;
-    max-width: 500px;
-    border-radius: 8px;
-  }
-  
   .modal-content {
-    padding: 20px 20px 20px 20px;
-  }
-  
-  .modal-title {
-    margin-bottom: 16px;
-  }
-  
-  .modal-question {
-    margin-bottom: 20px;
+    padding: 5px 20px 2px 20px;
   }
 }
 
