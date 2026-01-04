@@ -8,8 +8,8 @@
           class="modal-image"
         />
         <div class="modal-image-overlay">
-          <svg width="190" height="134" viewBox="0 0 190 134" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M189.66 0V55.1621L110.619 134H109.519L188.88 54.8428V0.77832H134.673L1.09961 134H0L134.354 0H189.66Z" fill="white"/>
+          <svg width="146" height="114" viewBox="0 0 146 114" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M89.1289 0V0.00488281C92.6428 0.00496984 96.0102 1.40322 98.4932 3.8916L142.123 47.6172C147.292 52.8027 147.292 61.207 142.123 66.3877L98.4932 110.113C96.0102 112.602 92.6428 114 89.1289 114H0V112.1H89.1289C92.1602 112.1 95.0119 110.914 97.1543 108.768L140.784 65.041C145.211 60.6044 145.211 53.3907 140.784 48.9541L97.1543 5.22852C95.0119 3.08141 92.1604 1.89559 89.1289 1.89551H0V0H89.1289Z" fill="white"/>
           </svg>
         </div>
       </div>
@@ -235,16 +235,16 @@ export default {
   pointer-events: none;
   display: flex;
   align-items: flex-end;
-  justify-content: flex-end;
+  justify-content: flex-start;
   overflow: hidden;
   padding: 20px;
-  padding-bottom: 0px;
-  padding-right: 60px;
+  padding-bottom: 15px;
+  padding-left: 0px;
 }
 
 .modal-image-overlay svg {
   width: auto;
-  height: 100%;
+  height: auto;
   max-width: 100%;
   opacity: 1;
 }
@@ -265,7 +265,7 @@ export default {
 .modal-question {
   font-size: 16px;
   color: #6B7280;
-  margin-bottom: 10px;
+  margin-bottom: 18px;
   text-align: center;
 }
 
@@ -280,7 +280,7 @@ export default {
   padding: 14px 12px;
   background: #D7E5F4;
   color: #024588;
-  border: 2px solid #024588;
+  border: none;
   border-radius: 8px;
   font-family: 'Ubuntu', sans-serif;
   font-size: 12px;
