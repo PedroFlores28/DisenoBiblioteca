@@ -534,6 +534,10 @@ export default {
     width: 16px;
     height: 16px;
   }
+  
+  .floating-btn {
+    top: 180px;
+  }
 }
 
 .tab {
@@ -695,7 +699,7 @@ export default {
 
 .floating-btn {
   position: fixed;
-  top: 20%;
+  top: 180px;
   right: 0;
   padding: 12px 20px;
   background: #AA0000;
