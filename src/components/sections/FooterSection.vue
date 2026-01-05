@@ -98,7 +98,7 @@
               <li><a href="https://www.aiep.cl/sobre-aiep/" target="_blank" rel="noopener noreferrer">Institución</a></li>
               <li><a href="https://www.aiep.cl/sobre-aiep/autoridades/" target="_blank" rel="noopener noreferrer">Autoridades</a></li>
               <li><a href="#">Calidad</a></li>
-              <li><a href="#">Vinculación con el medio</a></li>
+              <li><a href="https://www.aiep.cl/vinculacion-con-el-medio/" target="_blank" rel="noopener noreferrer">Vinculación con el medio</a></li>
               <li><a href="#">Innovación</a></li>
             </ul>
           </div>
