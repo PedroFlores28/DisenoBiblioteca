@@ -476,7 +476,7 @@ export default {
     max-width: 753px;
     height: auto;
     min-height: 230px;
-    padding: 24px;
+    padding: 35px 25px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -510,7 +510,7 @@ export default {
   
   .widget-description {
     padding: 0;
-    margin: 0 0 23px 0;
+    margin: 0 0 24px 0;
     font-size: 16px;
     font-family: Verdana, sans-serif;
     color: var(--text-light);
