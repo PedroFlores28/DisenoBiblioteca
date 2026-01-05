@@ -235,7 +235,7 @@ export default {
           {
             id: 3,
             author: 'Gallego Nieto, Mariano',
-            title: 'Excel avanzado',
+            title: 'Excel 2019 :\nAvanzado',
             isbn: '9788418551178',
             description: 'El objetivo de este libro es que el lector maneje la aplicación de hoja de cálculo Microsoft Excel para realizar tareas avanzadas de manipulación de datos de distinto tipo, uso de funciones, fórmulas, macros, gráficos y un lenguaje de programación.',
             coverUrl: 'https://ik.imagekit.io/5wps2tups/Biblioteca/excel%20avanzado.jpg'
@@ -645,6 +645,7 @@ export default {
   font-family: 'Ubuntu', sans-serif;
   margin-bottom: 8px;
   line-height: 1.4;
+  white-space: pre-line;
 }
 
 .book-isbn {
@@ -664,6 +665,7 @@ export default {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .book-info .btn.btn-secondary {
