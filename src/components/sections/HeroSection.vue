@@ -123,7 +123,7 @@
       </svg>
       <span class="floating-btn-text">
         <span>Revisa la bibliografía</span>
-        <span>de tu carrera</span>
+        <span>de tus asignaturas</span>
       </span>
     </button>
   </section>
