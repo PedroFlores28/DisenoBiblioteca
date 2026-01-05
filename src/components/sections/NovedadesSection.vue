@@ -11,7 +11,13 @@
               :class="['book-card', { 'libros-por-sede': isLibrosPorSede || isLibrosDigitales }]"
             >
             <div class="book-cover" :class="{ 'libros-por-sede': isLibrosPorSede || isLibrosDigitales }">
-              <div class="cover-placeholder"></div>
+              <img 
+                v-if="book.coverUrl" 
+                :src="book.coverUrl" 
+                :alt="book.title"
+                class="cover-image"
+              />
+              <div v-else class="cover-placeholder"></div>
             </div>
             <div class="book-info" :class="{ 'libros-por-sede': isLibrosPorSede || isLibrosDigitales }">
               <p class="book-author">{{ book.author }}</p>
@@ -215,28 +221,32 @@ export default {
             author: 'Eastman, Charles M.',
             title: 'BIM handbook : a guide to building information modeling for owners, managers, designers, engineers and contractors',
             isbn: '9780470541371',
-            description: 'The BIM Handbook presents the technology and processes behind BIM and how architects, engineers, contractors...'
+            description: 'The BIM Handbook presents the technology and processes behind BIM and how architects, engineers,',
+            coverUrl: 'https://ik.imagekit.io/5wps2tups/Biblioteca/bim%20handbook.jpg'
           },
           {
             id: 2,
-            author: 'Fowler, Georgina',
-            title: 'Peluquería: una guía completa con resultados profesionales',
-            isbn: '9788428331876',
-            description: '"Peluquería: una guía completa con resultados profesionales" de Georgina Fowler es una obra ilustrada a todo color...'
+            author: 'Severance, Charles R',
+            title: 'Python para todos : Explorando la información con Python 3',
+            isbn: '9798633985566',
+            description: 'Python para todos está diseñado para introducir a los estudiantes en la programación y el desarrollo de software a través de un enfoque en la exploración de datos',
+            coverUrl: 'https://ik.imagekit.io/5wps2tups/Biblioteca/python%20para%20todos.jpg'
           },
           {
             id: 3,
-            author: 'Van Horne, James C.',
-            title: 'Fundamentos de administración financiera',
-            isbn: '9780470541371',
-            description: 'The BIM Handbook presents the technology and processes behind BIM and how architects, engineers, contractors...'
+            author: 'Gallego Nieto, Mariano',
+            title: 'Excel avanzado',
+            isbn: '9788418551178',
+            description: 'El objetivo de este libro es que el lector maneje la aplicación de hoja de cálculo Microsoft Excel para realizar tareas avanzadas de manipulación de datos de distinto tipo, uso de funciones, fórmulas, macros, gráficos y un lenguaje de programación.',
+            coverUrl: 'https://ik.imagekit.io/5wps2tups/Biblioteca/excel%20avanzado.jpg'
           },
           {
             id: 4,
-            author: 'Horngren, Charles T.',
-            title: 'Contabilidad con enfoque gerencial',
-            isbn: '9786073244567',
-            description: 'Este libro presenta los conceptos fundamentales de contabilidad desde una perspectiva gerencial y práctica...'
+            author: 'Bonis, German de',
+            title: 'Administración de negocios gastronómicos : el ABC de las operaciones de restaurantes y establecimientos de restauración',
+            isbn: '9789879468937',
+            description: 'Análisis de fundamentos de gestión, planificación y control aplicados a organizaciones moderna',
+            coverUrl: 'https://ik.imagekit.io/5wps2tups/Biblioteca/admin%20de%20negocios%20gastro.jpg'
           },
           {
             id: 5,
@@ -512,6 +522,13 @@ export default {
     height: 256px;
     margin: 0 auto;
   }
+}
+
+.cover-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 .cover-placeholder {
