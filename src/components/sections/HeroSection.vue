@@ -513,7 +513,7 @@ export default {
     margin: 0 0 24px 0;
     font-size: 16px;
     font-family: Verdana, sans-serif;
-    color: var(--text-light);
+    color: #39475F;
   }
   
   .widget-description-desktop {
@@ -667,6 +667,10 @@ export default {
 
 .search-btn-mobile {
   display: none;
+}
+
+.search-input::placeholder {
+  color: #8B93A1;
 }
 
 .search-input:focus {
