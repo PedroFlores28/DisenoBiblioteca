@@ -709,7 +709,7 @@ export default {
   background: #AA0000;
   color: var(--white);
   border: none;
-  border-radius: 4px 0 0 4px;
+  border-radius: 8px 0 0 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
