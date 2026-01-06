@@ -333,6 +333,7 @@ export default {
   color: inherit;
   display: block;
   min-height: 1.2em;
+  white-space: pre-line;
 }
 
 @media (min-width: 769px) {
