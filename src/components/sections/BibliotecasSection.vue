@@ -1550,19 +1550,19 @@ export default {
   .info-item:first-of-type {
     min-height: 40px;
     display: flex;
-    align-items: flex-start;
+    align-items:center;
   }
   
   .info-item:nth-of-type(2) {
     min-height: 32px;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
   }
   
   .info-item:nth-of-type(3) {
     min-height: 32px;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     margin-bottom: 0;
   }
   
