@@ -256,25 +256,34 @@ export default {
       console.warn('⚠️ No se pudo cargar el banner desde Strapi con ningún nombre, usando imágenes por defecto')
     },
     handleSearch() {
-      // URL base del catálogo de bibliotecas AIEP
-      const CATALOG_BASE_URL = 'https://bibliotecas.aiep.cl/client/en_US/default'
+      // URL base del nuevo sistema de búsqueda
+      const SEARCH_BASE_URL = 'https://itmsi.libsteps.com/AIEP/index.php/result'
       
       const searchTerm = this.searchQuery.trim()
       
-      // Si no hay término de búsqueda, redirigir a la página principal del catálogo
+      // Si no hay término de búsqueda, redirigir a la página principal sin término
       if (!searchTerm) {
-        window.location.href = CATALOG_BASE_URL
+        const emptySearchUrl = `${SEARCH_BASE_URL}?id=176771739220073&category1=0&category2=0&category3=0&text1=&text2=&text3=&op=0&op2=0&year1=&year2=&dbnum=80871%2089621%20111461%2087431%2089081%20103531%2059791%2077751%2059181%206101%2080901%2064781%20181%2066021%2071361%2049921%2080921%2089501%2069381%2060071%2089051%2089601%20103521%2061841%2098691%2089461%2089491%2089541&display=30&recstart=1&sort=rel#/?recstart=1&display=20&dbnum=80871&key=&type=search&reload=off`
+        window.location.href = emptySearchUrl
         return
       }
       
       // Codificar el término de búsqueda para la URL (maneja espacios, acentos, caracteres especiales)
       const encodedTerm = encodeURIComponent(searchTerm)
       
-      // Construir la URL de búsqueda
-      // Estructura: /search/results?qu=TERMINO&te=TIPO
-      // - qu: query (término de búsqueda) - REQUERIDO
-      // - te: target/type (tipo de búsqueda) - vacío = buscar en todos los campos
-      const searchUrl = `${CATALOG_BASE_URL}/search/results?qu=${encodedTerm}&te=`
+      // Mapeo de filtros a campos de búsqueda (si es necesario, se puede ajustar según el sistema)
+      // Por ahora, usamos text1 para el término principal
+      let text1 = encodedTerm
+      let text2 = ''
+      let text3 = ''
+      
+      // Si hay un filtro seleccionado, podríamos mapearlo a text2 o text3
+      // Por ahora mantenemos la lógica simple: todo va en text1
+      
+      // Construir la URL de búsqueda con la nueva estructura
+      // Estructura basada en: https://itmsi.libsteps.com/AIEP/index.php/result?...
+      const dbnum = '80871%2089621%20111461%2087431%2089081%20103531%2059791%2077751%2059181%206101%2080901%2064781%20181%2066021%2071361%2049921%2080921%2089501%2069381%2060071%2089051%2089601%20103521%2061841%2098691%2089461%2089491%2089541'
+      const searchUrl = `${SEARCH_BASE_URL}?id=176771739220073&category1=0&category2=0&category3=0&text1=${text1}&text2=${text2}&text3=${text3}&op=0&op2=0&year1=&year2=&dbnum=${dbnum}&display=30&recstart=1&sort=rel#/?recstart=1&display=20&dbnum=80871&key=&type=search&reload=off`
       
       // Redirigir automáticamente a la URL de búsqueda del catálogo
       window.location.href = searchUrl
