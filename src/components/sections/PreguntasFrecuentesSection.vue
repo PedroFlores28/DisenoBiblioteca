@@ -207,7 +207,15 @@ export default {
     toggleFaq(id) {
       const faq = this.faqs.find(f => f.id === id)
       if (faq) {
-        faq.isOpen = !faq.isOpen
+        // Si la pregunta ya está abierta, solo la cerramos
+        if (faq.isOpen) {
+          faq.isOpen = false
+        } else {
+          // Si está cerrada, cerramos todas las demás y abrimos esta
+          this.faqs.forEach(f => {
+            f.isOpen = f.id === id
+          })
+        }
       }
     }
   }
