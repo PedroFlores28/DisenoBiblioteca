@@ -802,8 +802,8 @@ export default {
   }
   
   .floating-btn {
-    position: fixed;
-    top: 12%;
+    position: absolute;
+    top: 25px;
     right: 0;
     padding: 8px 12px;
     font-size: 13px;
