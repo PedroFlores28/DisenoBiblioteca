@@ -61,23 +61,16 @@
           </p>
           <div class="search-container">
             <div class="search-box">
-              <select v-model="searchFilter" class="search-filter">
-                <option value="">Filtra resultados</option>
-                <option value="asignatura">Asignatura</option>
-                <option value="autor">Autor</option>
-                <option value="carrera">Carrera</option>
-                <option value="isbn">ISBN</option>
-                <option value="titulo">Título</option>
-              </select>
               <input 
                 v-model="searchQuery"
                 type="text" 
                 class="search-input" 
-                placeholder="La teoría del color por Joseff Albers"
+                placeholder="Busca por título, autor y más"
                 @keyup.enter="handleSearch"
               />
             </div>
             <button class="search-btn" @click="handleSearch">
+              <span class="search-btn-text">Buscar</span>
               <svg class="search-btn-desktop-svg" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_1032_6495)">
                   <path d="M2.01027 7.16752C2.01027 4.32263 4.32226 2.0104 7.16685 2.0104C10.0114 2.0104 12.3234 4.32263 12.3234 7.16752C12.3234 10.0124 10.0114 12.3246 7.16685 12.3246C4.32226 12.3246 2.01027 10.0124 2.01027 7.16752ZM15.0167 14.1647L12.0692 11.217C12.9771 10.1153 13.5278 8.70498 13.5278 7.16752C13.5278 3.6568 10.6712 0.799805 7.1608 0.799805C3.65045 0.799805 0.799805 3.6568 0.799805 7.16752C0.799805 10.6782 3.6565 13.5352 7.16685 13.5352C8.70414 13.5352 10.1143 12.9844 11.2159 12.0765L14.1633 15.0243C14.2844 15.1453 14.4357 15.1998 14.5931 15.1998C14.7504 15.1998 14.9017 15.1393 15.0228 15.0243C15.2588 14.7882 15.2588 14.4069 15.0228 14.1708H15.0167V14.1647Z" fill="white"/>
@@ -94,19 +87,9 @@
                 v-model="searchQuery"
                 type="text" 
                 class="search-input search-input-mobile" 
-                placeholder="Busca por autor, título y más"
+                placeholder="Busca por título, autor y más"
                 @keyup.enter="handleSearch"
               />
-            </div>
-            <div class="search-filter-group-mobile">
-              <select v-model="searchFilter" class="search-filter search-filter-mobile">
-                <option value="">Filtrar búsqueda</option>
-                <option value="asignatura">Asignatura</option>
-                <option value="autor">Autor</option>
-                <option value="carrera">Carrera</option>
-                <option value="isbn">ISBN</option>
-                <option value="titulo">Título</option>
-              </select>
               <button class="search-btn search-btn-mobile" @click="handleSearch">
                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M2.764 9.85522C2.764 5.94349 5.94298 2.76417 9.8543 2.76417C13.7656 2.76417 16.9446 5.94349 16.9446 9.85522C16.9446 13.7669 13.7656 16.9463 9.8543 16.9463C5.94298 16.9463 2.764 13.7669 2.764 9.85522ZM20.6479 19.4764L16.5951 15.4232C17.8434 13.9084 18.6007 11.9692 18.6007 9.85522C18.6007 5.02798 14.6727 1.09961 9.84598 1.09961C5.01925 1.09961 1.09961 5.02798 1.09961 9.85522C1.09961 14.6825 5.02757 18.6108 9.8543 18.6108C11.9681 18.6108 13.9071 17.8535 15.4217 16.605L19.4745 20.6583C19.6409 20.8247 19.849 20.8996 20.0653 20.8996C20.2817 20.8996 20.4898 20.8164 20.6562 20.6583C20.9807 20.3337 20.9807 19.8093 20.6562 19.4847H20.6479V19.4764Z" fill="white"/>
@@ -641,10 +624,10 @@ export default {
   flex: 1;
   padding: 12px;
   border: none;
-  border-radius: 0;
+  border-radius: 8px;
   font-size: 16px;
   background: var(--white);
-  color: var(--text-dark);
+  color: #8B93A1;
 }
 
 .search-filter-mobile {
@@ -676,9 +659,8 @@ export default {
 }
 
 .search-btn {
-  width: 48px;
-  height: 48px;
-  padding: 0;
+  height: 44px;
+  padding: 12px 16px;
   background: var(--accent-red);
   color: var(--white);
   border: none;
@@ -687,6 +669,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   flex-shrink: 0;
 }
 
@@ -694,9 +677,17 @@ export default {
   background: #880000;
 }
 
+.search-btn-text {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--white);
+  white-space: nowrap;
+}
+
 .search-btn-desktop-svg {
   width: 16px;
   height: 16px;
+  flex-shrink: 0;
 }
 
 .floating-btn {
@@ -853,10 +844,11 @@ export default {
   
   .search-input-group {
     order: 1;
-  }
-  
-  .search-filter-group-mobile {
-    order: 2;
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    align-items: stretch;
+    box-sizing: border-box;
   }
   
   @media (max-width: 480px) {
@@ -885,47 +877,6 @@ export default {
     display: none;
   }
   
-  .search-filter-group-mobile {
-    display: flex;
-    gap: 8px;
-    width: 100%;
-    align-items: stretch;
-    box-sizing: border-box;
-  }
-  
-  .search-filter-mobile {
-    display: block;
-    flex: 1;
-    border: 2px solid #102A8A;
-    border-radius: 8px;
-    padding: 8px 16px;
-    padding-right: 32px;
-    font-size: 15px;
-    line-height: 1.5;
-    box-sizing: border-box;
-    min-height: 44px;
-    color: #102A8A;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23102A8A' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-color: #F7F9FF;
-    background-size: 12px;
-  }
-  
-  .search-filter-mobile option:first-child {
-    color: #102A8A;
-  }
-  
-  .search-filter-mobile option:not(:first-child) {
-    color: #24334E;
-  }
-  
-  .search-filter-mobile:focus {
-    outline: none;
-    border-color: #102A8A;
-  }
-  
   .search-input-mobile {
     display: block;
     flex: 1;
@@ -934,28 +885,21 @@ export default {
     border-radius: 8px;
     font-size: 1em;
     background: var(--white);
-    color: var(--text-dark);
+    color: #8B93A1;
     box-sizing: border-box;
-    min-height: 40px;
-    height: 40px;
+    min-height: 44px;
+    height: 44px;
     line-height: 1.5;
-    width: 100%;
   }
   
   .search-input-mobile:focus {
     outline: none;
-    border-color: #024588;
+    border-color: #102A8A;
   }
   
   .search-input-mobile::placeholder {
-    color: var(--text-light);
+    color: #8B93A1;
     font-size: 1em;
-  }
-  
-  .search-input-group {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
   }
   
   .search-btn-mobile {
@@ -986,17 +930,10 @@ export default {
   }
   
   @media (max-width: 480px) {
-    .search-filter-mobile,
     .search-input-mobile {
       min-height: 42px;
       padding: 10px 14px;
       font-size: 14px;
-    }
-    
-    .search-filter-mobile {
-      padding-right: 28px;
-      background-size: 11px;
-      background-position: right 10px center;
     }
     
     .search-btn-mobile {
@@ -1012,17 +949,10 @@ export default {
   }
   
   @media (max-width: 360px) {
-    .search-filter-mobile,
     .search-input-mobile {
       min-height: 40px;
       padding: 8px 12px;
       font-size: 13px;
-    }
-    
-    .search-filter-mobile {
-      padding-right: 26px;
-      background-size: 10px;
-      background-position: right 8px center;
     }
     
     .search-btn-mobile {

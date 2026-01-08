@@ -123,8 +123,8 @@ export default {
         const widgetRect = heroWidget.getBoundingClientRect()
         // Obtener la posición bottom del widget
         this.heroWidgetBottom = widgetRect.bottom
-        // Agregar un pequeño margen adicional (1px) para que termine un poco más abajo
-        const extraMargin = 1
+        // Agregar un margen adicional para que el modal sea más largo
+        const extraMargin = 35
         // Calcular la altura máxima del modal (desde el top del botón hasta el bottom del widget + margen)
         this.maxModalHeight = this.heroWidgetBottom - this.floatingBtnTop + extraMargin
         // Calcular el padding-bottom para que el modal cubra hasta el final del viewport
@@ -250,7 +250,7 @@ export default {
 }
 
 .modal-content {
-  padding: 20px 20px 2px 20px;
+  padding: 20px 20px 12px 20px;
 }
 
 .modal-title {
@@ -381,7 +381,7 @@ export default {
 
 @media (max-width: 480px) {
   .modal-content {
-    padding: 5px 20px 2px 20px;
+    padding: 5px 20px 12px 20px;
   }
 }
 
