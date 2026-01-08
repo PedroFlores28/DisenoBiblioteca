@@ -678,8 +678,9 @@ export default {
 }
 
 .search-btn-text {
+  font-family: 'Ubuntu', sans-serif;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--white);
   white-space: nowrap;
 }
