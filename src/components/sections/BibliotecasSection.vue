@@ -582,7 +582,7 @@ export default {
           },
           {
             id: 13,
-            name: 'Biblioteca Álvarez (Viña del Mar)',
+            name: 'Biblioteca Álvarez, Viña del Mar',
             address: 'Álvarez 860, Viña del Mar',
             email: 'dae.vinadelmar@aiep.cl',
             phone: '',
@@ -654,7 +654,7 @@ export default {
           // Zona Sur
           {
             id: 11,
-            name: 'Concepción Biblioteca Barros',
+            name: 'Biblioteca Barros, Concepción',
             address: 'Barros Arana 302, Concepción',
             email: 'dae.concepcion@aiep.cl',
             phone: '',
@@ -668,7 +668,7 @@ export default {
           },
           {
             id: 19,
-            name: 'Concepción Biblioteca Prat',
+            name: 'Biblioteca Prat, Concepción',
             address: 'Avda. Prat 288, Concepción',
             email: 'dae.concepcion@aiep.cl',
             phone: '',
@@ -738,7 +738,7 @@ export default {
           },
           {
             id: 26,
-            name: 'Puerto Montt Biblioteca Ejército',
+            name: 'Biblioteca Ejército, Puerto Montt',
             address: 'Ejército 200, Puerto Montt',
             email: 'dae.puertomontt@aiep.cl',
             phone: '',
@@ -752,7 +752,7 @@ export default {
           },
           {
             id: 28,
-            name: 'Puerto Montt Biblioteca Benavente',
+            name: 'Biblioteca Benavente, Puerto Montt',
             address: 'Benavente 720, Puerto Montt',
             email: 'dae.puertomontt@aiep.cl',
             phone: '',
@@ -780,7 +780,7 @@ export default {
           },
           {
             id: 30,
-            name: 'Biblioteca Los Angeles',
+            name: 'Biblioteca Los Ángeles',
             address: 'Mendoza 438, Los Ángeles',
             email: 'dae.losangeles@aiep.cl',
             phone: '',
