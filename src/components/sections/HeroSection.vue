@@ -256,25 +256,23 @@ export default {
       console.warn('⚠️ No se pudo cargar el banner desde Strapi con ningún nombre, usando imágenes por defecto')
     },
     handleSearch() {
-      // URL base del catálogo de bibliotecas AIEP
-      const CATALOG_BASE_URL = 'https://bibliotecas.aiep.cl/client/en_US/default'
+      // URL base del sistema de búsqueda directa
+      const SEARCH_BASE_URL = 'https://itmsi.libsteps.com/AIEP/'
       
       const searchTerm = this.searchQuery.trim()
       
-      // Si no hay término de búsqueda, redirigir a la página principal del catálogo
+      // Si no hay término de búsqueda, redirigir a la página principal
       if (!searchTerm) {
-        window.location.href = CATALOG_BASE_URL
+        window.location.href = SEARCH_BASE_URL
         return
       }
       
       // Codificar el término de búsqueda para la URL (maneja espacios, acentos, caracteres especiales)
       const encodedTerm = encodeURIComponent(searchTerm)
       
-      // Construir la URL de búsqueda
-      // Estructura: /search/results?qu=TERMINO&te=TIPO
-      // - qu: query (término de búsqueda) - REQUERIDO
-      // - te: target/type (tipo de búsqueda) - vacío = buscar en todos los campos
-      const searchUrl = `${CATALOG_BASE_URL}/search/results?qu=${encodedTerm}&te=`
+      // Construir la URL de búsqueda directa según el formulario proporcionado
+      // Estructura: https://itmsi.libsteps.com/AIEP/?m=direct&text1=TERMINO&...
+      const searchUrl = `${SEARCH_BASE_URL}?m=direct&skey=&charset=utf-8&userid=&dbGroup=0&text1=${encodedTerm}`
       
       // Redirigir automáticamente a la URL de búsqueda del catálogo
       window.location.href = searchUrl

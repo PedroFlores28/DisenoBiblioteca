@@ -54,12 +54,9 @@ export default {
 
 <style scoped>
 .site-icon {
-  width: 64px;
   height: 64px;
   flex-shrink: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .site-icon svg {

@@ -320,27 +320,24 @@ export default {
 .site-header-line {
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: #8B4513;
-  border-radius: 8px 8px 0 0;
+  left: 20px;
+  right: 100px;
+  height: 3px;
+  background: rgba(170, 0, 0, 1); 
 }
 
 .site-icon-wrapper {
-  margin-top: 4px;
   margin-bottom: 12px;
   align-self: flex-start;
 }
 
 .site-card :deep(.site-icon) {
-  width: 48px;
-  height: 48px;
+  height: 40px;
 }
 
 .site-card :deep(.site-icon) svg {
-  width: 48px;
-  height: 48px;
+  height: 40px;
+  width: 36px;
 }
 
 .site-content {
@@ -377,7 +374,7 @@ export default {
   color: #024588;
   font-family: 'Ubuntu', sans-serif;
   font-weight: 500;
-  padding: 10px 16px;
+  padding: 8px 19px;
   font-size: 14px;
   border-radius: 8px;
   border: none;
@@ -385,8 +382,8 @@ export default {
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  width: fit-content;
+  gap: 15px;
+  width: 135px;
   flex-shrink: 0;
   margin-top: auto;
 }
@@ -442,7 +439,7 @@ export default {
   
   .mobile-navigation {
     display: flex;
-    justify-content: center;
+    justify-content: right;
     align-items: center;
     gap: 16px;
     margin-top: 24px;

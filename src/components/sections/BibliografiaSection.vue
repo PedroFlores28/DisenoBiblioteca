@@ -1316,7 +1316,7 @@ export default {
 
 .floating-btn {
   position: fixed;
-  top: 20%;
+  top: 200px;
   right: 0;
   transform: translateY(-50%);
   padding: 12px 20px;
