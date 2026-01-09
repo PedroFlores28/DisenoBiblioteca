@@ -426,7 +426,7 @@ export default {
           // Región Metropolitana
           {
             id: 1,
-            name: 'Barrio Universitario - Biblioteca Grajales',
+            name: 'Barrio Universitario Biblioteca Grajales',
             address: 'Grajales 2550, Santiago',
             email: 'dae.bus@aiep.cl',
             phone: '',
