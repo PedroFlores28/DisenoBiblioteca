@@ -160,6 +160,9 @@
 <script>
 import strapiService from '../../services/strapi'
 
+// Contexto para las imágenes de la nueva carpeta "Encuentra tu Biblioteca"
+const libraryImages = require.context('@/assets/images/Encuentra tu Biblioteca', false, /\.png$/);
+
 export default {
   name: 'BibliotecasSection',
   data() {
@@ -403,15 +406,22 @@ export default {
       }
     },
     getLibraryImage(library) {
+      if (!library || !library.id) return '';
+      
       try {
-        // Asumimos que el ID corresponde al descargado por el script (Orden en el CSV)
+        const keys = libraryImages.keys();
+        // Buscar la imagen que comienza con el ID de la biblioteca (ej: "1_", "10_")
+        // Usamos una expresión regular para asegurar que el ID vaya seguido de un guión bajo
+        const imageKey = keys.find(key => key.startsWith(`./${library.id}_`));
+        
+        if (imageKey) {
+          return libraryImages(imageKey);
+        }
+        
+        // Fallback a la carpeta antigua si no se encuentra en la nueva
         return require(`@/assets/images/bibliotecas/biblio-${library.id}.jpg`);
       } catch (e) {
-        // Fallback a imagen genérica o a la URL original si existe
-        if (library.imageUrl && library.imageUrl.startsWith('http')) {
-          return library.imageUrl;
-        }
-        // Imagen 4 es la genérica en el CSV
+        // Fallback final a imagen genérica (ID 4)
         try {
           return require('@/assets/images/bibliotecas/biblio-4.jpg');
         } catch (err) {
