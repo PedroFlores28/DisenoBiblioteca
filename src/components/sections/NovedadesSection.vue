@@ -614,20 +614,19 @@ export default {
   }
   
   .book-info.libros-por-sede .btn svg {
-    transition: transform 0.3s ease;
+    /* Animación de hover removida */
   }
   
   .book-info.libros-por-sede .btn:hover {
-    background-color: #182844;
-    color: var(--white);
+    /* Hover effect removido */
   }
   
   .book-info.libros-por-sede .btn:hover svg {
-    transform: translateX(4px);
+    /* Animación de hover removida */
   }
   
   .book-info.libros-por-sede .btn:hover svg path {
-    fill: var(--white);
+    /* Hover effect removido */
   }
 }
 
@@ -829,20 +828,19 @@ export default {
   }
   
   .book-info.libros-por-sede .btn svg {
-    transition: transform 0.3s ease;
+    /* Animación de hover removida */
   }
   
   .book-info.libros-por-sede .btn:hover {
-    background-color: #182844;
-    color: var(--white);
+    /* Hover effect removido */
   }
   
   .book-info.libros-por-sede .btn:hover svg {
-    transform: translateX(4px);
+    /* Animación de hover removida */
   }
   
   .book-info.libros-por-sede .btn:hover svg path {
-    fill: var(--white);
+    /* Hover effect removido */
   }
   
   .carousel-wrapper::after {

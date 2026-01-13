@@ -1439,15 +1439,15 @@ export default {
 }
 
 .map-link svg {
-  transition: transform 0.3s ease;
+  /* Animación de hover removida */
 }
 
 .map-link:hover {
-  text-decoration: underline;
+  /* Hover effect removido */
 }
 
 .map-link:hover svg {
-  transform: translateX(4px);
+  /* Animación de hover removida */
 }
 
 .carousel-controls {

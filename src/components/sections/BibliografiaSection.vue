@@ -1016,15 +1016,15 @@ export default {
 
 .card-link svg {
   flex-shrink: 0;
-  transition: transform 0.3s ease;
+  /* Animación de hover removida */
 }
 
 .card-link:hover {
-  text-decoration: underline;
+  /* Hover effect removido */
 }
 
 .card-link:hover svg {
-  transform: translateX(4px);
+  /* Animación de hover removida */
 }
 
 .pagination {
@@ -1805,11 +1805,11 @@ export default {
 }
 
 .career-link:hover {
-  text-decoration: underline;
+  /* Hover effect removido */
 }
 
 .career-link svg {
-  transition: transform 0.3s ease;
+  /* Animación de hover removida */
 }
 
 .career-link svg path {
@@ -1817,7 +1817,7 @@ export default {
 }
 
 .career-link:hover svg {
-  transform: translateX(4px);
+  /* Animación de hover removida */
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {

@@ -362,11 +362,11 @@ export default {
 }
 
 .faq-link svg {
-  transition: transform 0.3s ease;
+  /* Animación de hover removida */
 }
 
 .faq-link:hover svg {
-  transform: translateX(4px);
+  /* Animación de hover removida */
 }
 
 @media (max-width: 768px) {
