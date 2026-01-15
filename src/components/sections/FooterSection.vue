@@ -127,7 +127,7 @@
             <img v-if="accreditationImage" :src="accreditationImage" alt="ACREDITADO NIVEL AVANZADO" class="accreditation-full-image" />
           </div>
           <div class="accreditation-logo">
-            <a  target="_blank" rel="noopener noreferrer" style="display: inline-block;">
+            <a  target="_blank" rel="noopener noreferrer" class="no-hover" style="display: inline-block;">
               <svg width="250" height="100" viewBox="0 0 250 100" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M193.48 49.5475C187.138 49.5475 182.021 44.3439 182.021 37.7828C182.021 31.4479 187.138 26.2443 193.369 26.0181H233.645C239.987 26.0181 245.105 31.2217 245.105 37.7828C245.105 44.1176 239.987 49.3212 233.756 49.5475H193.48ZM193.48 27.1493C187.806 27.2624 183.133 32.0135 183.133 37.7828C183.133 43.6651 187.806 48.4163 193.48 48.4163H233.756C239.43 48.3031 244.103 43.552 244.103 37.7828C244.103 31.9004 239.43 27.1493 233.756 27.1493H193.48Z" fill="white"/>
               <path d="M200.045 42.8732L199.044 40.0452H195.15L194.148 42.8732H192.479L196.262 32.5791H198.042L201.825 42.8732H200.045ZM198.599 38.5746L197.597 35.7465C197.486 35.5203 197.486 35.294 197.264 34.8415C197.152 34.3891 197.041 34.1628 197.041 33.9366C196.93 34.5022 196.707 35.1809 196.485 35.8596L195.595 38.5746C195.706 38.5746 198.599 38.5746 198.599 38.5746Z" fill="white"/>
@@ -434,8 +434,16 @@ export default {
   transition: opacity 0.3s;
 }
 
-.accreditation-logo a:hover {
+.accreditation-logo a:hover:not(.no-hover) {
   opacity: 0.8;
+}
+
+.accreditation-logo a.no-hover {
+  cursor: default;
+}
+
+.accreditation-logo a.no-hover:hover {
+  opacity: 1;
 }
 
 @media (min-width: 769px) {

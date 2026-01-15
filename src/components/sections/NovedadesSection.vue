@@ -42,7 +42,7 @@
           @click="previousSlide"
         >
           <svg width="9" height="19" viewBox="0 0 9 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8.11127 18.0301C7.87646 18.0301 7.64164 17.9398 7.47005 17.7592L0.660453 10.6516C-0.215582 9.65812 -0.215582 8.36664 0.63336 7.40932L7.47005 0.2746C7.81324 -0.0776207 8.37318 -0.0956822 8.7254 0.247507C9.07762 0.590696 9.09568 1.15064 8.75249 1.50286L1.9429 8.61048C1.70808 8.88142 1.70808 9.15236 1.96999 9.45039L8.75249 16.5309C9.09568 16.8832 9.07762 17.4521 8.7254 17.7863C8.55381 17.9488 8.32802 18.0301 8.11127 18.0301Z" fill="#8B93A1"/>
+            <path d="M8.11127 18.0301C7.87646 18.0301 7.64164 17.9398 7.47005 17.7592L0.660453 10.6516C-0.215582 9.65812 -0.215582 8.36664 0.63336 7.40932L7.47005 0.2746C7.81324 -0.0776207 8.37318 -0.0956822 8.7254 0.247507C9.07762 0.590696 9.09568 1.15064 8.75249 1.50286L1.9429 8.61048C1.70808 8.88142 1.70808 9.15236 1.96999 9.45039L8.75249 16.5309C9.09568 16.8832 9.07762 17.4521 8.7254 17.7863C8.55381 17.9488 8.32802 18.0301 8.11127 18.0301Z" fill="currentColor"/>
           </svg>
         </button>
         <div class="carousel-dots">
@@ -59,7 +59,7 @@
           @click="nextSlide"
         >
           <svg width="9" height="19" viewBox="0 0 9 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0.888728 18.0301C0.662946 18.0301 0.446195 17.9488 0.2746 17.7863C-0.07762 17.4431 -0.0956828 16.8832 0.247506 16.5309L7.0571 9.4233C7.29192 9.15236 7.29192 8.88142 7.03001 8.58339L0.247506 1.50286C-0.0956828 1.15064 -0.07762 0.581664 0.2746 0.247506C0.626821 -0.0956827 1.19579 -0.0776201 1.52995 0.2746L8.33955 7.38223C9.21558 8.36664 9.21558 9.66715 8.36664 10.6245L1.52995 17.7592C1.35836 17.9398 1.12354 18.0301 0.888728 18.0301Z" fill="#D1D4DA"/>
+            <path d="M0.888728 18.0301C0.662946 18.0301 0.446195 17.9488 0.2746 17.7863C-0.07762 17.4431 -0.0956828 16.8832 0.247506 16.5309L7.0571 9.4233C7.29192 9.15236 7.29192 8.88142 7.03001 8.58339L0.247506 1.50286C-0.0956828 1.15064 -0.07762 0.581664 0.2746 0.247506C0.626821 -0.0956827 1.19579 -0.0776201 1.52995 0.2746L8.33955 7.38223C9.21558 8.36664 9.21558 9.66715 8.36664 10.6245L1.52995 17.7592C1.35836 17.9398 1.12354 18.0301 0.888728 18.0301Z" fill="currentColor"/>
           </svg>
         </button>
       </div>
@@ -607,26 +607,21 @@ export default {
     font-family: 'Ubuntu', sans-serif;
     border-radius: 8px;
     flex-shrink: 0;
-    background-color: #D0DCE8;
+    background-color: #D7E5F4;
     color: #024588;
     width: auto;
     align-self: flex-start;
-  }
-  
-  .book-info.libros-por-sede .btn svg {
-    /* Animación de hover removida */
+    border: none;
+    transition: all 0.3s ease;
   }
   
   .book-info.libros-por-sede .btn:hover {
-    /* Hover effect removido */
+    background-color: #BFD6ED;
   }
   
-  .book-info.libros-por-sede .btn:hover svg {
-    /* Animación de hover removida */
-  }
-  
-  .book-info.libros-por-sede .btn:hover svg path {
-    /* Hover effect removido */
+  .book-info.libros-por-sede .btn:focus {
+    background-color: #A3C5E6;
+    outline: none;
   }
 }
 
@@ -671,6 +666,19 @@ export default {
   font-family: 'Ubuntu', sans-serif;
   font-weight: bold;
   border-radius: 8px;
+  background-color: #D7E5F4;
+  color: #024588;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.book-info .btn.btn-secondary:hover {
+  background-color: #BFD6ED;
+}
+
+.book-info .btn.btn-secondary:focus {
+  background-color: #A3C5E6;
+  outline: none;
 }
 
 .carousel-controls {
@@ -684,26 +692,26 @@ export default {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid var(--border-gray);
-  background: var(--white);
+  border: none;
+  background: #024588;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s;
-  color: var(--text-light);
+  color: #FFFFFF;
   padding: 0;
 }
 
 .carousel-btn:hover:not(:disabled),
 .carousel-btn:active:not(:disabled) {
-  background: var(--primary-blue);
-  color: var(--white);
-  border-color: var(--primary-blue);
+  background: #D7E5F4;
+  color: #024588;
 }
 
 .carousel-btn:disabled {
-  opacity: 0.3;
+  background: #D1D4DA;
+  color: #8B93A1;
   cursor: not-allowed;
 }
 
@@ -947,10 +955,14 @@ export default {
 }
 
 .service-button:hover {
-  background: #D7E5F4;
-  opacity: 0.9;
+  background: #BFD6ED;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(215, 229, 244, 0.3);
+}
+
+.service-button:focus {
+  background: #A3C5E6;
+  outline: none;
 }
 
 .service-button:active {
