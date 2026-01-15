@@ -115,6 +115,8 @@
             </div>
             <div class="career-content">
               <p class="career-category">{{ currentSchoolName }}</p>
+              <!-- Barra de color dinámica según la escuela -->
+              <div :class="['career-accent-bar', `accent-${currentSchoolColor}`]"></div>
               <h3 class="career-title">{{ career.name }}</h3>
               <a 
                 :href="career.url || '#'" 
@@ -317,6 +319,18 @@ export default {
     },
     filteredCareers() {
       return this.careers.filter(career => career.school === this.selectedSchool)
+    },
+    currentSchoolColor() {
+      const colorMap = {
+        'administracion': 'green',
+        'artes': 'pink',
+        'desarrollo': 'purple',
+        'estetica': 'purple-light',
+        'gastronomia': 'orange-accent',
+        'ingenieria': 'green-dark',
+        'salud': 'cyan'
+      }
+      return colorMap[this.selectedSchool] || 'pink' // Default to pink (artes)
     },
     currentSchoolName() {
       const schoolMap = {
@@ -1722,14 +1736,12 @@ export default {
   position: relative;
 }
 
-.career-content::before {
-  content: '';
+.career-accent-bar {
   position: absolute;
   top: 0;
   left: 10%;
   width: 40%;
   height: 7px;
-  background: #DB379C;
   z-index: 1;
 }
 
