@@ -947,7 +947,7 @@ export default {
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  cursor: pointer;
   text-align: center;
   display: flex;
   align-items: center;
@@ -956,8 +956,6 @@ export default {
 
 .service-button:hover {
   background: #BFD6ED;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(215, 229, 244, 0.3);
 }
 
 .service-button:focus {
@@ -966,7 +964,7 @@ export default {
 }
 
 .service-button:active {
-  transform: translateY(0);
+  background: #A3C5E6;
 }
 
 @media (max-width: 968px) {
