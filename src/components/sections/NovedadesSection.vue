@@ -204,16 +204,79 @@ export default {
     }
   },
   methods: {
+    getCoverUrl(coverData) {
+      if (!coverData) return null
+      
+      // Si es una URL directa
+      if (typeof coverData === 'string') {
+        return coverData
+      }
+      
+      // Si es un objeto de Strapi con data
+      if (coverData.data) {
+        const imageData = Array.isArray(coverData.data) ? coverData.data[0] : coverData.data
+        if (imageData?.attributes?.url) {
+          const url = imageData.attributes.url
+          // Si la URL es relativa, agregar el dominio de Strapi
+          if (url.startsWith('/')) {
+            return `${process.env.VUE_APP_STRAPI_URL}${url}`
+          }
+          return url
+        }
+      }
+      
+      // Si tiene URL directamente
+      if (coverData.url) {
+        const url = coverData.url
+        if (url.startsWith('/')) {
+          return `${process.env.VUE_APP_STRAPI_URL}${url}`
+        }
+        return url
+      }
+      
+      return null
+    },
     async loadBooks() {
       try {
         const response = await strapiService.getCollection('libros', {
           populate: '*',
           'filters[novedad][$eq]': true,
-          sort: 'createdAt:desc'
+          sort: 'orden:asc,createdAt:desc'
         })
-        this.books = response.data || []
+        
+        // Procesar respuesta de Strapi
+        let booksData = []
+        if (response.data?.data && Array.isArray(response.data.data)) {
+          // Formato Strapi v4
+          booksData = response.data.data.map(item => ({
+            id: item.id,
+            author: item.attributes?.autor || item.attributes?.author || '',
+            title: item.attributes?.titulo || item.attributes?.title || '',
+            isbn: item.attributes?.isbn || '',
+            description: item.attributes?.descripcion || item.attributes?.description || '',
+            coverUrl: this.getCoverUrl(item.attributes?.portada || item.attributes?.cover),
+            orden: item.attributes?.orden || 0
+          }))
+        } else if (response.data && Array.isArray(response.data)) {
+          // Formato directo
+          booksData = response.data.map(item => ({
+            id: item.id,
+            author: item.attributes?.autor || item.attributes?.author || item.author || '',
+            title: item.attributes?.titulo || item.attributes?.title || item.title || '',
+            isbn: item.attributes?.isbn || item.isbn || '',
+            description: item.attributes?.descripcion || item.attributes?.description || item.description || '',
+            coverUrl: this.getCoverUrl(item.attributes?.portada || item.attributes?.cover || item.coverUrl),
+            orden: item.attributes?.orden || item.orden || 0
+          }))
+        } else if (Array.isArray(response)) {
+          booksData = response
+        }
+        
+        this.books = booksData
+        console.log('✅ Novedades literarias cargadas desde Strapi:', this.books.length, 'libros')
       } catch (error) {
-        console.error('Error loading books:', error)
+        console.error('❌ Error loading books from Strapi:', error)
+        console.log('⚠️ Usando datos de ejemplo para novedades literarias')
         // Datos de ejemplo
         this.books = [
           {
@@ -947,7 +1010,7 @@ export default {
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  cursor: pointer;
+  transition: all 0.3s ease;
   text-align: center;
   display: flex;
   align-items: center;
@@ -956,6 +1019,8 @@ export default {
 
 .service-button:hover {
   background: #BFD6ED;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(215, 229, 244, 0.3);
 }
 
 .service-button:focus {
@@ -964,7 +1029,7 @@ export default {
 }
 
 .service-button:active {
-  background: #A3C5E6;
+  transform: translateY(0);
 }
 
 @media (max-width: 968px) {
