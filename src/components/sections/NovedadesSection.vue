@@ -244,10 +244,30 @@ export default {
           sort: 'orden:asc,createdAt:desc'
         })
         
+        console.log('✅ Respuesta recibida para libros:', response)
+        
         // Procesar respuesta de Strapi
         let booksData = []
-        if (response.data?.data && Array.isArray(response.data.data)) {
-          // Formato Strapi v4
+        
+        // Strapi v5: Los datos están directamente en response.data como array
+        if (response.data && Array.isArray(response.data)) {
+          booksData = response.data.map(item => {
+            // En Strapi v5, los campos están directamente en el objeto
+            const book = {
+              id: item.id || item.documentId,
+              author: item.autor || item.author || '',
+              title: item.titulo || item.title || '',
+              isbn: item.isbn || '',
+              description: item.descripcion || item.description || '',
+              coverUrl: this.getCoverUrl(item.portada || item.cover),
+              orden: item.orden || 0
+            }
+            console.log('📚 Libro procesado:', book)
+            return book
+          })
+        } 
+        // Strapi v4: Los datos están en response.data.data con attributes
+        else if (response.data?.data && Array.isArray(response.data.data)) {
           booksData = response.data.data.map(item => ({
             id: item.id,
             author: item.attributes?.autor || item.attributes?.author || '',
@@ -257,23 +277,15 @@ export default {
             coverUrl: this.getCoverUrl(item.attributes?.portada || item.attributes?.cover),
             orden: item.attributes?.orden || 0
           }))
-        } else if (response.data && Array.isArray(response.data)) {
-          // Formato directo
-          booksData = response.data.map(item => ({
-            id: item.id,
-            author: item.attributes?.autor || item.attributes?.author || item.author || '',
-            title: item.attributes?.titulo || item.attributes?.title || item.title || '',
-            isbn: item.attributes?.isbn || item.isbn || '',
-            description: item.attributes?.descripcion || item.attributes?.description || item.description || '',
-            coverUrl: this.getCoverUrl(item.attributes?.portada || item.attributes?.cover || item.coverUrl),
-            orden: item.attributes?.orden || item.orden || 0
-          }))
-        } else if (Array.isArray(response)) {
+        } 
+        // Fallback: Array directo
+        else if (Array.isArray(response)) {
           booksData = response
         }
         
         this.books = booksData
         console.log('✅ Novedades literarias cargadas desde Strapi:', this.books.length, 'libros')
+        console.log('📖 Libros cargados:', this.books)
       } catch (error) {
         console.error('❌ Error loading books from Strapi:', error)
         console.log('⚠️ Usando datos de ejemplo para novedades literarias')
