@@ -1029,16 +1029,24 @@ export default {
 }
 
 .card-link svg {
-  flex-shrink: 0;
   /* Animación de hover removida */
 }
 
 .card-link:hover {
-  /* Hover effect removido */
+  color: #A3C5E6;
 }
 
-.card-link:hover svg {
-  /* Animación de hover removida */
+.card-link:focus {
+  color: #024588;
+  outline: none;
+}
+
+.card-link:hover svg path {
+  fill: #A3C5E6;
+}
+
+.card-link:focus svg path {
+  fill: #024588;
 }
 
 .pagination {
@@ -1817,7 +1825,12 @@ export default {
 }
 
 .career-link:hover {
-  /* Hover effect removido */
+  color: #A3C5E6;
+}
+
+.career-link:focus {
+  color: #024588;
+  outline: none;
 }
 
 .career-link svg {
@@ -1828,8 +1841,12 @@ export default {
   fill: #0065DC;
 }
 
-.career-link:hover svg {
-  /* Animación de hover removida */
+.career-link:hover svg path {
+  fill: #A3C5E6;
+}
+
+.career-link:focus svg path {
+  fill: #024588;
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
