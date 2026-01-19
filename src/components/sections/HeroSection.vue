@@ -514,7 +514,6 @@ export default {
   cursor: pointer;
   color: var(--secondary-blue);
   border-radius: 4px;
-  transition: all 0.3s;
   font-size: 14px;
   font-family: 'Ubuntu', sans-serif;
   font-weight: 500;

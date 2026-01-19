@@ -680,7 +680,6 @@ export default {
     width: auto;
     align-self: flex-start;
     border: none;
-    transition: all 0.3s ease;
   }
   
   .book-info.libros-por-sede .btn:hover {
@@ -737,7 +736,6 @@ export default {
   background-color: #D7E5F4;
   color: #024588;
   border: none;
-  transition: all 0.3s ease;
 }
 
 .book-info .btn.btn-secondary:hover {
@@ -766,7 +764,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s;
   color: #FFFFFF;
   padding: 0;
 }
@@ -794,7 +791,6 @@ export default {
   border-radius: 50%;
   background: var(--border-gray);
   cursor: pointer;
-  transition: all 0.3s;
 }
 
 .dot.active {
@@ -1015,8 +1011,6 @@ export default {
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1024,8 +1018,6 @@ export default {
 
 .service-button:hover {
   background: #BFD6ED;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(215, 229, 244, 0.3);
 }
 
 .service-button:focus {
@@ -1034,7 +1026,6 @@ export default {
 }
 
 .service-button:active {
-  transform: translateY(0);
 }
 
 @media (max-width: 968px) {

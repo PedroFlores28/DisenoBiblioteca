@@ -1176,7 +1176,6 @@ export default {
   gap: 4px;
   padding: 8px 16px;
   border-radius: 4px;
-  transition: all 0.3s;
   white-space: nowrap;
   cursor: default;
   user-select: none;
@@ -1195,7 +1194,6 @@ export default {
   height: 7px;
   flex-shrink: 0;
   display: inline-block;
-  transition: transform 0.3s ease;
   margin-left: 2px;
 }
 
@@ -1220,8 +1218,6 @@ export default {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   opacity: 0;
   visibility: hidden;
-  transform: translateY(10px);
-  transition: all 0.3s ease;
   z-index: 1000;
   padding: 16px 0;
   margin-top: 4px;
@@ -1244,7 +1240,6 @@ export default {
 .dropdown-menu.active {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
 }
 
 .dropdown-item {
@@ -1255,7 +1250,6 @@ export default {
   font-size: 14px;
   font-weight: 400;
   line-height: 1.4;
-  transition: background-color 0.2s ease;
   border-bottom: 1px solid #E0E0E0;
 }
 
@@ -1285,7 +1279,6 @@ export default {
   font-weight: 400;
   line-height: 1.4;
   cursor: pointer;
-  transition: background-color 0.2s ease;
   background-color: white;
 }
 
@@ -1301,7 +1294,6 @@ export default {
   width: 12px;
   height: 12px;
   color: #1a2b49;
-  transition: transform 0.3s ease;
   flex-shrink: 0;
 }
 
@@ -1360,7 +1352,6 @@ export default {
   z-index: 2000;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .mobile-menu-overlay.active {
@@ -1379,7 +1370,6 @@ export default {
   z-index: 2001;
   display: flex;
   flex-direction: column;
-  transition: right 0.3s ease;
   border-radius: 0 0 0 20px;
   overflow-y: auto;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
@@ -1415,7 +1405,6 @@ export default {
   font-size: 12px;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1445,7 +1434,6 @@ export default {
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.2s;
 }
 
 .menu-section-header:hover {
@@ -1461,7 +1449,6 @@ export default {
   width: 12px;
   height: 12px;
   color: #24334E;
-  transition: transform 0.3s ease;
 }
 
 .chevron-icon.rotated {
@@ -1479,7 +1466,6 @@ export default {
   color: #24334E;
   font-size: 14px;
   cursor: pointer;
-  transition: background-color 0.2s;
   border-bottom: 1px solid #E8E8E8;
 }
 
@@ -1509,7 +1495,6 @@ export default {
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s;
 }
 
 .menu-subsection-header:hover {

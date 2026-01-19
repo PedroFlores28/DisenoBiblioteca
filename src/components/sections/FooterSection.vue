@@ -264,7 +264,6 @@ export default {
   border: none;
   color: var(--white);
   text-decoration: none;
-  transition: all 0.3s;
 }
 
 .social-icon:hover {
@@ -283,7 +282,6 @@ export default {
 .footer-column ul li a {
   color: #B5BAC2;
   text-decoration: none;
-  transition: opacity 0.3s;
   font-size: 16px;
 }
 
@@ -431,7 +429,6 @@ export default {
 .accreditation-logo a {
   display: inline-block;
   cursor: pointer;
-  transition: opacity 0.3s;
 }
 
 .accreditation-logo a:hover:not(.no-hover) {
