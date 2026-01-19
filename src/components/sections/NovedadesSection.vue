@@ -204,38 +204,7 @@ export default {
     }
   },
   methods: {
-    getCoverUrl(coverData) {
-      if (!coverData) return null
-      
-      // Si es una URL directa
-      if (typeof coverData === 'string') {
-        return coverData
-      }
-      
-      // Si es un objeto de Strapi con data
-      if (coverData.data) {
-        const imageData = Array.isArray(coverData.data) ? coverData.data[0] : coverData.data
-        if (imageData?.attributes?.url) {
-          const url = imageData.attributes.url
-          // Si la URL es relativa, agregar el dominio de Strapi
-          if (url.startsWith('/')) {
-            return `${process.env.VUE_APP_STRAPI_URL}${url}`
-          }
-          return url
-        }
-      }
-      
-      // Si tiene URL directamente
-      if (coverData.url) {
-        const url = coverData.url
-        if (url.startsWith('/')) {
-          return `${process.env.VUE_APP_STRAPI_URL}${url}`
-        }
-        return url
-      }
-      
-      return null
-    },
+
     async loadBooks() {
       try {
         const response = await strapiService.getCollection('libros', {
@@ -257,7 +226,7 @@ export default {
               title: item.titulo || item.title || '',
               isbn: item.isbn || '',
               description: item.descripcion || item.description || '',
-              coverUrl: this.getCoverUrl(item.portada || item.cover),
+              coverUrl: strapiService.getImageUrl(item.portada || item.cover),
               orden: item.orden || 0
             }
             return book
@@ -271,7 +240,7 @@ export default {
             title: item.attributes?.titulo || item.attributes?.title || '',
             isbn: item.attributes?.isbn || '',
             description: item.attributes?.descripcion || item.attributes?.description || '',
-            coverUrl: this.getCoverUrl(item.attributes?.portada || item.attributes?.cover),
+            coverUrl: strapiService.getImageUrl(item.attributes?.portada || item.attributes?.cover),
             orden: item.attributes?.orden || 0
           }))
         } 
