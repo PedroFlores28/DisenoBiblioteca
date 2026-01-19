@@ -17,11 +17,6 @@ const getApiBase = () => {
 
 const API_BASE = getApiBase()
 
-// Función helper para obtener la URL base sin /api (para mensajes de error)
-const getStrapiBaseUrl = () => {
-  return STRAPI_URL
-}
-
 const api = axios.create({
   baseURL: API_BASE,
   headers: {
@@ -33,53 +28,14 @@ const api = axios.create({
 export const strapiService = {
   // Obtener todos los items de una colección
   async getCollection(collectionName, params = {}) {
-    try {
-      const response = await api.get(`/${collectionName}`, { params })
-      return response.data
-    } catch (error) {
-      if (error.response) {
-        // El servidor respondió con un código de estado fuera del rango 2xx
-        if (error.response.status === 403) {
-          console.error(`❌ Error 403 (Forbidden) al obtener ${collectionName}`)
-          console.error(`🔒 La colección "${collectionName}" no tiene permisos públicos configurados en Strapi.`)
-          console.error(`📋 Para solucionarlo:`)
-          console.error(`   1. Ve a Strapi Admin: ${getStrapiBaseUrl()}/admin`)
-          console.error(`   2. Settings → Users & Permissions Plugin → Roles → Public`)
-          console.error(`   3. Busca "${collectionName}" y marca "find" y "findOne"`)
-          console.error(`   4. Guarda los cambios`)
-        } else if (error.response.status === 404) {
-          console.error(`❌ Error 404 (Not Found) al obtener ${collectionName}`)
-          console.error(`🔍 La colección "${collectionName}" no existe en Strapi o el nombre es incorrecto.`)
-          console.error(`📋 Para solucionarlo:`)
-          console.error(`   1. Ve a Strapi Admin: ${getStrapiBaseUrl()}/admin`)
-          console.error(`   2. Content-Type Builder → Verifica el nombre exacto del tipo de contenido`)
-          console.error(`   3. El nombre en la API puede ser diferente al nombre mostrado`)
-          console.error(`   4. En Strapi v4, verifica el "API ID" del tipo de contenido`)
-          console.error(`   5. Asegúrate de que el tipo de contenido esté publicado`)
-          console.error(`   6. Si el nombre es diferente, actualiza el código para usar el nombre correcto`)
-        } else {
-          console.error(`❌ Error ${error.response.status} al obtener ${collectionName}:`, error.response.data)
-        }
-      } else if (error.request) {
-        // La petición fue hecha pero no se recibió respuesta
-        console.error(`❌ No se pudo conectar con Strapi para ${collectionName}. Verifica que el servidor esté disponible en: ${getStrapiBaseUrl()}`)
-      } else {
-        // Algo pasó al configurar la petición
-        console.error(`❌ Error al configurar la petición para ${collectionName}:`, error.message)
-      }
-      throw error
-    }
+    const response = await api.get(`/${collectionName}`, { params })
+    return response.data
   },
 
   // Obtener un item específico por ID
   async getItem(collectionName, id, params = {}) {
-    try {
-      const response = await api.get(`/${collectionName}/${id}`, { params })
-      return response.data
-    } catch (error) {
-      console.error(`Error fetching ${collectionName} with id ${id}:`, error)
-      throw error
-    }
+    const response = await api.get(`/${collectionName}/${id}`, { params })
+    return response.data
   },
 
   // Función helper para obtener la URL completa de una imagen desde Strapi
