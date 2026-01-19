@@ -775,7 +775,6 @@ export default {
         })
         this.libraries = response.data || []
       } catch (error) {
-        console.error('Error loading libraries:', error)
         // Datos de ejemplo si falla la carga - mismos datos que BibliotecasSection
         this.libraries = [
           // Región Metropolitana

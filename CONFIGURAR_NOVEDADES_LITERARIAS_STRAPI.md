@@ -225,7 +225,7 @@ Si necesitas crear las novedades literarias iniciales, aquí están los datos de
 - **Título**: `Administración de negocios gastronómicos : el ABC de las operaciones de restaurantes y establecimientos de restauración`
 - **ISBN**: `9789879468937`
 - **Descripción**: `Análisis de fundamentos de gestión, planificación y control aplicados a organizaciones moderna`
-- **Portada URL**: `https://ik.imagekit.io/5wps2tups/Biblioteca/admin%20de%20negocios%20gastro.jpg`
+- **Portada URL**: `ƒ`
 - **Novedad**: `true`
 - **Orden**: `4`
 

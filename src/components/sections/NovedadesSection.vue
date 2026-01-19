@@ -244,8 +244,6 @@ export default {
           sort: 'orden:asc,createdAt:desc'
         })
         
-        console.log('✅ Respuesta recibida para libros:', response)
-        
         // Procesar respuesta de Strapi
         let booksData = []
         
@@ -262,7 +260,6 @@ export default {
               coverUrl: this.getCoverUrl(item.portada || item.cover),
               orden: item.orden || 0
             }
-            console.log('📚 Libro procesado:', book)
             return book
           })
         } 
@@ -284,11 +281,7 @@ export default {
         }
         
         this.books = booksData
-        console.log('✅ Novedades literarias cargadas desde Strapi:', this.books.length, 'libros')
-        console.log('📖 Libros cargados:', this.books)
       } catch (error) {
-        console.error('❌ Error loading books from Strapi:', error)
-        console.log('⚠️ Usando datos de ejemplo para novedades literarias')
         // Datos de ejemplo
         this.books = [
           {

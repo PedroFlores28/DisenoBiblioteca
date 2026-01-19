@@ -34,9 +34,7 @@ export const strapiService = {
   // Obtener todos los items de una colección
   async getCollection(collectionName, params = {}) {
     try {
-      console.log(`📡 Solicitando ${collectionName} desde: ${API_BASE}/${collectionName}`)
       const response = await api.get(`/${collectionName}`, { params })
-      console.log(`✅ Respuesta recibida para ${collectionName}:`, response.data)
       return response.data
     } catch (error) {
       if (error.response) {

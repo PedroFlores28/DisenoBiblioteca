@@ -80,14 +80,10 @@ export default {
   methods: {
     async loadFaqs() {
       try {
-        console.log('🔄 Intentando cargar FAQs desde Strapi...')
         const response = await strapiService.getCollection('preguntas-frecuentes', {
           populate: '*',
           sort: 'orden:asc'
         })
-        
-        console.log('✅ Respuesta recibida de Strapi:', response)
-        console.log('🔍 Estructura completa:', JSON.stringify(response, null, 2))
         
         // Strapi v4 devuelve los datos en response.data.data
         // Strapi v3 devuelve los datos en response.data
@@ -95,33 +91,28 @@ export default {
         
         // Primero intentar con Strapi v4 (response.data.data)
         if (response.data?.data && Array.isArray(response.data.data)) {
-          console.log('🔍 Detectado: Strapi v4 (response.data.data)')
           faqsData = response.data.data.map(item => {
             const mapped = {
               id: item.id,
               question: item.attributes?.question || item.question,
               answer: item.attributes?.answer || item.answer
             }
-            console.log('📝 Item mapeado:', mapped)
             return mapped
           })
         }
         // Si no, intentar con response.data como array (Strapi v4 sin wrapper)
         else if (response.data && Array.isArray(response.data)) {
-          console.log('🔍 Detectado: Strapi v4 (response.data como array)')
           faqsData = response.data.map(item => {
             const mapped = {
               id: item.id,
               question: item.attributes?.question || item.question,
               answer: item.attributes?.answer || item.answer
             }
-            console.log('📝 Item mapeado:', mapped)
             return mapped
           })
         }
         // Si no, intentar con response como array directo (Strapi v3)
         else if (Array.isArray(response)) {
-          console.log('🔍 Detectado: Strapi v3 (response como array)')
           faqsData = response.map(item => ({
             id: item.id,
             question: item.question,
@@ -129,17 +120,11 @@ export default {
           }))
         }
         
-        console.log('📋 FAQs procesados:', faqsData)
-        console.log('📋 Total de FAQs:', faqsData.length)
-        
         if (faqsData.length > 0) {
           // Filtrar solo los que tienen question y answer válidos
           const validFaqs = faqsData.filter(faq => {
             const hasQuestion = faq.question && faq.question.trim() !== ''
             const hasAnswer = faq.answer && faq.answer.trim() !== ''
-            if (!hasQuestion || !hasAnswer) {
-              console.warn('⚠️ FAQ sin question o answer:', faq)
-            }
             return hasQuestion && hasAnswer
           })
           
@@ -150,19 +135,13 @@ export default {
             isOpen: false
           }))
           
-          console.log('✅ FAQs cargados desde Strapi:', this.faqs.length, 'preguntas válidas')
-          console.log('📋 Primer FAQ:', this.faqs[0])
-          
           if (this.faqs.length === 0) {
             throw new Error('No hay FAQs válidos (sin question o answer)')
           }
         } else {
-          console.warn('⚠️ No se encontraron FAQs en Strapi, usando datos de ejemplo')
           throw new Error('No hay datos en Strapi')
         }
       } catch (error) {
-        console.error('❌ Error loading FAQs:', error)
-        console.log('📝 Usando datos de ejemplo (hardcoded)')
         // Datos de ejemplo
         this.faqs = [
           {
@@ -361,14 +340,6 @@ export default {
   text-decoration: underline;
 }
 
-.faq-link svg {
-  /* Animación de hover removida */
-}
-
-.faq-link:hover svg {
-  /* Animación de hover removida */
-}
-
 @media (max-width: 768px) {
   .section-title {
     font-size: 30px;
@@ -409,5 +380,3 @@ export default {
   }
 }
 </style>
-
-

@@ -156,7 +156,6 @@ export default {
         
         this.sites = sitesData
       } catch (error) {
-        console.error('Error loading sites:', error)
         // Datos de ejemplo - 8 sitios principales
         this.sites = [
           {
