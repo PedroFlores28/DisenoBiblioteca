@@ -105,8 +105,9 @@
           <div class="footer-column">
             <h4 class="nowrap">Acceso a portales</h4>
             <ul>
-              <li><a href="https://atl-sdcas01.sirsidynix.net/aiep_cas_saml/login?service=https%3A%2F%2Fbibliotecas.aiep.cl%2Fclient%2Fes_CL%2Fdefault%2Fsearch%2Fcasrequest%3F" target="_blank" rel="noopener noreferrer">Estudiantes</a></li>
-              <li><a href="https://atl-sdcas01.sirsidynix.net/aiep_cas_saml/login?service=https%3A%2F%2Fbibliotecas.aiep.cl%2Fclient%2Fes_CL%2Fdefault%2Fsearch%2Fcasrequest%3F" target="_blank" rel="noopener noreferrer">Docentes</a></li>
+              <li><a href="https://atl-sdcas01.sirsidynix.net/aiep_cas_saml/clientredirect?client_name=AIEP%20Students&service=https%3A%2F%2Fbibliotecas.aiep.cl%2Fclient%2Fes_CL%2Fdefault%2Fsearch%2Fcasrequest%3F" target="_blank" rel="noopener noreferrer">Estudiantes</a></li>
+              <li><a href="https://atl-sdcas01.sirsidynix.net/aiep_cas_saml/clientredirect?client_name=AIEP%20Students&service=https%3A%2F%2Fbibliotecas.aiep.cl%2Fclient%2Fes_CL%2Fdefault%2Fsearch%2Fcasrequest%3F" target="_blank" rel="noopener noreferrer">Docentes</a></li>
+              <li><a href="https://atl-sdcas01.sirsidynix.net/aiep_cas_saml/clientredirect?client_name=AIEP%20Staff&service=https%3A%2F%2Fbibliotecas.aiep.cl%2Fclient%2Fen_US%2Fdefault%2Fsearch%2Fcasrequest%3F" target="_blank" rel="noopener noreferrer">Colaboradores</a></li>
               <li><a href="https://www.aiep.cl/titulados/" target="_blank" rel="noopener noreferrer">Titulados</a></li>
               <li><a href="#">Portal de pago</a></li>
             </ul>
