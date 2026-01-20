@@ -274,7 +274,18 @@
               </svg>
             </div>
             <div class="menu-section-content" v-if="expandedSections.servicios">
-              <!-- Contenido de servicios si es necesario -->
+              <div class="menu-item" @click="navigateToServicio('bibliografia-digital')">
+                Bibliografía básica digital
+              </div>
+              <div class="menu-item" @click="navigateToServicio('bibliotecario-linea')">
+                Bibliotecario en línea
+              </div>
+              <div class="menu-item" @click="navigateToServicio('taller-docentes')">
+                Taller de biblioteca para docentes
+              </div>
+              <div class="menu-item" @click="navigateToServicio('taller-estudiantes')">
+                Taller de biblioteca para estudiantes
+              </div>
             </div>
           </div>
           <div class="menu-section">
@@ -695,6 +706,23 @@ export default {
         this.recursosTimeout = null
       }
       this.showRecursosDropdown = false
+    },
+    navigateToServicio(servicio) {
+      this.hideServiciosDropdown()
+      this.closeMobileMenu()
+      
+      // Mapeo de servicios a URLs
+      const serviciosUrls = {
+        'bibliografia-digital': 'https://bibliografiadigital.aiep.cl/?_gl=1*8rbnmu*_gcl_au*OTUzMjQzNjY5LjE3NjU0NjcxNzM.*_ga*MTc5NjU2OTU3MS4xNzY1NDY3MTcy*_ga_LXQ40Q3QZJ*czE3NjU5ODY1MDIkbzckZzEkdDE3NjU5ODcwMjckajYwJGwwJGgxMDI4OTA1Mw..',
+        'bibliotecario-linea': 'http://biblioteayuda.aiep.cl/referencia/index.php?_gl=1*8rbnmu*_gcl_au*OTUzMjQzNjY5LjE3NjU0NjcxNzM.*_ga*MTc5NjU2OTU3MS4xNzY1NDY3MTcy*_ga_LXQ40Q3QZJ*czE3NjU5ODY1MDIkbzckZzEkdDE3NjU5ODcwMjckajYwJGwwJGgxMDI4OTA1Mw..',
+        'taller-docentes': 'https://forms.office.com/Pages/ResponsePage.aspx?id=jfEJ3MNq8E6gHmZSXtmk0IQ7mA6rH_1GodIbSTop2-1UMFRXSkFEVDdMVE04QTM5MFlBT0E3VkVCQy4u',
+        'taller-estudiantes': 'https://forms.office.com/Pages/ResponsePage.aspx?id=jfEJ3MNq8E6gHmZSXtmk0IQ7mA6rH_1GodIbSTop2-1UMktRVEtTSVlLSTA3TkZTRjBMTUFRQUM5My4u'
+      }
+      
+      const url = serviciosUrls[servicio]
+      if (url) {
+        window.open(url, '_blank', 'noopener,noreferrer')
+      }
     },
     navigateToRecursos(resource) {
       this.hideRecursosDropdown()
