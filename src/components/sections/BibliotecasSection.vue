@@ -677,7 +677,7 @@ export default {
           // Zona Sur
           {
             id: 19,
-            name: 'Concepción Biblioteca Barros',
+            name: 'Biblioteca Barros, Concepción',
             address: 'Barros Arana 302, Concepción',
             email: 'dae.concepcion@aiep.cl',
             phone: '',
@@ -691,7 +691,7 @@ export default {
           },
           {
             id: 20,
-            name: 'Concepción Biblioteca Prat',
+            name: 'Biblioteca Prat, Concepción',
             address: 'Avda. Prat 288, Concepción',
             email: 'dae.concepcion@aiep.cl',
             phone: '',
@@ -761,7 +761,7 @@ export default {
           },
           {
             id: 24,
-            name: 'Puerto Montt Biblioteca Ejército',
+            name: 'Biblioteca Ejército, Puerto Montt',
             address: 'Ejército 200, Puerto Montt',
             email: 'dae.puertomontt@aiep.cl',
             phone: '',
@@ -775,7 +775,7 @@ export default {
           },
           {
             id: 25,
-            name: 'Puerto Montt Biblioteca Benavente',
+            name: 'Biblioteca Benavente, Puerto Montt',
             address: 'Benavente 720, Puerto Montt',
             email: 'dae.puertomontt@aiep.cl',
             phone: '',
