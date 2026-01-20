@@ -158,8 +158,6 @@
 </template>
 
 <script>
-import strapiService from '../../services/strapi'
-
 // Contexto para las imágenes de la nueva carpeta "Encuentra tu Biblioteca"
 const libraryImages = require.context('@/assets/images/Encuentra tu Biblioteca', false, /\.png$/);
 
@@ -418,15 +416,11 @@ export default {
           return libraryImages(imageKey);
         }
         
-        // Fallback a la carpeta antigua si no se encuentra en la nueva
-        return require(`@/assets/images/bibliotecas/biblio-${library.id}.jpg`);
+        // Si no se encuentra la imagen, retornar string vacío (se mostrará placeholder)
+        return '';
       } catch (e) {
-        // Fallback final a imagen genérica (ID 4)
-        try {
-          return require('@/assets/images/bibliotecas/biblio-4.jpg');
-        } catch (err) {
-          return '';
-        }
+        // Si hay error, retornar string vacío (se mostrará placeholder)
+        return '';
       }
     },
     checkLibrosPorSede() {
@@ -441,14 +435,17 @@ export default {
       }
     },
     async loadLibraries() {
-      try {
-        const response = await strapiService.getCollection('bibliotecas', {
-          populate: '*'
-        })
-        this.libraries = response.data || []
-      } catch (error) {
-        // Datos de ejemplo
-        this.libraries = [
+      // Endpoint 'bibliotecas' no existe en Strapi, usar datos locales
+      // try {
+      //   const response = await strapiService.getCollection('bibliotecas', {
+      //     populate: '*'
+      //   })
+      //   this.libraries = response.data || []
+      // } catch (error) {
+      //   // Datos de ejemplo
+      // }
+      // Usar datos locales directamente
+      this.libraries = [
           // Región Metropolitana
           {
             id: 8,
@@ -819,7 +816,6 @@ export default {
             }
           }
         ]
-      }
     },
     selectRegion(regionId) {
       // Si se hace clic en una zona, limpiar la búsqueda para mostrar todas las bibliotecas de esa zona

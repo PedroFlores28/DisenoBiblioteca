@@ -268,7 +268,6 @@
 </template>
 
 <script>
-import strapiService from '../../services/strapi'
 import heroBackground from '@/assets/images/hero-background.jpg'
 import heroBackgroundMobile from '@/assets/images/b1b818e26d255f001e62b637fce22a3221cf95c6.jpg'
 import PreguntasFrecuentesSection from './PreguntasFrecuentesSection.vue'
@@ -518,27 +517,32 @@ export default {
   },
   methods: {
     async loadSchools() {
+      // Endpoint 'escuelas' no existe en Strapi, usar datos locales
       // Intentar cargar desde Strapi en segundo plano y actualizar si está disponible
-      try {
-        const timeoutPromise = new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('Timeout')), 2000)
-        )
-
-        const responsePromise = strapiService.getCollection('escuelas', {
-          populate: '*'
-        })
-        
-        const response = await Promise.race([responsePromise, timeoutPromise])
-        
-        if (response && response.data && response.data.length > 0) {
-          this.schools = response.data
-          this.$nextTick(() => {
-            this.updateScrollButtons()
-          })
-        }
-      } catch (error) {
-        // Si falla, mantener los datos de ejemplo que ya están cargados
-      }
+      // try {
+      //   const timeoutPromise = new Promise((_, reject) => 
+      //     setTimeout(() => reject(new Error('Timeout')), 2000)
+      //   )
+      //
+      //   const responsePromise = strapiService.getCollection('escuelas', {
+      //     populate: '*'
+      //   })
+      //   
+      //   const response = await Promise.race([responsePromise, timeoutPromise])
+      //   
+      //   if (response && response.data && response.data.length > 0) {
+      //     this.schools = response.data
+      //     this.$nextTick(() => {
+      //       this.updateScrollButtons()
+      //     })
+      //   }
+      // } catch (error) {
+      //   // Si falla, mantener los datos de ejemplo que ya están cargados
+      // }
+      // Usar datos locales (ya están cargados en data())
+      this.$nextTick(() => {
+        this.updateScrollButtons()
+      })
     },
     loadCareersFromData() {
       // Cargar todas las carreras desde el archivo de datos

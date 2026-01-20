@@ -351,7 +351,7 @@
 </template>
 
 <script>
-import strapiService from '../../services/strapi'
+// import strapiService from '../../services/strapi' // No se usa - endpoint comentado
 
 export default {
   name: 'HeaderSection',
@@ -769,14 +769,17 @@ export default {
       return this.libraries.filter(lib => lib.region === regionId)
     },
     async loadLibraries() {
-      try {
-        const response = await strapiService.getCollection('bibliotecas', {
-          populate: '*'
-        })
-        this.libraries = response.data || []
-      } catch (error) {
-        // Datos de ejemplo si falla la carga - mismos datos que BibliotecasSection
-        this.libraries = [
+      // Endpoint 'bibliotecas' no existe en Strapi, usar datos locales
+      // try {
+      //   const response = await strapiService.getCollection('bibliotecas', {
+      //     populate: '*'
+      //   })
+      //   this.libraries = response.data || []
+      // } catch (error) {
+      //   // Datos de ejemplo si falla la carga - mismos datos que BibliotecasSection
+      // }
+      // Usar datos locales directamente
+      this.libraries = [
           // Región Metropolitana
           {
             id: 1,
@@ -857,7 +860,6 @@ export default {
             region: 'sur'
           }
         ]
-      }
     },
     navigateToLibrary(library) {
       this.closeMobileMenu()
