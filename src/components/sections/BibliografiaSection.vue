@@ -246,7 +246,7 @@
           @click="scrollLeft"
         >
           <svg width="9" height="19" viewBox="0 0 9 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8.11127 18.0301C7.87646 18.0301 7.64164 17.9398 7.47005 17.7592L0.660453 10.6516C-0.215582 9.65812 -0.215582 8.36664 0.63336 7.40932L7.47005 0.2746C7.81324 -0.0776207 8.37318 -0.0956822 8.7254 0.247507C9.07762 0.590696 9.09568 1.15064 8.75249 1.50286L1.9429 8.61048C1.70808 8.88142 1.70808 9.15236 1.96999 9.45039L8.75249 16.5309C9.09568 16.8832 9.07762 17.4521 8.7254 17.7863C8.55381 17.9488 8.32802 18.0301 8.11127 18.0301Z" fill="#D1D4DA"/>
+            <path d="M8.11127 18.0301C7.87646 18.0301 7.64164 17.9398 7.47005 17.7592L0.660453 10.6516C-0.215582 9.65812 -0.215582 8.36664 0.63336 7.40932L7.47005 0.2746C7.81324 -0.0776207 8.37318 -0.0956822 8.7254 0.247507C9.07762 0.590696 9.09568 1.15064 8.75249 1.50286L1.9429 8.61048C1.70808 8.88142 1.70808 9.15236 1.96999 9.45039L8.75249 16.5309C9.09568 16.8832 9.07762 17.4521 8.7254 17.7863C8.55381 17.9488 8.32802 18.0301 8.11127 18.0301Z" fill="#8B93A1"/>
           </svg>
         </button>
         <button 
@@ -255,13 +255,9 @@
           @click="scrollRight"
         >
           <svg width="9" height="19" viewBox="0 0 9 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0.888728 18.0301C0.662946 18.0301 0.446195 17.9488 0.2746 17.7863C-0.07762 17.4431 -0.0956828 16.8832 0.247506 16.5309L7.0571 9.4233C7.29192 9.15236 7.29192 8.88142 7.03001 8.58339L0.247506 1.50286C-0.0956828 1.15064 -0.07762 0.581664 0.2746 0.247506C0.626821 -0.0956827 1.19579 -0.0776201 1.52995 0.2746L8.33955 7.38223C9.21558 8.36664 9.21558 9.66715 8.36664 10.6245L1.52995 17.7592C1.35836 17.9398 1.12354 18.0301 0.888728 18.0301Z" fill="#D1D4DA"/>
+            <path d="M0.888728 18.0301C0.662946 18.0301 0.446195 17.9488 0.2746 17.7863C-0.07762 17.4431 -0.0956828 16.8832 0.247506 16.5309L7.0571 9.4233C7.29192 9.15236 7.29192 8.88142 7.03001 8.58339L0.247506 1.50286C-0.0956828 1.15064 -0.07762 0.581664 0.2746 0.247506C0.626821 -0.0956827 1.19579 -0.0776201 1.52995 0.2746L8.33955 7.38223C9.21558 8.36664 9.21558 9.66715 8.36664 10.6245L1.52995 17.7592C1.35836 17.9398 1.12354 18.0301 0.888728 18.0301Z" fill="#FFFFFF"/>
           </svg>
         </button>
-      </div>
-      <!-- Botón "Ver todas las escuelas" solo en mobile -->
-      <div class="view-all-button-wrapper" v-if="windowWidth <= 768">
-        <button class="view-all-button">Ver todas las escuelas</button>
       </div>
     </div>
   </section>
@@ -1245,6 +1241,19 @@ export default {
   .mobile-navigation .pagination-arrow {
     width: 48px;
     height: 48px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-navigation .pagination-arrow:first-child {
+    background: #E5E5E5;
+  }
+
+  .mobile-navigation .pagination-arrow:last-child {
+    background: #024588;
   }
   
   .view-all-button-wrapper {
@@ -1655,11 +1664,11 @@ export default {
 }
 
 .careers-pagination .pagination-arrow {
-  width: 40px;
-  height: 40px;
-  border: 1px solid #E0E0E0;
+  width: 48px;
+  height: 48px;
+  border: none;
   background: white;
-  border-radius: 4px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1667,10 +1676,22 @@ export default {
   transition: all 0.3s;
 }
 
-.careers-pagination .pagination-arrow:hover:not(:disabled) {
-  border-color: #024588;
-  background: #F0F4F8;
+.careers-pagination .pagination-arrow:first-child {
+  background: #E5E5E5;
 }
+
+.careers-pagination .pagination-arrow:first-child svg path {
+  fill: #8B93A1;
+}
+
+.careers-pagination .pagination-arrow:last-child {
+  background: #024588;
+}
+
+.careers-pagination .pagination-arrow:last-child svg path {
+  fill: #FFFFFF;
+}
+
 
 .careers-pagination .pagination-arrow:disabled {
   opacity: 0.5;
