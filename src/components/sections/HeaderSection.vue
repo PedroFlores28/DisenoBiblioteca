@@ -263,7 +263,7 @@
       <div class="mobile-menu" :class="{ active: isMobileMenuOpen }" @click.stop>
         <div class="mobile-menu-header">
           <p class="welcome-text">¡Hola! ¿Qué te gustaría hacer?</p>
-          <button class="login-button">Iniciar sesión</button>
+          <a href="https://atl-sdcas01.sirsidynix.net/aiep_cas_saml/login?service=https://bibliotecas.aiep.cl/client/en_US/default/search/casrequest" target="_blank" rel="noopener noreferrer" class="login-button">Iniciar sesión</a>
         </div>
         <div class="mobile-menu-content">
           <div class="menu-section">
@@ -1411,6 +1411,7 @@ export default {
   align-items: center;
   justify-content: center;
   margin: 0 auto;
+  text-decoration: none;
 }
 
 .login-button:hover {
