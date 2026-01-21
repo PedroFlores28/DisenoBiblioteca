@@ -24,7 +24,7 @@
               <h3 class="book-title">{{ book.title }}</h3>
               <p class="book-isbn">ISBN {{ book.isbn }}</p>
               <p class="book-description">{{ book.description }}</p>
-              <button class="btn btn-secondary">
+              <button class="btn btn-secondary" @click="handleReserveClick(book)">
                 Reservar libro
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M18.4509 9.13788L12.7891 3.22831C12.5038 2.93546 12.0382 2.92045 11.7454 3.20579C11.4525 3.49113 11.4375 3.95669 11.7228 4.24954L16.9866 9.7461H1.7509C1.3379 9.7461 1 10.084 1 10.497C1 10.91 1.3379 11.2479 1.7509 11.2479H16.9866L11.7228 16.7445C11.4375 17.0373 11.4525 17.5104 11.7454 17.7882C11.888 17.9234 12.0757 17.991 12.256 17.991C12.4512 17.991 12.6464 17.9159 12.7891 17.7657L18.4734 11.8336C19.1792 11.0301 19.1792 9.95636 18.4509 9.13788Z" fill="#024588"/>
@@ -227,6 +227,7 @@ export default {
               isbn: item.isbn || '',
               description: item.descripcion || item.description || '',
               coverUrl: strapiService.getImageUrl(item.portada || item.cover),
+              reserveUrl: item.url_reservar_libro || '',
               orden: item.orden || 0
             }
             return book
@@ -241,6 +242,7 @@ export default {
             isbn: item.attributes?.isbn || '',
             description: item.attributes?.descripcion || item.attributes?.description || '',
             coverUrl: strapiService.getImageUrl(item.attributes?.portada || item.attributes?.cover),
+            reserveUrl: item.attributes?.url_reservar_libro || '',
             orden: item.attributes?.orden || 0
           }))
         } 
@@ -259,7 +261,8 @@ export default {
             title: 'BIM handbook : a guide to building information modeling for owners, managers, designers, engineers and contractors',
             isbn: '9780470541371',
             description: 'The BIM Handbook presents the technology and processes behind BIM and how architects, engineers,',
-            coverUrl: 'https://ik.imagekit.io/5wps2tups/Biblioteca/bim%20handbook.jpg'
+            coverUrl: 'https://ik.imagekit.io/5wps2tups/Biblioteca/bim%20handbook.jpg',
+            reserveUrl: '#'
           },
           {
             id: 2,
@@ -478,6 +481,11 @@ export default {
       // Abrir el link del servicio en una nueva pestaña
       if (service && service.url) {
         window.open(service.url, '_blank')
+      }
+    },
+    handleReserveClick(book) {
+      if (book && book.reserveUrl) {
+        window.open(book.reserveUrl, '_blank')
       }
     }
   }
