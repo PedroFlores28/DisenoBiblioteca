@@ -514,7 +514,7 @@ export default {
       if (section) {
         const isMobile = window.innerWidth <= 768
         const headerHeight = isMobile ? 72 : 107
-        const sectionPosition = section.offsetTop - headerHeight
+        const sectionPosition = section.getBoundingClientRect().top + window.pageYOffset - headerHeight
         
         // Actualizar el estado inmediatamente basado en el hash
         if (hash === '#bibliografia') {
@@ -775,17 +775,19 @@ export default {
       const checkAndScroll = () => {
         const section = document.getElementById('servicios-presenciales')
         if (section && section.offsetParent !== null) {
-          // Un pequeño retraso adicional para asegurar que el layout se ha estabilizado
+          // Un retraso un poco más largo y usar requestAnimationFrame para asegurar que el layout se ha estabilizado
           setTimeout(() => {
-            const isMobile = window.innerWidth <= 768
-            const headerHeight = isMobile ? 72 : 107
-            const sectionPosition = section.offsetTop - headerHeight
-            
-            window.scrollTo({
-              top: sectionPosition,
-              behavior: 'smooth'
+            requestAnimationFrame(() => {
+              const isMobile = window.innerWidth <= 768
+              const headerHeight = isMobile ? 72 : 107
+              const sectionPosition = section.getBoundingClientRect().top + window.pageYOffset - headerHeight
+              
+              window.scrollTo({
+                top: sectionPosition,
+                behavior: 'smooth'
+              })
             })
-          }, 100)
+          }, 300)
         } else {
           // Intentar de nuevo pronto
           setTimeout(checkAndScroll, 50)
@@ -812,15 +814,17 @@ export default {
         const section = document.getElementById('sitios-recomendados') || document.querySelector('.sitios-section')
         if (section && section.offsetParent !== null) {
           setTimeout(() => {
-            const isMobile = window.innerWidth <= 768
-            const headerHeight = isMobile ? 72 : 107
-            const sectionPosition = section.offsetTop - headerHeight
-            
-            window.scrollTo({
-              top: sectionPosition,
-              behavior: 'smooth'
+            requestAnimationFrame(() => {
+              const isMobile = window.innerWidth <= 768
+              const headerHeight = isMobile ? 72 : 107
+              const sectionPosition = section.getBoundingClientRect().top + window.pageYOffset - headerHeight
+              
+              window.scrollTo({
+                top: sectionPosition,
+                behavior: 'smooth'
+              })
             })
-          }, 100)
+          }, 300)
         } else {
           setTimeout(checkAndScroll, 50)
         }
