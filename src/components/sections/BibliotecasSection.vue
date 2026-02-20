@@ -406,25 +406,58 @@ export default {
       }
     },
     getLibraryImage(library) {
+      // 1. Prioridad: imagen de Strapi
       if (library && library.imageUrl) {
         return library.imageUrl;
       }
-      if (!library || !library.id) return '';
-      
+      if (!library || !library.name) return '';
+
+      // 2. Fallback: buscar imagen local por nombre de biblioteca
+      // Las imágenes locales siguen el patrón: {num}_{NombreDescriptivo}.png
+      // Se busca por palabras clave del nombre para encontrar el match correcto
       try {
         const keys = libraryImages.keys();
-        // Buscar la imagen que comienza con el ID de la biblioteca (ej: "1_", "10_")
-        // Usamos una expresión regular para asegurar que el ID vaya seguido de un guión bajo
-        const imageKey = keys.find(key => key.startsWith(`./${library.id}_`));
-        
-        if (imageKey) {
-          return libraryImages(imageKey);
-        }
-        
-        // Si no se encuentra la imagen, retornar string vacío (se mostrará placeholder)
-        return '';
+        const name = library.name.toLowerCase()
+          .replace(/á/g,'a').replace(/é/g,'e').replace(/í/g,'i').replace(/ó/g,'o').replace(/ú/g,'u')
+          .replace(/ñ/g,'n');
+
+        // Mapa de palabras clave → fragmento de nombre de archivo
+        // IMPORTANTE: las entradas más específicas deben ir primero
+        const keywordMap = [
+          { keywords: ['grajales'],                          match: 'Grajales' },
+          { keywords: ['barrio universitario biblioteca ej'], match: 'Ejercito' },  // BU Ejército (antes del genérico)
+          { keywords: ['bellavista'],                        match: 'Bellavista' },
+          { keywords: ['maipu', 'maipú'],                    match: 'Maipu' },
+          { keywords: ['san joaqu'],                         match: 'San_Joaquin' },
+          { keywords: ['santiago norte'],                    match: 'Santiago_Norte' },
+          { keywords: ['san bernardo'],                      match: 'San_Bernardo' },
+          { keywords: ['calama'],                            match: 'Calama' },
+          { keywords: ['antofagasta'],                       match: 'Antofagasta' },
+          { keywords: ['la serena', 'serena'],               match: 'La_Serena' },
+          { keywords: ['san felipe'],                        match: 'San_Felipe' },
+          { keywords: ['alvarez', 'avarez', 'viña', 'vina'], match: 'Alvarez_Vina_del_Mar' },
+          { keywords: ['valparaiso', 'valparaíso'],          match: 'Valparaiso' },
+          { keywords: ['san antonio'],                       match: 'San_Antonio' },
+          { keywords: ['rancagua'],                          match: 'Rancagua' },
+          { keywords: ['san fernando'],                      match: 'San_Fernando' },
+          { keywords: ['curico', 'curicó'],                  match: 'Curico' },
+          { keywords: ['talca'],                             match: 'Talca' },
+          { keywords: ['barros'],                            match: 'Barros_Concepcion' },
+          { keywords: ['prat'],                              match: 'Prat_Concepcion' },
+          { keywords: ['los angeles', 'los angeles'],        match: 'Los_Angeles' },
+          { keywords: ['temuco'],                            match: 'Temuco' },
+          { keywords: ['osorno'],                            match: 'Osorno' },
+          { keywords: ['benavente'],                         match: 'Benavente_Puerto_Montt' },
+          { keywords: ['puerto montt', 'ejercito, puerto'],  match: 'Ejercito_Puerto_Montt' }, // Ejército PM
+          { keywords: ['castro'],                            match: 'Castro' },
+        ];
+
+        const entry = keywordMap.find(e => e.keywords.some(kw => name.includes(kw)));
+        if (!entry) return '';
+
+        const imageKey = keys.find(key => key.includes(entry.match));
+        return imageKey ? libraryImages(imageKey) : '';
       } catch (e) {
-        // Si hay error, retornar string vacío (se mostrará placeholder)
         return '';
       }
     },
