@@ -352,7 +352,7 @@ export default {
   font-size: 18px;
   color: #024588;
   font-family: 'Ubuntu', sans-serif;
-  font-weight: 500;
+  font-weight: 700;
   margin: 0;
   line-height: 1.4;
   text-align: left;

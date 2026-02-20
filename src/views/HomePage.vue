@@ -6,6 +6,7 @@
     <BibliografiaSection ref="bibliografiaSection" />
     <BibliotecasSection v-if="!showDetailedBibliografia" />
     <NovedadesSection v-if="!showDetailedBibliografia" />
+    <ServiciosPresencialesSection v-if="!showDetailedBibliografia" />
     <SitiosRecomendadosSection v-if="!showDetailedBibliografia" />
     <PreguntasFrecuentesSection v-if="!showDetailedBibliografia" />
     <FooterSection v-if="!showDetailedBibliografia" />
@@ -19,6 +20,7 @@ import HeroSection from '../components/sections/HeroSection.vue'
 import BibliografiaSection from '../components/sections/BibliografiaSection.vue'
 import BibliotecasSection from '../components/sections/BibliotecasSection.vue'
 import NovedadesSection from '../components/sections/NovedadesSection.vue'
+import ServiciosPresencialesSection from '../components/sections/ServiciosPresencialesSection.vue'
 import SitiosRecomendadosSection from '../components/sections/SitiosRecomendadosSection.vue'
 import PreguntasFrecuentesSection from '../components/sections/PreguntasFrecuentesSection.vue'
 import FooterSection from '../components/sections/FooterSection.vue'
@@ -32,6 +34,7 @@ export default {
     BibliografiaSection,
     BibliotecasSection,
     NovedadesSection,
+    ServiciosPresencialesSection,
     SitiosRecomendadosSection,
     PreguntasFrecuentesSection,
     FooterSection
