@@ -441,15 +441,20 @@ export default {
     },
     async loadLibraries() {
       try {
+        console.log('🔍 [Bibliotecas] Consultando Strapi...')
         const response = await strapiService.getCollection('bibliotecas', {
           populate: '*',
           sort: 'orden:asc,createdAt:desc'
         })
         
+        console.log('📦 [Bibliotecas] Respuesta cruda de Strapi:', response)
+        
         let libsData = []
         
         // Strapi v5
         if (response.data && Array.isArray(response.data)) {
+          console.log('✅ [Bibliotecas] Detectado Strapi v5 — items:', response.data.length)
+          console.log('📝 [Bibliotecas] Primer item de ejemplo:', response.data[0])
           libsData = response.data.map(item => ({
             id: item.id || item.documentId,
             name: item.nombre || item.name || '',
@@ -468,6 +473,8 @@ export default {
         } 
         // Strapi v4
         else if (response.data?.data && Array.isArray(response.data.data)) {
+          console.log('✅ [Bibliotecas] Detectado Strapi v4 — items:', response.data.data.length)
+          console.log('📝 [Bibliotecas] Primer item de ejemplo:', response.data.data[0])
           libsData = response.data.data.map(item => ({
              id: item.id,
              name: item.attributes?.nombre || item.attributes?.name || '',
@@ -484,15 +491,23 @@ export default {
              city: item.attributes?.ciudad || item.attributes?.city || ''
           }))
         } else if (Array.isArray(response)) {
+          console.log('✅ [Bibliotecas] Detectado Strapi v3 (array directo) — items:', response.length)
           libsData = response
+        } else {
+          console.warn('⚠️ [Bibliotecas] Estructura de respuesta desconocida:', response)
         }
 
         if (libsData && libsData.length > 0) {
+          console.log('🎉 [Bibliotecas] Datos mapeados correctamente:', libsData.length, 'bibliotecas')
+          console.log('📋 [Bibliotecas] Lista mapeada:', libsData)
           this.libraries = libsData;
         } else {
+          console.warn('⚠️ [Bibliotecas] No se encontraron datos en Strapi — usando datos locales')
           throw new Error('No data');
         }
       } catch (error) {
+        console.error('❌ [Bibliotecas] Error al cargar desde Strapi:', error.message || error)
+        console.log('🔄 [Bibliotecas] Cargando datos locales como fallback...')
         // Usar datos locales directamente como fallback
         this.libraries = [
           // Región Metropolitana
