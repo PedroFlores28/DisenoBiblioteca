@@ -158,6 +158,8 @@
 </template>
 
 <script>
+import strapiService from '../../services/strapi'
+
 // Contexto para las imágenes de la nueva carpeta "Encuentra tu Biblioteca"
 const libraryImages = require.context('@/assets/images/Encuentra tu Biblioteca', false, /\.png$/);
 
@@ -404,6 +406,9 @@ export default {
       }
     },
     getLibraryImage(library) {
+      if (library && library.imageUrl) {
+        return library.imageUrl;
+      }
       if (!library || !library.id) return '';
       
       try {
@@ -435,17 +440,61 @@ export default {
       }
     },
     async loadLibraries() {
-      // Endpoint 'bibliotecas' no existe en Strapi, usar datos locales
-      // try {
-      //   const response = await strapiService.getCollection('bibliotecas', {
-      //     populate: '*'
-      //   })
-      //   this.libraries = response.data || []
-      // } catch (error) {
-      //   // Datos de ejemplo
-      // }
-      // Usar datos locales directamente
-      this.libraries = [
+      try {
+        const response = await strapiService.getCollection('bibliotecas', {
+          populate: '*',
+          sort: 'orden:asc,createdAt:desc'
+        })
+        
+        let libsData = []
+        
+        // Strapi v5
+        if (response.data && Array.isArray(response.data)) {
+          libsData = response.data.map(item => ({
+            id: item.id || item.documentId,
+            name: item.nombre || item.name || '',
+            address: item.direccion || item.address || '',
+            email: item.email || item.correo || '',
+            phone: item.telefono || item.phone || '',
+            region: item.region || 'metropolitana',
+            mapUrl: item.url_mapa || item.mapUrl || '',
+            imageUrl: strapiService.getImageUrl(item.imagen || item.imageUrl || item.image) || '',
+            hours: {
+              weekdays: item.horario_semana || item.hoursWeekdays || '',
+              saturday: item.horario_sabado || item.hoursSaturday || ''
+            },
+            city: item.ciudad || item.city || ''
+          }))
+        } 
+        // Strapi v4
+        else if (response.data?.data && Array.isArray(response.data.data)) {
+          libsData = response.data.data.map(item => ({
+             id: item.id,
+             name: item.attributes?.nombre || item.attributes?.name || '',
+             address: item.attributes?.direccion || item.attributes?.address || '',
+             email: item.attributes?.email || item.attributes?.correo || '',
+             phone: item.attributes?.telefono || item.attributes?.phone || '',
+             region: item.attributes?.region || 'metropolitana',
+             mapUrl: item.attributes?.url_mapa || item.attributes?.mapUrl || '',
+             imageUrl: strapiService.getImageUrl(item.attributes?.imagen || item.attributes?.image || item.attributes?.imageUrl) || '',
+             hours: {
+               weekdays: item.attributes?.horario_semana || item.attributes?.hoursWeekdays || '',
+               saturday: item.attributes?.horario_sabado || item.attributes?.hoursSaturday || ''
+             },
+             city: item.attributes?.ciudad || item.attributes?.city || ''
+          }))
+        } else if (Array.isArray(response)) {
+          libsData = response
+        }
+
+        if (libsData && libsData.length > 0) {
+          this.libraries = libsData;
+        } else {
+          throw new Error('No data');
+        }
+      } catch (error) {
+        // Usar datos locales directamente como fallback
+        this.libraries = [
           // Región Metropolitana
           {
             id: 8,
@@ -816,6 +865,7 @@ export default {
             }
           }
         ]
+      }
     },
     selectRegion(regionId) {
       // Si se hace clic en una zona, limpiar la búsqueda para mostrar todas las bibliotecas de esa zona
