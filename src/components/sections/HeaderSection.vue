@@ -512,8 +512,7 @@ export default {
       }
       const section = document.querySelector(hash)
       if (section) {
-        const isMobile = window.innerWidth <= 768
-        const headerHeight = isMobile ? 72 : 107
+        const headerHeight = 80
         const sectionPosition = section.getBoundingClientRect().top + window.pageYOffset - headerHeight
         
         // Actualizar el estado inmediatamente basado en el hash
@@ -762,75 +761,61 @@ export default {
       this.hideServiciosDropdown()
       this.closeMobileMenu()
       
-      // Limpiar flags de bibliografía para cerrar la vista detallada
+      // Limpiar cualquier vista detallada abierta para asegurar que la sección sea visible
       sessionStorage.removeItem('bibliografiaFromHeader')
       sessionStorage.removeItem('selectedSchool')
       
-      // Notificar a HomePage para mostrar las secciones ocultas
+      // Notificar a HomePage que cierre la vista detallada si está abierta
       window.dispatchEvent(new CustomEvent('bibliografia-detailed-view-changed', {
         detail: { show: false }
       }))
       
-      // Esperar a que la sección esté visible antes de hacer scroll
-      const checkAndScroll = () => {
+      // Esperar un momento a que el DOM se actualice y la sección se renderice
+      setTimeout(() => {
         const section = document.getElementById('servicios-presenciales')
-        if (section && section.offsetParent !== null) {
-          // Un retraso un poco más largo y usar requestAnimationFrame para asegurar que el layout se ha estabilizado
-          setTimeout(() => {
-            requestAnimationFrame(() => {
-              const isMobile = window.innerWidth <= 768
-              const headerHeight = isMobile ? 72 : 107
-              const sectionPosition = section.getBoundingClientRect().top + window.pageYOffset - headerHeight
-              
-              window.scrollTo({
-                top: sectionPosition,
-                behavior: 'smooth'
-              })
-            })
-          }, 300)
-        } else {
-          // Intentar de nuevo pronto
-          setTimeout(checkAndScroll, 50)
+        if (section) {
+          const headerHeight = 80
+          const sectionPosition = section.getBoundingClientRect().top + window.pageYOffset - headerHeight
+          
+          window.scrollTo({
+            top: sectionPosition,
+            behavior: 'smooth'
+          })
+          
+          // Actualizar estados de navegación
+          this.isAtTop = false
+          this.isInBibliografia = false
+          this.isInBibliotecas = false
         }
-      }
-      
-      checkAndScroll()
+      }, 100)
     },
     scrollToSitiosRecomendados() {
       this.hideRecursosDropdown()
       this.closeMobileMenu()
       
-      // Limpiar flags de bibliografía para cerrar la vista detallada
-      sessionStorage.removeItem('bibliografiaFromHeader')
-      sessionStorage.removeItem('selectedSchool')
-      
-      // Notificar a HomePage para mostrar las secciones ocultas
-      window.dispatchEvent(new CustomEvent('bibliografia-detailed-view-changed', {
-        detail: { show: false }
-      }))
-      
-      // Buscar la sección de sitios recomendados con polling
-      const checkAndScroll = () => {
-        const section = document.getElementById('sitios-recomendados') || document.querySelector('.sitios-section')
-        if (section && section.offsetParent !== null) {
-          setTimeout(() => {
-            requestAnimationFrame(() => {
-              const isMobile = window.innerWidth <= 768
-              const headerHeight = isMobile ? 72 : 107
-              const sectionPosition = section.getBoundingClientRect().top + window.pageYOffset - headerHeight
-              
-              window.scrollTo({
-                top: sectionPosition,
-                behavior: 'smooth'
-              })
-            })
-          }, 300)
-        } else {
-          setTimeout(checkAndScroll, 50)
+      // Buscar la sección de sitios recomendados
+      const sitiosSection = document.getElementById('sitios-recomendados')
+      if (sitiosSection) {
+        const headerHeight = 80
+        const sectionPosition = sitiosSection.getBoundingClientRect().top + window.pageYOffset - headerHeight
+        
+        window.scrollTo({
+          top: sectionPosition,
+          behavior: 'smooth'
+        })
+      } else {
+        // Si no existe el ID, intentar buscar por clase o selector
+        const section = document.querySelector('.sitios-section')
+        if (section) {
+          const headerHeight = 80
+          const sectionPosition = section.getBoundingClientRect().top + window.pageYOffset - headerHeight
+          
+          window.scrollTo({
+            top: sectionPosition,
+            behavior: 'smooth'
+          })
         }
       }
-      
-      checkAndScroll()
     },
     toggleMobileMenu() {
       this.isMobileMenuOpen = !this.isMobileMenuOpen
@@ -1494,7 +1479,7 @@ export default {
 .login-button {
   width: 100%;
   max-width: 253px;
-  min-height: 33px;
+  height: 33px;
   padding: 0 24px;
   background-color: #CE1B1B;
   color: white;
