@@ -1,5 +1,5 @@
 <template>
-  <section class="servicios-presenciales">
+  <section id="servicios-presenciales" class="servicios-presenciales">
     <div class="container overflow-visible">
       <div class="content-wrapper">
         <div class="image-column">
