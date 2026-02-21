@@ -357,6 +357,7 @@ export default {
   line-height: 1.4;
   text-align: left;
   flex-shrink: 0;
+  min-height: 2.8em; /* Reserva espacio para 2 líneas */
 }
 
 .site-description {
