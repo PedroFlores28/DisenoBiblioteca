@@ -14,7 +14,7 @@
       <div class="hero-content">
         <div class="hero-text">
           <p class="hero-subtitle">Conocimiento al servicio de tu aprendizaje</p>
-          <h2 class="hero-title">¡Bienvenidos a Bibliotecas AIEP!</h2>
+          <h1 class="hero-title">¡Bienvenidos a Bibliotecas AIEP!</h1>
           <button class="btn btn-secondary">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g clip-path="url(#clip0_40002132_2958)">
