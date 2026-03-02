@@ -114,7 +114,7 @@
                 class="dropdown-item"
                 @click.prevent="scrollToServiciosPresenciales"
               >
-                Servicios presenciales
+                Notebooks, salas y más
               </a>
             </div>
           </div>
@@ -294,7 +294,7 @@
                 Taller de biblioteca para estudiantes
               </div>
               <div class="menu-item" @click="scrollToServiciosPresenciales">
-                Servicios presenciales
+                Notebooks, salas y más
               </div>
             </div>
           </div>
