@@ -59,6 +59,24 @@
             <span class="widget-description-desktop">Descubre lecturas y materiales que facilitan tu estudio.</span>
             <span class="widget-description-mobile">{{ activeTab === 'fisicos' ? 'Descubre lecturas y materiales que facilitan tu estudio.' : 'Descubre lecturas  materiales digitales que facilitan tu estudio' }}</span>
           </p>
+          <!-- Formulario oculto Muse Knowledge -->
+          <form
+            ref="museForm"
+            method="post"
+            action="https://itms.museknowledge.com/muse/servlet/MusePeer"
+            target="_blank"
+            style="display:none"
+          >
+            <input type="text" name="queryStatement" :value="searchQuery" />
+            <input type="hidden" name="action" value="login" />
+            <input type="hidden" name="userID" value="ashGA959D8ko8XDXeNBy9odqyt8ayY" />
+            <input type="hidden" name="userPwd" value="ab89b1bced6f16056aa0b985e72b338e596e184c4186cb8791d7f9aeb0f29f126094597c365f49f49f3f969cefb1f14acad28b2cd62fcf9d14b5ddc8830fd337fdd01273994f3ecad86cdcf15804a115ad53d73d73d826b51c78fb" />
+            <input type="hidden" name="encrypted" value="DES" />
+            <input type="hidden" name="templateFile" value="passThrough.html" />
+            <input type="hidden" name="templateError" value="logon/AIEP/error.html" />
+            <input type="hidden" name="reuseSession" value="true" />
+          </form>
+
           <div class="search-container">
             <div class="search-box">
               <input 
@@ -225,26 +243,18 @@ export default {
       // Si llegamos aquí, ningún nombre funcionó, usar imágenes por defecto
     },
     handleSearch() {
-      // URL base del sistema de búsqueda directa
-      const SEARCH_BASE_URL = 'https://itmsi.libsteps.com/AIEP/'
-      
       const searchTerm = this.searchQuery.trim()
-      
-      // Si no hay término de búsqueda, redirigir a la página principal
+
+      // Si no hay término de búsqueda, abrir Muse Knowledge directamente
       if (!searchTerm) {
-        window.location.href = SEARCH_BASE_URL
+        window.open('https://itms.museknowledge.com/muse/servlet/MusePeer', '_blank')
         return
       }
-      
-      // Codificar el término de búsqueda para la URL (maneja espacios, acentos, caracteres especiales)
-      const encodedTerm = encodeURIComponent(searchTerm)
-      
-      // Construir la URL de búsqueda directa según el formulario proporcionado
-      // Estructura: https://itmsi.libsteps.com/AIEP/?m=direct&text1=TERMINO&...
-      const searchUrl = `${SEARCH_BASE_URL}?m=direct&skey=&charset=utf-8&userid=&dbGroup=0&text1=${encodedTerm}`
-      
-      // Redirigir automáticamente a la URL de búsqueda del catálogo
-      window.location.href = searchUrl
+
+      // Enviar el formulario POST a Muse Knowledge con el término de búsqueda
+      this.$nextTick(() => {
+        this.$refs.museForm.submit()
+      })
     }
   }
 }
