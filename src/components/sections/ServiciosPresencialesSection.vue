@@ -61,7 +61,7 @@
             </ul>
           </div>
           
-          <button class="btn-primary-red">Ver horarios y ubicaciones</button>
+          <button class="btn-primary-red" @click="scrollToBibliotecas">Ver horarios y ubicaciones</button>
         </div>
       </div>
     </div>
@@ -70,7 +70,17 @@
 
 <script>
 export default {
-  name: 'ServiciosPresencialesSection'
+  name: 'ServiciosPresencialesSection',
+  methods: {
+    scrollToBibliotecas() {
+      const section = document.getElementById('bibliotecas')
+      if (section) {
+        const headerHeight = 80
+        const top = section.getBoundingClientRect().top + window.pageYOffset - headerHeight
+        window.scrollTo({ top, behavior: 'smooth' })
+      }
+    }
+  }
 }
 </script>
 
