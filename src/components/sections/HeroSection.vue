@@ -68,12 +68,12 @@
             style="display:none"
           >
             <input type="text" name="queryStatement" :value="searchQuery" />
-            <input type="hidden" name="action" value="login" />
+            <input type="hidden" name="action" value="logon" />
             <input type="hidden" name="userID" value="ashGA959D8ko8XDXeNBy9odqyt8ayY" />
-            <input type="hidden" name="userPwd" value="ab89b1bced6f16056aa0b985e72b338e596e184c4186cb8791d7f9aeb0f29f126094597c365f49f49f3f969cefb1f14acad28b2cd62fcf9d14b5ddc8830fd337fdd01273994f3ecad86cdcf15804a115ad53d73d73d826b51c78fb" />
-            <input type="hidden" name="encrypted" value="DES" />
+            <input type="hidden" name="userPwd" value="ab89b1bced6f16056aa0b985e72b338e596e184c4186cb8791d7f9aeb0f29f126094597c365f49f3f969cefb1f14acad28b2cd62fcf9d14b5ddc8830fd337fdd01273994f3ecad86cdcf15804a115ad53d73d826b51c78fb" />
+            <input type="hidden" name="encryption" value="DES" />
             <input type="hidden" name="templateFile" value="passThrough.html" />
-            <input type="hidden" name="templateError" value="logon/AIEP/error.html" />
+            <input type="hidden" name="errorTemplate" value="logon/AIEP/error.html" />
             <input type="hidden" name="reuseSession" value="true" />
           </form>
 
