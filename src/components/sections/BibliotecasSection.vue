@@ -425,7 +425,7 @@ export default {
         // IMPORTANTE: las entradas más específicas deben ir primero
         const keywordMap = [
           { keywords: ['grajales'],                          match: 'Grajales' },
-          { keywords: ['barrio universitario biblioteca ej'], match: 'Ejercito' },  // BU Ejército (antes del genérico)
+          { keywords: ['barrio universitario biblioteca ej'], match: 'Ej\u00e9rcito new' },  // BU Ejército (usa imagen nueva)
           { keywords: ['bellavista'],                        match: 'Bellavista' },
           { keywords: ['maipu', 'maipú'],                    match: 'Maipu' },
           { keywords: ['san joaqu'],                         match: 'San_Joaquin' },
