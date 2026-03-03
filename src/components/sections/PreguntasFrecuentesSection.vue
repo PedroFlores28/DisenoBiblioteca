@@ -302,12 +302,12 @@ export default {
   line-height: 1.6;
   background-color: var(--background-light);
   font-family: 'Ubuntu', sans-serif;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .faq-answer p {
   font-family: 'Ubuntu', sans-serif;
-  font-weight: 500;
+  font-weight: 400;
   margin: 0;
   color: inherit;
   display: block;
