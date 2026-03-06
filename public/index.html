@@ -1,68 +1,132 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <title>Bibliotecas AIEP | Libros, Recursos Digitales y Bibliografía para Estudiantes</title>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-SCL6XWH9RT"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-SCL6XWH9RT");
+    </script>
+
+    <!-- Clarity Tag -->
+    <script type="text/javascript">
+      (function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = "https://www.clarity.ms/tag/" + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, "clarity", "script", "vrolq11542");
+    </script>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>
+      Bibliotecas AIEP | Libros, Recursos Digitales y Bibliografía para
+      Estudiantes
+    </title>
 
     <!-- Meta Tags Básicos -->
-    <meta name="description" content="Accede al portal de Bibliotecas AIEP: libros físicos y digitales, bibliografía por carrera, recursos de información académica, préstamo de notebooks y salas de estudio para estudiantes y docentes.">
-    <meta name="keywords" content="biblioteca AIEP, recursos digitales AIEP, bibliografía por carrera, libros académicos, préstamo libros AIEP, biblioteca digital, Universidad Andrés Bello, estudiantes AIEP, recursos académicos">
-    <meta name="robots" content="index, follow">
+    <meta
+      name="description"
+      content="Accede al portal de Bibliotecas AIEP: libros físicos y digitales, bibliografía por carrera, recursos de información académica, préstamo de notebooks y salas de estudio para estudiantes y docentes."
+    />
+    <meta
+      name="keywords"
+      content="biblioteca AIEP, recursos digitales AIEP, bibliografía por carrera, libros académicos, préstamo libros AIEP, biblioteca digital, Universidad Andrés Bello, estudiantes AIEP, recursos académicos"
+    />
+    <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://portal-biblioteca.aiep.cl/" />
 
     <!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Bibliotecas AIEP | Libros y Recursos Digitales para Estudiantes">
-    <meta property="og:description" content="Descubre libros, recursos digitales y bibliografía por carrera en el portal de Bibliotecas AIEP. Préstamo de notebooks, salas de estudio y más.">
-    <meta property="og:url" content="https://portal-biblioteca.aiep.cl/">
-    <meta property="og:image" content="https://portal-biblioteca.aiep.cl/img/og-biblioteca-aiep.jpg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:site_name" content="Bibliotecas AIEP">
-    <meta property="og:locale" content="es_CL">
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Bibliotecas AIEP | Libros y Recursos Digitales para Estudiantes"
+    />
+    <meta
+      property="og:description"
+      content="Descubre libros, recursos digitales y bibliografía por carrera en el portal de Bibliotecas AIEP. Préstamo de notebooks, salas de estudio y más."
+    />
+    <meta property="og:url" content="https://portal-biblioteca.aiep.cl/" />
+    <meta
+      property="og:image"
+      content="https://portal-biblioteca.aiep.cl/img/og-biblioteca-aiep.jpg"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Bibliotecas AIEP" />
+    <meta property="og:locale" content="es_CL" />
 
     <!-- Twitter Cards -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Bibliotecas AIEP | Libros y Recursos Digitales para Estudiantes">
-    <meta name="twitter:description" content="Accede a libros, recursos digitales y bibliografía por carrera en Bibliotecas AIEP.">
-    <meta name="twitter:image" content="https://portal-biblioteca.aiep.cl/img/og-biblioteca-aiep.jpg">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Bibliotecas AIEP | Libros y Recursos Digitales para Estudiantes"
+    />
+    <meta
+      name="twitter:description"
+      content="Accede a libros, recursos digitales y bibliografía por carrera en Bibliotecas AIEP."
+    />
+    <meta
+      name="twitter:image"
+      content="https://portal-biblioteca.aiep.cl/img/og-biblioteca-aiep.jpg"
+    />
 
     <!-- Datos Estructurados (JSON-LD) -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Library",
-      "name": "Bibliotecas AIEP",
-      "description": "Portal de bibliotecas del Instituto Profesional AIEP, perteneciente a la Universidad Andrés Bello. Ofrece libros físicos y digitales, bibliografía por carrera y recursos académicos.",
-      "url": "https://portal-biblioteca.aiep.cl/",
-      "logo": "https://portal-biblioteca.aiep.cl/img/logo-aiep.png",
-      "parentOrganization": {
-        "@type": "EducationalOrganization",
-        "name": "AIEP - Instituto Profesional",
-        "url": "https://www.aiep.cl"
-      },
-      "serviceType": [
-        "Préstamo de libros",
-        "Recursos digitales",
-        "Salas de estudio",
-        "Préstamo de notebooks"
-      ],
-      "areaServed": {
-        "@type": "Country",
-        "name": "Chile"
+      {
+        "@context": "https://schema.org",
+        "@type": "Library",
+        "name": "Bibliotecas AIEP",
+        "description": "Portal de bibliotecas del Instituto Profesional AIEP, perteneciente a la Universidad Andrés Bello. Ofrece libros físicos y digitales, bibliografía por carrera y recursos académicos.",
+        "url": "https://portal-biblioteca.aiep.cl/",
+        "logo": "https://portal-biblioteca.aiep.cl/img/logo-aiep.png",
+        "parentOrganization": {
+          "@type": "EducationalOrganization",
+          "name": "AIEP - Instituto Profesional",
+          "url": "https://www.aiep.cl"
+        },
+        "serviceType": [
+          "Préstamo de libros",
+          "Recursos digitales",
+          "Salas de estudio",
+          "Préstamo de notebooks"
+        ],
+        "areaServed": {
+          "@type": "Country",
+          "name": "Chile"
+        }
       }
-    }
     </script>
   </head>
   <body>
     <noscript>
-      <strong>Lo sentimos, pero este sitio requiere JavaScript para funcionar correctamente.</strong>
+      <strong
+        >Lo sentimos, pero este sitio requiere JavaScript para funcionar
+        correctamente.</strong
+      >
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
